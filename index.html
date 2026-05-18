@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>GlobePray</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -10,383 +10,579 @@
   --bg: #0F1011;
   --s1: #161718;
   --s2: #1C1D1F;
-  --border: rgba(255,255,255,0.06);
+  --border: rgba(255,255,255,0.07);
   --text: #ECEEF2;
-  --sub: #5A6070;
-  --dim: #2E3038;
-  --white: #ECEEF2;
+  --sub: #50586A;
+  --dim: #252830;
+  --green: #5A9E64;
 }
-html, body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
-  min-height: 100vh;
-  overscroll-behavior: none;
-}
+html, body { background: var(--bg); color: var(--text); font-family: -apple-system,'Helvetica Neue',sans-serif; min-height: 100vh; overscroll-behavior: none; }
 
-/* TOP */
+/* TOPBAR */
 .topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  height: 52px;
-  display: flex; align-items: center; padding: 0 18px;
-  background: rgba(15,16,17,0.95);
-  backdrop-filter: blur(24px);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 52px; display: flex; align-items: center; padding: 0 18px;
+  background: rgba(15,16,17,0.96); backdrop-filter: blur(20px);
   border-bottom: 0.5px solid var(--border);
 }
-.logo { font-size: 17px; font-weight: 600; color: var(--text); letter-spacing: -0.3px; }
-.logo span { color: var(--sub); font-weight: 400; }
-.top-right { margin-left: auto; display: flex; align-items: center; gap: 6px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; background: #5A9E64; animation: p 2s infinite; }
-@keyframes p { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.top-count { font-size: 12px; color: var(--sub); }
+.logo { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+.logo em { color: var(--sub); font-style: normal; font-weight: 400; }
+.top-r { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: bk 2.5s infinite; }
+@keyframes bk { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.top-c { font-size: 12px; color: var(--sub); }
 
-/* GLOBE */
-.globe-wrap {
-  padding-top: 52px;
+/* TABS */
+.tabs {
+  position: fixed; top: 52px; left: 0; right: 0; z-index: 190;
+  display: flex; background: rgba(15,16,17,0.96); backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid var(--border);
+}
+.tab { flex: 1; padding: 12px 0; text-align: center; font-size: 12px; font-weight: 500; color: var(--sub); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+/* PAGES */
+.page { display: none; padding-top: 100px; padding-bottom: 90px; }
+.page.active { display: block; }
+
+/* GLOBE PAGE */
+.globe-section {
   display: flex; flex-direction: column; align-items: center;
-  padding-bottom: 8px;
+  padding: 20px 16px 0;
 }
-#globe { display: block; margin-top: 24px; border-radius: 50%; }
-.globe-info { text-align: center; margin-top: 14px; }
-.globe-num { font-size: 36px; font-weight: 700; letter-spacing: -1px; color: var(--text); }
-.globe-lbl { font-size: 12px; color: var(--sub); margin-top: 3px; letter-spacing: 0.04em; }
+#globe { display: block; cursor: grab; border-radius: 50%; touch-action: none; }
+#globe:active { cursor: grabbing; }
 
-/* PAGE */
-.page { padding: 20px 16px 100px; display: flex; flex-direction: column; gap: 12px; }
-
-/* CARD */
-.card { background: var(--s1); border-radius: 16px; border: 0.5px solid var(--border); overflow: hidden; }
-.card-head { padding: 16px 16px 0; display: flex; align-items: center; justify-content: space-between; }
-.card-title { font-size: 11px; font-weight: 600; color: var(--sub); text-transform: uppercase; letter-spacing: 0.08em; }
-.card-action { font-size: 13px; color: var(--sub); cursor: pointer; }
-.card-action:hover { color: var(--text); }
-
-/* PRAYER */
-.p-list { padding: 8px 16px 4px; }
-.p-item { padding: 14px 0; border-bottom: 0.5px solid var(--border); }
-.p-item:last-child { border-bottom: none; }
-.p-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
-.p-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.p-country { font-size: 12px; color: var(--sub); }
-.p-text { font-size: 14px; color: var(--sub); line-height: 1.55; margin-bottom: 10px; font-weight: 300; }
-.p-foot { display: flex; align-items: center; gap: 10px; }
-.pray-btn {
-  border: 0.5px solid var(--dim);
-  border-radius: 20px; padding: 6px 14px;
-  font-size: 12px; font-weight: 500; color: var(--sub);
-  background: none; cursor: pointer;
-  font-family: inherit; transition: all 0.2s;
+/* VERSE BANNER */
+.verse-banner {
+  margin: 20px 16px 0;
+  padding: 20px;
+  background: var(--s1); border-radius: 16px; border: 0.5px solid var(--border);
+  text-align: center;
 }
-.pray-btn.done { color: #5A9E64; border-color: rgba(90,158,100,0.3); }
-.p-count { font-size: 12px; color: var(--dim); }
+.verse-txt { font-size: 15px; font-weight: 300; color: #9AA0B0; line-height: 1.7; letter-spacing: 0.01em; }
+.verse-ref { font-size: 11px; color: var(--sub); margin-top: 8px; letter-spacing: 0.08em; text-transform: uppercase; }
 
-/* CHAT */
-.c-list { padding: 12px 16px 4px; display: flex; flex-direction: column; gap: 16px; }
-.c-item { display: flex; gap: 10px; }
-.c-av { width: 28px; height: 28px; border-radius: 50%; background: var(--s2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--sub); flex-shrink: 0; }
-.c-body { flex: 1; }
-.c-top { display: flex; align-items: baseline; gap: 6px; margin-bottom: 3px; }
-.c-name { font-size: 13px; font-weight: 600; color: var(--sub); }
-.c-loc { font-size: 11px; color: var(--dim); }
-.c-time { font-size: 11px; color: var(--dim); margin-left: auto; }
-.c-text { font-size: 14px; color: var(--sub); line-height: 1.55; font-weight: 300; }
-.c-input { padding: 12px 16px 16px; display: flex; gap: 8px; }
-.c-field { flex: 1; background: var(--s2); border: 0.5px solid var(--border); border-radius: 22px; padding: 10px 16px; font-size: 14px; color: var(--text); font-family: inherit; outline: none; }
-.c-field::placeholder { color: var(--dim); }
-.c-send { width: 38px; height: 38px; border-radius: 50%; background: var(--s2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
-.c-send svg { width: 15px; height: 15px; stroke: var(--sub); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* CONNECTED FLAGS */
+.flags-section { padding: 20px 16px 0; }
+.flags-title { font-size: 11px; font-weight: 600; color: var(--sub); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+.flags-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.flag-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.flag-emoji { font-size: 26px; line-height: 1; }
+.flag-count { font-size: 10px; color: var(--sub); }
+
+/* STATS ROW */
+.stats-row { display: flex; padding: 16px; gap: 10px; }
+.stat-box { flex: 1; background: var(--s1); border-radius: 14px; border: 0.5px solid var(--border); padding: 14px; text-align: center; }
+.stat-num { font-size: 24px; font-weight: 700; color: var(--text); letter-spacing: -1px; }
+.stat-lbl { font-size: 10px; color: var(--sub); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* PRAYER PAGE */
+.prayer-hero { padding: 20px 16px 0; text-align: center; }
+.ph-title { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.ph-sub { font-size: 13px; color: var(--sub); margin-top: 4px; }
+
+.my-prayer-box { margin: 16px 16px 0; }
+.mp-card { background: var(--s1); border-radius: 16px; border: 0.5px solid var(--border); padding: 18px; }
+.mp-card.empty { text-align: center; padding: 28px; }
+.mp-empty-icon { font-size: 32px; margin-bottom: 10px; }
+.mp-empty-txt { font-size: 14px; color: var(--sub); margin-bottom: 14px; line-height: 1.5; }
+.mp-btn { background: var(--text); color: var(--bg); border: none; border-radius: 22px; padding: 10px 24px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; }
+.mp-btn:active { opacity: 0.8; }
+.mp-submitted { font-size: 14px; color: var(--text); line-height: 1.6; }
+.mp-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.mp-badge { background: var(--green); color: #fff; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+.mp-timer { font-size: 11px; color: var(--sub); margin-left: auto; }
+.mp-pray-count { font-size: 13px; color: var(--sub); margin-top: 8px; }
+.mp-pray-count strong { color: var(--green); }
+
+/* MODAL */
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; align-items: flex-end; }
+.modal-bg.open { display: flex; }
+.modal { background: var(--s1); border-radius: 24px 24px 0 0; padding: 24px; width: 100%; }
+.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.modal-sub { font-size: 13px; color: var(--sub); margin-bottom: 18px; }
+.modal textarea { width: 100%; background: var(--s2); border: 0.5px solid var(--border); border-radius: 12px; padding: 14px; font-size: 15px; color: var(--text); font-family: inherit; outline: none; resize: none; height: 120px; }
+.modal textarea::placeholder { color: var(--sub); }
+.modal-foot { display: flex; gap: 10px; margin-top: 14px; }
+.modal-cancel { flex: 1; background: var(--s2); border: none; border-radius: 22px; padding: 12px; font-size: 15px; color: var(--sub); font-family: inherit; cursor: pointer; }
+.modal-submit { flex: 2; background: var(--text); border: none; border-radius: 22px; padding: 12px; font-size: 15px; font-weight: 600; color: var(--bg); font-family: inherit; cursor: pointer; }
+
+/* COMMUNITY FEED */
+.feed { padding: 16px 16px 0; display: flex; flex-direction: column; gap: 10px; }
+.feed-item { background: var(--s1); border-radius: 14px; border: 0.5px solid var(--border); padding: 16px; }
+.fi-top { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.fi-flag { font-size: 22px; }
+.fi-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.fi-time { font-size: 11px; color: var(--sub); margin-left: auto; }
+.fi-text { font-size: 14px; color: #8090A8; line-height: 1.6; font-weight: 300; }
+.fi-foot { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.fi-pray { background: none; border: 0.5px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 12px; font-weight: 500; color: var(--sub); font-family: inherit; cursor: pointer; transition: all 0.2s; }
+.fi-pray.done { color: var(--green); border-color: rgba(90,158,100,0.3); }
+.fi-cnt { font-size: 12px; color: var(--dim); }
+
+/* CHAT PAGE */
+.chat-wrap { display: flex; flex-direction: column; height: calc(100vh - 100px - 62px); }
+.chat-msgs { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; }
+.cm { display: flex; gap: 10px; }
+.cm-av { width: 30px; height: 30px; border-radius: 50%; background: var(--s2); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.cm-body { flex: 1; }
+.cm-top { display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; }
+.cm-name { font-size: 13px; font-weight: 600; color: #7A8898; }
+.cm-time { font-size: 10px; color: var(--dim); margin-left: auto; }
+.cm-text { font-size: 15px; color: #8A98A8; line-height: 1.5; font-weight: 300; }
+.chat-input-bar { padding: 12px 16px 12px; border-top: 0.5px solid var(--border); display: flex; gap: 10px; align-items: center; background: var(--bg); }
+.chat-field { flex: 1; background: var(--s1); border: 0.5px solid var(--border); border-radius: 22px; padding: 11px 16px; font-size: 15px; color: var(--text); font-family: inherit; outline: none; }
+.chat-field::placeholder { color: var(--sub); }
+.chat-send { width: 40px; height: 40px; border-radius: 50%; background: var(--text); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.chat-send svg { width: 16px; height: 16px; stroke: var(--bg); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* BOTTOM NAV */
 .nav {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(15,16,17,0.97);
-  backdrop-filter: blur(24px);
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(15,16,17,0.97); backdrop-filter: blur(24px);
   border-top: 0.5px solid var(--border);
   display: flex;
   padding-bottom: env(safe-area-inset-bottom, 8px);
 }
-.n { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 10px 0 6px; cursor: pointer; color: var(--dim); transition: color 0.15s; }
+.n { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 10px 0 6px; cursor: pointer; color: var(--sub); transition: color 0.15s; }
 .n.active { color: var(--text); }
-.n svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.n svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
 .n span { font-size: 9px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+.n-badge { background: #E05555; color: #fff; font-size: 9px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 8px; padding: 0 4px; display: flex; align-items: center; justify-content: center; position: absolute; top: 8px; margin-left: 14px; }
+.n-wrap { position: relative; }
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo">Globe<span>Pray</span></div>
-  <div class="top-right">
+  <div class="logo">Globe<em>Pray</em></div>
+  <div class="top-r">
     <div class="dot"></div>
-    <div class="top-count">3 241 en prière</div>
+    <div class="top-c" id="liveCount">3 241 en prière</div>
   </div>
 </div>
 
-<div class="globe-wrap">
-  <canvas id="globe" width="280" height="280"></canvas>
-  <div class="globe-info">
-    <div class="globe-num">3 241</div>
-    <div class="globe-lbl">FRÈRES &amp; SŒURS CONNECTÉS · 156 NATIONS</div>
+<div class="tabs">
+  <div class="tab active" onclick="showPage('globe',this)">Monde</div>
+  <div class="tab" onclick="showPage('pray',this)">Prière</div>
+  <div class="tab" onclick="showPage('chat',this)">Chat</div>
+</div>
+
+<!-- PAGE GLOBE -->
+<div class="page active" id="page-globe">
+  <div class="globe-section">
+    <canvas id="globe" width="300" height="300"></canvas>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num" id="s1">3 241</div>
+      <div class="stat-lbl">Connectés</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">156</div>
+      <div class="stat-lbl">Nations</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" id="s3">847</div>
+      <div class="stat-lbl">Prières</div>
+    </div>
+  </div>
+
+  <div class="verse-banner">
+    <div class="verse-txt">"Là où deux ou trois se rassemblent en mon nom, je suis au milieu d'eux."</div>
+    <div class="verse-ref">Matthieu 18 · 20</div>
+  </div>
+
+  <div class="flags-section">
+    <div class="flags-title">En prière maintenant</div>
+    <div class="flags-grid" id="flagsGrid"></div>
   </div>
 </div>
 
-<div class="page">
-
-  <div class="card">
-    <div class="card-head">
-      <div class="card-title">Mur de prière</div>
-      <div class="card-action">+ Ajouter</div>
-    </div>
-    <div class="p-list">
-      <div class="p-item">
-        <div class="p-row1"><div class="p-name">Marie-Claire</div><div class="p-country">Cameroun</div></div>
-        <div class="p-text">Pour la guérison de ma mère hospitalisée depuis lundi.</div>
-        <div class="p-foot"><button class="pray-btn" onclick="pray(this)">Je prie avec toi</button><div class="p-count">47 prient</div></div>
-      </div>
-      <div class="p-item">
-        <div class="p-row1"><div class="p-name">Samuel</div><div class="p-country">Brésil</div></div>
-        <div class="p-text">Pour les familles touchées par les inondations dans le sud.</div>
-        <div class="p-foot"><button class="pray-btn" onclick="pray(this)">Je prie avec toi</button><div class="p-count">312 prient</div></div>
-      </div>
-      <div class="p-item">
-        <div class="p-row1"><div class="p-name">David</div><div class="p-country">Canada</div></div>
-        <div class="p-text">Pour l'unité du corps de Christ sur toute la terre.</div>
-        <div class="p-foot"><button class="pray-btn" onclick="pray(this)">Je prie avec toi</button><div class="p-count">891 prient</div></div>
-      </div>
-    </div>
+<!-- PAGE PRIÈRE -->
+<div class="page" id="page-pray">
+  <div class="prayer-hero">
+    <div class="ph-title">Demande du jour</div>
+    <div class="ph-sub">Une demande par 24h · partagée avec le monde entier</div>
   </div>
 
-  <div class="card">
-    <div class="card-head">
-      <div class="card-title">Chat mondial</div>
-      <div class="card-action">Toutes langues</div>
-    </div>
-    <div class="c-list">
-      <div class="c-item">
-        <div class="c-av">A</div>
-        <div class="c-body">
-          <div class="c-top"><div class="c-name">Abigail</div><div class="c-loc">Nigeria</div><div class="c-time">maintenant</div></div>
-          <div class="c-text">Que la grâce de Dieu soit sur vous tous ce matin. Amen.</div>
-        </div>
-      </div>
-      <div class="c-item">
-        <div class="c-av">J</div>
-        <div class="c-body">
-          <div class="c-top"><div class="c-name">Jonas</div><div class="c-loc">Allemagne</div><div class="c-time">1 min</div></div>
-          <div class="c-text">Magnifique de se retrouver en communion ici. Que Dieu vous bénisse.</div>
-        </div>
-      </div>
-      <div class="c-item">
-        <div class="c-av">L</div>
-        <div class="c-body">
-          <div class="c-top"><div class="c-name">Lucia</div><div class="c-loc">Philippines</div><div class="c-time">2 min</div></div>
-          <div class="c-text">Quelqu'un peut-il prier pour ma famille en ce moment ?</div>
-        </div>
-      </div>
-    </div>
-    <div class="c-input">
-      <input class="c-field" type="text" placeholder="Écrire un message...">
-      <div class="c-send"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div>
-    </div>
+  <div class="my-prayer-box" id="myPrayerBox">
+    <!-- rempli par JS -->
   </div>
 
+  <div class="feed" id="prayerFeed"></div>
 </div>
 
-<div class="nav">
-  <div class="n active" onclick="nav(this)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-    <span>Globe</span>
+<!-- PAGE CHAT -->
+<div class="page" id="page-chat">
+  <div class="chat-wrap">
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-input-bar">
+      <input class="chat-field" id="chatInput" type="text" placeholder="Écrire un message...">
+      <button class="chat-send" onclick="sendMsg()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
   </div>
-  <div class="n" onclick="nav(this)">
-    <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    <span>Prières</span>
-  </div>
-  <div class="n" onclick="nav(this)">
-    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    <span>Chat</span>
-  </div>
-  <div class="n" onclick="nav(this)">
-    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    <span>Église</span>
-  </div>
-  <div class="n" onclick="nav(this)">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    <span>Silence</span>
+</div>
+
+<!-- MODAL PRIÈRE -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-title">Ta demande de prière</div>
+    <div class="modal-sub">Elle sera partagée avec la communauté mondiale pendant 24h.</div>
+    <textarea id="prayerInput" placeholder="Écris ta demande ici..."></textarea>
+    <div class="modal-foot">
+      <button class="modal-cancel" onclick="closeModal()">Annuler</button>
+      <button class="modal-submit" onclick="submitPrayer()">Partager</button>
+    </div>
   </div>
 </div>
 
 <script>
-function pray(btn) {
+// ─── NAVIGATION ───────────────────────────────────────────────
+function showPage(id, tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  tab.classList.add('active');
+}
+
+// ─── FLAGS DATA ────────────────────────────────────────────────
+const flagData = [
+  {f:'🇧🇷',n:'Brésil',c:312,lon:-47,lat:-15},
+  {f:'🇳🇬',n:'Nigeria',c:287,lon:8,lat:9},
+  {f:'🇺🇸',n:'États-Unis',c:241,lon:-97,lat:38},
+  {f:'🇵🇭',n:'Philippines',c:198,lon:122,lat:12},
+  {f:'🇰🇷',n:'Corée du Sud',c:176,lon:128,lat:36},
+  {f:'🇨🇩',n:'Congo',c:154,lon:24,lat:-4},
+  {f:'🇮🇳',n:'Inde',c:143,lon:78,lat:22},
+  {f:'🇫🇷',n:'France',c:132,lon:2,lat:47},
+  {f:'🇨🇲',n:'Cameroun',c:98,lon:12,lat:5},
+  {f:'🇲🇽',n:'Mexique',c:87,lon:-99,lat:20},
+  {f:'🇨🇦',n:'Canada',c:76,lon:-80,lat:45},
+  {f:'🇬🇧',n:'UK',c:65,lon:-1,lat:52},
+  {f:'🇩🇪',n:'Allemagne',c:54,lon:10,lat:51},
+  {f:'🇿🇦',n:'Afrique du Sud',c:43,lon:25,lat:-29},
+  {f:'🇰🇪',n:'Kenya',c:38,lon:37,lat:0},
+  {f:'🇦🇺',n:'Australie',c:34,lon:134,lat:-26},
+];
+
+const flagsGrid = document.getElementById('flagsGrid');
+flagData.forEach(d => {
+  const el = document.createElement('div');
+  el.className = 'flag-item';
+  el.innerHTML = `<div class="flag-emoji">${d.f}</div><div class="flag-count">${d.c}</div>`;
+  flagsGrid.appendChild(el);
+});
+
+// ─── PRAYER FEED DATA ──────────────────────────────────────────
+const feedData = [
+  {flag:'🇧🇷', name:'Samuel', text:'Pour les familles touchées par les inondations dans le sud.', time:'il y a 2h', count:312},
+  {flag:'🇳🇬', name:'Abigail', text:'Pour la santé de ma fille hospitalisée depuis lundi.', time:'il y a 4h', count:287},
+  {flag:'🇵🇭', name:'Lucia', text:'Pour la paix dans notre communauté et nos dirigeants.', time:'il y a 6h', count:198},
+  {flag:'🇰🇷', name:'Ji-ho', text:'Pour mes examens et ma famille qui traverse une période difficile.', time:'il y a 8h', count:143},
+  {flag:'🇫🇷', name:'Marie', text:'Pour mon ami qui a perdu son emploi cette semaine.', time:'il y a 10h', count:89},
+];
+
+const feed = document.getElementById('prayerFeed');
+feedData.forEach(d => {
+  const el = document.createElement('div');
+  el.className = 'feed-item';
+  el.innerHTML = `
+    <div class="fi-top">
+      <div class="fi-flag">${d.flag}</div>
+      <div class="fi-name">${d.name}</div>
+      <div class="fi-time">${d.time}</div>
+    </div>
+    <div class="fi-text">${d.text}</div>
+    <div class="fi-foot">
+      <button class="fi-pray" onclick="prayFor(this)">Je prie avec toi</button>
+      <div class="fi-cnt">${d.count} prient</div>
+    </div>`;
+  feed.appendChild(el);
+});
+
+function prayFor(btn) {
   if (btn.classList.contains('done')) return;
   btn.classList.add('done');
-  btn.textContent = 'En prière';
-  const c = btn.parentElement.querySelector('.p-count');
+  btn.textContent = '🙏 En prière';
+  const c = btn.nextElementSibling;
   c.textContent = (parseInt(c.textContent) + 1) + ' prient';
 }
-function nav(el) {
-  document.querySelectorAll('.n').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
+
+// ─── MY PRAYER ─────────────────────────────────────────────────
+let myPrayer = localStorage.getItem('gp_prayer');
+let myPrayerTime = localStorage.getItem('gp_prayer_time');
+
+function renderMyPrayer() {
+  const box = document.getElementById('myPrayerBox');
+  const now = Date.now();
+  const canPost = !myPrayer || (now - parseInt(myPrayerTime)) > 86400000;
+
+  if (!myPrayer || canPost) {
+    box.innerHTML = `<div class="mp-card empty">
+      <div class="mp-empty-icon">🙏</div>
+      <div class="mp-empty-txt">Partage ta demande de prière avec des milliers de frères et sœurs à travers le monde.</div>
+      <button class="mp-btn" onclick="openModal()">Partager ma demande</button>
+    </div>`;
+  } else {
+    const elapsed = now - parseInt(myPrayerTime);
+    const remaining = Math.max(0, 86400000 - elapsed);
+    const hrs = Math.floor(remaining / 3600000);
+    const mins = Math.floor((remaining % 3600000) / 60000);
+    const prayCount = parseInt(localStorage.getItem('gp_pray_count') || '0');
+    box.innerHTML = `<div class="mp-card">
+      <div class="mp-meta">
+        <div class="mp-badge">Ma prière</div>
+        <div class="mp-timer">Nouvelle dans ${hrs}h ${mins}m</div>
+      </div>
+      <div class="mp-submitted">${myPrayer}</div>
+      <div class="mp-pray-count"><strong>${prayCount + 12}</strong> personnes prient avec toi</div>
+    </div>`;
+  }
 }
 
-// ── GLOBE CANVAS PUR — zéro dépendance externe ──
+function openModal() { document.getElementById('modalBg').classList.add('open'); }
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalBg'))
+    document.getElementById('modalBg').classList.remove('open');
+}
+function submitPrayer() {
+  const txt = document.getElementById('prayerInput').value.trim();
+  if (!txt) return;
+  myPrayer = txt;
+  localStorage.setItem('gp_prayer', txt);
+  localStorage.setItem('gp_prayer_time', Date.now().toString());
+  localStorage.setItem('gp_pray_count', '0');
+  document.getElementById('modalBg').classList.remove('open');
+  renderMyPrayer();
+}
+
+renderMyPrayer();
+setInterval(renderMyPrayer, 60000);
+
+// ─── CHAT ──────────────────────────────────────────────────────
+const chatData = [
+  {flag:'🇳🇬', name:'Abigail', text:'Que la grâce de Dieu soit sur vous tous ce matin. Amen.', time:'maintenant'},
+  {flag:'🇩🇪', name:'Jonas', text:'Magnifique de se retrouver ici en communion. Que Dieu vous bénisse.', time:'1 min'},
+  {flag:'🇵🇭', name:'Lucia', text:'Quelqu\'un peut-il prier pour ma famille en ce moment ?', time:'2 min'},
+  {flag:'🇧🇷', name:'Samuel', text:'Avec plaisir Lucia 🙏 Nous sommes avec toi.', time:'2 min'},
+  {flag:'🇰🇷', name:'Ji-ho', text:'Louange à Dieu pour ce site. On se sent moins seuls.', time:'5 min'},
+  {flag:'🇿🇦', name:'Thabo', text:'Priant pour tout le monde ici ce soir depuis l\'Afrique du Sud.', time:'7 min'},
+];
+
+const chatMsgs = document.getElementById('chatMsgs');
+function renderChat(msgs) {
+  chatMsgs.innerHTML = '';
+  msgs.forEach(m => {
+    const el = document.createElement('div');
+    el.className = 'cm';
+    el.innerHTML = `
+      <div class="cm-av">${m.flag}</div>
+      <div class="cm-body">
+        <div class="cm-top"><div class="cm-name">${m.name}</div><div class="cm-time">${m.time}</div></div>
+        <div class="cm-text">${m.text}</div>
+      </div>`;
+    chatMsgs.appendChild(el);
+  });
+  chatMsgs.scrollTop = chatMsgs.scrollHeight;
+}
+renderChat(chatData);
+
+function sendMsg() {
+  const f = document.getElementById('chatInput');
+  const txt = f.value.trim();
+  if (!txt) return;
+  chatData.push({flag:'🇨🇦', name:'Moi', text: txt, time:'maintenant'});
+  renderChat(chatData);
+  f.value = '';
+}
+document.getElementById('chatInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendMsg();
+});
+
+// ─── LIVE COUNT ANIMATION ──────────────────────────────────────
+let lc = 3241;
+setInterval(() => {
+  lc += Math.floor(Math.random() * 5) - 2;
+  lc = Math.max(3100, lc);
+  document.getElementById('liveCount').textContent = lc.toLocaleString('fr') + ' en prière';
+  document.getElementById('s1').textContent = lc.toLocaleString('fr');
+}, 4000);
+
+// ─── GLOBE CANVAS ─────────────────────────────────────────────
 const canvas = document.getElementById('globe');
 const ctx = canvas.getContext('2d');
-const W = 280, H = 280, CX = W/2, CY = H/2, R = 130;
+const S = 300, CX = S/2, CY = S/2, R = 140;
 
-// Continents approximatifs en polygones lon/lat
-// Format: [ [lon, lat], ... ] — coordonnées géographiques réelles
-const LAND = [
-  // Amérique du Nord
-  [[-168,72],[-140,70],[-130,55],[-125,50],[-120,35],[-110,30],[-100,20],[-88,16],[-83,10],
-   [-77,8],[-75,10],[-80,25],[-80,32],[-75,35],[-68,44],[-64,47],[-60,46],[-65,50],[-65,60],
-   [-85,65],[-100,70],[-120,70],[-140,70],[-168,72]],
-  // Amérique du Sud
-  [[-80,10],[-77,8],[-75,10],[-70,12],[-62,10],[-52,5],[-50,-5],[-35,-8],[-35,-20],
-   [-40,-22],[-42,-22],[-48,-28],[-52,-33],[-58,-35],[-62,-38],[-65,-42],[-66,-54],[-68,-56],
-   [-72,-50],[-76,-45],[-72,-40],[-68,-30],[-70,-20],[-75,-10],[-80,-2],[-80,10]],
-  // Europe
-  [[-10,36],[-8,38],[-8,44],[-4,44],[-2,44],[0,44],[3,43],[5,43],[8,44],[10,44],[12,44],
-   [14,45],[16,46],[18,48],[20,50],[22,52],[24,54],[26,56],[24,58],[22,60],[20,62],
-   [18,63],[15,65],[14,66],[12,64],[10,62],[8,62],[6,62],[4,60],[2,58],[0,58],
-   [-2,56],[-4,54],[-6,52],[-8,50],[-10,48],[-10,44],[-10,36]],
-  // África
-  [[-16,14],[-15,18],[-12,20],[-8,21],[-5,24],[0,24],[5,24],[10,24],[15,24],[20,24],
-   [24,22],[28,20],[32,22],[36,22],[40,20],[42,16],[44,12],[44,8],[42,4],[40,0],
-   [38,-4],[36,-8],[34,-14],[32,-18],[30,-20],[28,-22],[26,-24],[24,-26],[22,-28],
-   [20,-30],[18,-32],[16,-34],[18,-34],[20,-32],[22,-30],[24,-28],[26,-24],[28,-20],
-   [32,-16],[34,-12],[36,-8],[34,-4],[30,0],[26,4],[22,8],[18,8],[14,6],[10,4],
-   [6,4],[2,4],[-2,4],[-6,4],[-10,6],[-14,10],[-16,14]],
-  // Asia (simplifiée)
-  [[26,70],[30,68],[40,68],[50,68],[60,68],[70,68],[80,68],[90,68],[100,68],[110,68],
-   [120,65],[130,62],[135,58],[138,52],[140,46],[140,38],[138,32],[136,28],[132,22],
-   [128,18],[122,14],[118,10],[114,6],[110,2],[106,-2],[102,-4],[100,-4],[104,-4],
-   [108,-6],[110,-8],[112,-8],[114,-6],[118,-4],[120,0],[122,4],[126,8],[128,12],
-   [126,16],[126,22],[124,28],[120,32],[116,38],[110,42],[104,46],[98,50],[92,52],
-   [86,52],[80,54],[74,54],[68,52],[62,48],[56,44],[52,40],[48,36],[44,36],[40,38],
-   [36,40],[30,42],[26,44],[24,46],[24,50],[26,54],[28,58],[28,64],[26,68],[26,70]],
-  // Australia
-  [[114,-22],[116,-20],[118,-18],[120,-16],[122,-14],[124,-14],[126,-14],[128,-14],
-   [130,-12],[132,-12],[134,-12],[136,-12],[138,-14],[140,-16],[142,-18],[144,-18],
-   [146,-20],[148,-20],[150,-22],[152,-24],[152,-28],[150,-32],[148,-36],[146,-38],
-   [144,-38],[142,-38],[140,-36],[138,-34],[136,-34],[134,-34],[132,-32],[130,-30],
-   [128,-28],[126,-26],[124,-24],[122,-24],[120,-24],[118,-24],[116,-24],[114,-22]],
-];
+// Rotation state
+let rotLon = 0, rotLat = -20;
+let velLon = 0.3, velLat = 0;
+let dragging = false, lastX = 0, lastY = 0;
+let lastTime = Date.now();
 
-let rot = 0;
+// Touch/mouse drag
+canvas.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; velLon = 0; velLat = 0; });
+window.addEventListener('mousemove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  rotLon += dx * 0.4; rotLat += dy * 0.3;
+  rotLat = Math.max(-80, Math.min(80, rotLat));
+  velLon = dx * 0.4; velLat = dy * 0.3;
+  lastX = e.clientX; lastY = e.clientY;
+});
+window.addEventListener('mouseup', () => { dragging = false; });
 
-function toXY(lon, lat, rotation) {
-  const lam = (lon * Math.PI / 180) + rotation;
-  const phi = lat * Math.PI / 180;
-  const x = Math.cos(phi) * Math.sin(lam);
-  const y = -Math.sin(phi);
-  const z = Math.cos(phi) * Math.cos(lam);
-  return { sx: CX + x * R, sy: CY + y * R, z };
+canvas.addEventListener('touchstart', e => {
+  dragging = true;
+  lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+  velLon = 0; velLat = 0;
+  e.preventDefault();
+}, {passive: false});
+canvas.addEventListener('touchmove', e => {
+  if (!dragging) return;
+  const dx = e.touches[0].clientX - lastX;
+  const dy = e.touches[0].clientY - lastY;
+  rotLon += dx * 0.5; rotLat += dy * 0.4;
+  rotLat = Math.max(-80, Math.min(80, rotLat));
+  velLon = dx * 0.5; velLat = dy * 0.4;
+  lastX = e.touches[0].clientX; lastY = e.touches[0].clientY;
+  e.preventDefault();
+}, {passive: false});
+canvas.addEventListener('touchend', () => { dragging = false; });
+
+const LAND = {
+  north_america: [[-168,72],[-160,72],[-150,72],[-140,70],[-130,68],[-120,68],[-110,70],[-100,72],[-90,72],[-80,72],[-70,68],[-65,63],[-60,46],[-67,44],[-70,42],[-74,40],[-75,35],[-80,32],[-82,28],[-84,24],[-88,20],[-90,18],[-88,16],[-85,14],[-83,10],[-78,8],[-76,8],[-80,12],[-84,10],[-88,16],[-92,18],[-96,20],[-100,22],[-104,24],[-110,24],[-114,28],[-118,32],[-120,34],[-124,40],[-126,48],[-130,54],[-136,58],[-142,60],[-148,60],[-152,58],[-158,56],[-162,60],[-166,64],[-168,66],[-170,68],[-168,72]],
+  south_america: [[-80,10],[-78,8],[-72,10],[-68,12],[-64,10],[-60,8],[-52,4],[-50,0],[-48,-4],[-44,-4],[-38,-8],[-36,-10],[-36,-14],[-38,-18],[-40,-22],[-44,-24],[-48,-28],[-52,-34],[-56,-38],[-62,-42],[-66,-48],[-68,-56],[-70,-54],[-72,-46],[-72,-40],[-70,-36],[-68,-30],[-70,-20],[-74,-14],[-78,-6],[-78,-2],[-80,6],[-80,10]],
+  europe: [[-10,36],[-8,38],[-8,44],[-4,44],[0,44],[4,44],[8,44],[12,44],[14,46],[18,48],[20,50],[22,52],[24,54],[22,56],[20,58],[18,60],[16,62],[14,64],[10,62],[6,62],[2,58],[0,58],[-2,56],[-4,54],[-8,50],[-10,44],[-10,36]],
+  scandinavia: [[4,58],[8,62],[12,64],[14,66],[18,70],[22,68],[26,70],[30,68],[28,66],[26,64],[28,62],[26,58],[20,56],[18,58],[14,56],[8,58],[4,58]],
+  africa: [[-16,14],[-16,18],[-10,22],[-2,24],[6,24],[14,24],[22,22],[30,22],[38,18],[44,10],[44,6],[42,2],[40,-2],[36,-10],[32,-18],[28,-26],[24,-30],[20,-34],[18,-34],[20,-32],[24,-26],[28,-18],[32,-10],[32,-2],[28,2],[20,6],[12,6],[4,4],[0,4],[-8,4],[-14,10],[-16,14]],
+  asia: [[26,70],[40,68],[60,70],[80,68],[100,68],[110,66],[120,62],[130,60],[136,56],[138,50],[140,44],[140,38],[136,30],[128,22],[120,14],[114,4],[110,0],[106,-4],[100,-4],[100,2],[102,10],[106,18],[110,26],[114,30],[120,38],[118,44],[112,48],[100,54],[88,54],[76,54],[64,52],[54,44],[46,38],[40,38],[34,40],[30,42],[24,48],[24,52],[26,56],[26,62],[26,70]],
+  australia: [[114,-22],[118,-18],[122,-14],[128,-14],[132,-12],[136,-14],[140,-16],[144,-18],[148,-22],[152,-26],[152,-30],[150,-34],[146,-38],[142,-38],[138,-34],[134,-32],[130,-28],[124,-24],[118,-24],[114,-22]],
+  greenland: [[-44,82],[-30,82],[-20,80],[-14,78],[-18,76],[-26,72],[-30,68],[-42,66],[-50,70],[-54,72],[-56,74],[-54,78],[-44,82]],
+};
+
+function project(lon, lat) {
+  const lamRad = (lon + rotLon) * Math.PI / 180;
+  const phiRad = lat * Math.PI / 180;
+  const phiRot = rotLat * Math.PI / 180;
+  // Apply tilt (rotLat) to latitude
+  const sinPhi = Math.sin(phiRad)*Math.cos(phiRot) + Math.cos(phiRad)*Math.sin(phiRot)*Math.cos(lamRad);
+  const y2 = -sinPhi;
+  const x2 = Math.cos(phiRad)*Math.sin(lamRad);
+  const z2 = Math.sin(phiRad)*Math.sin(phiRot) - Math.cos(phiRad)*Math.cos(phiRot)*Math.cos(lamRad);
+  return { sx: CX + x2*R, sy: CY + y2*R, z: z2 };
 }
 
-const prayPts = [
-  [2,49],[-43,-23],[28,-26],[104,1],[-99,19],[37,-1],[121,15],[-48,-16],
-  [31,30],[77,29],[140,36],[-0,52],[-74,41],[18,-34],[175,-37],[55,25],
-  [-58,-35],[23,43],[12,42],[38,56],[-80,44],[3,6],[127,38],[-44,-20],
-  [29,41],[73,19],[114,23],[-67,10],
-];
-
 function drawGlobe() {
-  ctx.clearRect(0, 0, W, H);
+  if (!dragging) {
+    rotLon += velLon * 0.92;
+    velLon *= 0.92;
+    rotLat += velLat * 0.92;
+    velLat *= 0.92;
+    rotLat = Math.max(-80, Math.min(80, rotLat));
+    if (Math.abs(velLon) < 0.05 && Math.abs(velLat) < 0.05) velLon = 0.3;
+  }
 
-  // Fond globe
+  ctx.clearRect(0, 0, S, S);
+
+  // Ocean
   ctx.beginPath();
   ctx.arc(CX, CY, R, 0, Math.PI*2);
-  ctx.fillStyle = '#1A1B1D';
+  ctx.fillStyle = '#181A1E';
   ctx.fill();
 
-  // Clip au cercle
+  // Clip
   ctx.save();
   ctx.beginPath();
   ctx.arc(CX, CY, R, 0, Math.PI*2);
   ctx.clip();
 
-  // Grille subtile
+  // Grid lines
   for (let lat = -60; lat <= 60; lat += 30) {
     ctx.beginPath();
-    let first = true;
-    for (let lon = -180; lon <= 180; lon += 3) {
-      const p = toXY(lon, lat, rot);
+    let first = true, prevZ = null;
+    for (let lon = -180; lon <= 185; lon += 3) {
+      const p = project(lon, lat);
       if (p.z > 0) {
-        if (first) { ctx.moveTo(p.sx, p.sy); first = false; }
+        if (first || prevZ <= 0) ctx.moveTo(p.sx, p.sy);
         else ctx.lineTo(p.sx, p.sy);
-      } else { first = true; }
+        first = false;
+      }
+      prevZ = p.z;
     }
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
     ctx.lineWidth = 0.5;
     ctx.stroke();
   }
   for (let lon = -180; lon <= 180; lon += 30) {
     ctx.beginPath();
     let first = true;
-    for (let lat = -85; lat <= 85; lat += 2) {
-      const p = toXY(lon, lat, rot);
+    for (let lat2 = -85; lat2 <= 85; lat2 += 3) {
+      const p = project(lon, lat2);
       if (p.z > 0) {
-        if (first) { ctx.moveTo(p.sx, p.sy); first = false; }
+        if (first) ctx.moveTo(p.sx, p.sy);
         else ctx.lineTo(p.sx, p.sy);
-      } else { first = true; }
+        first = false;
+      }
     }
-    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
     ctx.lineWidth = 0.5;
     ctx.stroke();
   }
 
   // Continents
-  LAND.forEach(poly => {
-    // Tester si au moins la moitié des points est visible
-    let visCount = 0;
-    const pts = poly.map(([lon, lat]) => {
-      const p = toXY(lon, lat, rot);
-      if (p.z > 0) visCount++;
-      return p;
-    });
-
-    if (visCount < 2) return;
-
+  Object.values(LAND).forEach(poly => {
     ctx.beginPath();
     let started = false;
-    pts.forEach((p, i) => {
-      if (!started) { ctx.moveTo(p.sx, p.sy); started = true; }
-      else ctx.lineTo(p.sx, p.sy);
+    let crossedHorizon = false;
+    let prevZ = null;
+    poly.forEach(([lon, lat]) => {
+      const p = project(lon, lat);
+      if (prevZ !== null && ((p.z > 0) !== (prevZ > 0))) crossedHorizon = true;
+      if (p.z > -0.15) {
+        if (!started || crossedHorizon) { ctx.moveTo(p.sx, p.sy); started = true; crossedHorizon = false; }
+        else ctx.lineTo(p.sx, p.sy);
+      }
+      prevZ = p.z;
     });
     ctx.closePath();
-    ctx.fillStyle = '#2A2C30';
+    ctx.fillStyle = '#2C2F36';
     ctx.fill();
-    ctx.strokeStyle = '#383A3F';
+    ctx.strokeStyle = '#3A3E48';
     ctx.lineWidth = 0.8;
     ctx.stroke();
   });
 
   ctx.restore();
 
-  // Bordure globe
+  // Globe border
   ctx.beginPath();
   ctx.arc(CX, CY, R, 0, Math.PI*2);
-  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
   ctx.lineWidth = 1;
   ctx.stroke();
 
-  // Points de prière
+  // Prayer dots
   const t = Date.now() / 1000;
-  prayPts.forEach(([lon, lat], i) => {
-    const p = toXY(lon, lat, rot);
+  flagData.forEach(({lon, lat}, i) => {
+    const p = project(lon, lat);
     if (p.z < 0.1) return;
-    const f = 0.55 + 0.45 * Math.sin(t * 1.4 + i * 0.8);
+    const f = 0.5 + 0.5 * Math.sin(t * 1.3 + i * 0.9);
     const a = Math.min(1, p.z * 2) * f;
     ctx.beginPath();
-    ctx.arc(p.sx, p.sy, 2.5, 0, Math.PI*2);
-    ctx.fillStyle = `rgba(236,238,242,${a * 0.9})`;
+    ctx.arc(p.sx, p.sy, 2.8, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(236,238,242,${a*0.9})`;
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(p.sx, p.sy, 7, 0, Math.PI*2);
-    ctx.fillStyle = `rgba(236,238,242,${a * 0.07})`;
+    ctx.arc(p.sx, p.sy, 8, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(236,238,242,${a*0.06})`;
     ctx.fill();
   });
 
-  rot += 0.003;
   requestAnimationFrame(drawGlobe);
 }
 
