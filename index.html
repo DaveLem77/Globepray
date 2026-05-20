@@ -175,6 +175,20 @@ select.field{-webkit-appearance:none;appearance:none}
 .dp-close{font-size:11px;color:var(--txt3);margin-top:8px;cursor:pointer;display:block}
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--s1);border:.5px solid var(--brd2);border-radius:12px;padding:10px 18px;font-size:13px;color:var(--txt);z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
+
+.chat-tabs-wrap{display:flex;gap:6px;padding:10px 14px 0;overflow-x:auto;scrollbar-width:none;border-bottom:.5px solid var(--brd);background:var(--bg)}
+.chat-tabs-wrap::-webkit-scrollbar{display:none}
+.chat-tab{background:none;border:.5px solid var(--brd);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.chat-tab.active{background:var(--s2);color:var(--txt);border-color:var(--brd2)}
+.chat-badge{background:#EF4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 5px;margin-left:4px}
+.priv-context{background:var(--s2);border-left:3px solid var(--grn);border-radius:0 10px 10px 0;padding:10px 14px;margin:10px 14px;font-size:12px}
+.priv-context-lbl{font-size:10px;color:var(--grn);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.priv-context-txt{color:var(--txt2);line-height:1.5;font-style:italic}
+.fi-reply-btn{background:none;border:.5px solid var(--brd);border-radius:18px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s}
+.fi-reply-btn:hover{color:#8B5CF6;border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.08)}
+.dp-reply-btn{width:100%;margin-top:8px;background:var(--s2);border:.5px solid var(--brd2);border-radius:10px;padding:8px;font-size:12px;font-weight:500;color:var(--txt);font-family:'Inter',sans-serif;cursor:pointer}
+.dp-reply-btn:hover{background:var(--s3)}
+.fi-flag{font-size:12px}
 </style>
 </head>
 <body>
@@ -215,6 +229,7 @@ select.field{-webkit-appearance:none;appearance:none}
   <!-- CHAT SECTION -->
   <div class="section" id="sec-chat">
     <div class="chat-wrap">
+      <div class="chat-tabs-wrap" id="chat-tabs"></div>
       <div class="chatmsgs" id="chatEl"></div>
       <div id="chat-bar"></div>
     </div>
@@ -253,11 +268,7 @@ select.field{-webkit-appearance:none;appearance:none}
         <div class="ob-av" id="ob-av"></div>
         <div><div class="ob-user-name" id="ob-uname"></div><div class="ob-user-email" id="ob-uemail"></div></div>
       </div>
-      <div class="photo-row">
-        <div class="photo-circle" id="ob-photo-circle"><img id="ob-prev" alt=""><span class="ph-icon" id="ob-ph-icon">📷</span></div>
-        <div class="photo-hint"><strong>Change photo</strong> (optional)</div>
-        <input type="file" id="ob-photo-file" accept="image/*" style="display:none">
-      </div>
+
       <select class="field" id="ob-lang">
         <option value="en">🌐 English</option><option value="fr">🇫🇷 Français</option>
         <option value="es">🇪🇸 Español</option><option value="pt">🇧🇷 Português</option>
@@ -280,11 +291,7 @@ select.field{-webkit-appearance:none;appearance:none}
           Continue with Google
         </button>
         <div class="divrow"><div class="divline"></div><div class="divtxt">or</div><div class="divline"></div></div>
-        <div class="photo-row">
-          <div class="photo-circle" id="su-photo-circle"><img id="su-prev" alt=""><span class="ph-icon" id="su-ph-icon">📷</span></div>
-          <div class="photo-hint"><strong>Add photo</strong> (optional)</div>
-          <input type="file" id="su-photo-file" accept="image/*" style="display:none">
-        </div>
+
         <input class="field" type="text" id="su-name" placeholder="Your name">
         <input class="field" type="email" id="su-email" placeholder="Email">
         <input class="field" type="password" id="su-pass" placeholder="Password (8+ characters)">
@@ -347,6 +354,7 @@ select.field{-webkit-appearance:none;appearance:none}
   <div class="dp-flag" id="dp-flag"></div>
   <div class="dp-name" id="dp-name"></div>
   <div class="dp-txt" id="dp-txt"></div>
+  <button class="dp-reply-btn" id="dp-reply" style="display:none">✉ Send encouragement</button>
   <div class="dp-close" id="dp-close">Close ×</div>
 </div>
 <div class="toast" id="toast"></div>
@@ -361,7 +369,32 @@ var SURL='https://ycggtqqyffjjniguidgy.supabase.co';
 var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZ2d0cXF5ZmZqam5pZ3VpZGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjM5MjYsImV4cCI6MjA5NDc5OTkyNn0.UW5gd9TL7Q7vy38I90HCp0P7iq6mlhLW9u1_74OLIkc';
 var sb=supabase.createClient(SURL,SKEY);
 
-/* countries — emoji as text to avoid encoding issues */
+/* ── FAKE SEED PRAYERS (always shown even with 0 users) ── */
+var SEED=[
+  {id:'s1',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',country:'Brazil',lon:-47,lat:-15,text:'For the families affected by the floods in southern Brazil. Lord, be their refuge and strength.',prayCount:312,created_at:new Date(Date.now()-7200000).toISOString()},
+  {id:'s2',uid:'seed',name:'Abigail Okafor',flag:'🇳🇬',country:'Nigeria',lon:8,lat:9,text:"For my daughter's full recovery. She has been in hospital since Monday. God, heal her completely.",prayCount:287,created_at:new Date(Date.now()-14400000).toISOString()},
+  {id:'s3',uid:'seed',name:'Lucia Santos',flag:'🇵🇭',country:'Philippines',lon:122,lat:12,text:"For peace in our community and wisdom for our leaders. May God's grace cover our nation.",prayCount:198,created_at:new Date(Date.now()-21600000).toISOString()},
+  {id:'s4',uid:'seed',name:'Ji-ho Park',flag:'🇰🇷',country:'South Korea',lon:128,lat:36,text:'For my family going through a very difficult season. Lord, I trust you with all my heart.',prayCount:143,created_at:new Date(Date.now()-28800000).toISOString()},
+  {id:'s5',uid:'seed',name:'Marie Dubois',flag:'🇫🇷',country:'France',lon:2,lat:47,text:"For my friend who lost his job this week. May God open new doors for him.",prayCount:89,created_at:new Date(Date.now()-36000000).toISOString()},
+  {id:'s6',uid:'seed',name:'Priya Thomas',flag:'🇮🇳',country:'India',lon:78,lat:22,text:'For revival across India. Lord, pour out your Spirit on every village and city.',prayCount:231,created_at:new Date(Date.now()-43200000).toISOString()},
+  {id:'s7',uid:'seed',name:'Emmanuel Mbeki',flag:'🇨🇩',country:'Congo',lon:24,lat:-4,text:'For reconciliation and peace in our nation. Lord, let your kingdom come to Congo.',prayCount:64,created_at:new Date(Date.now()-50400000).toISOString()},
+  {id:'s8',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',country:'South Africa',lon:25,lat:-29,text:'Praying for unity in the body of Christ across Africa. We are one in Him.',prayCount:117,created_at:new Date(Date.now()-57600000).toISOString()},
+  {id:'s9',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',country:'Germany',lon:10,lat:51,text:'For my mother who is battling cancer. Lord, you are the healer. We place her in your hands.',prayCount:176,created_at:new Date(Date.now()-64800000).toISOString()},
+  {id:'s10',uid:'seed',name:'Amara Diallo',flag:'🇸🇳',country:'Senegal',lon:-14,lat:14,text:'For the children in our village who have no access to clean water or schooling.',prayCount:94,created_at:new Date(Date.now()-72000000).toISOString()},
+  {id:'s11',uid:'seed',name:'Grace Mensah',flag:'🇬🇭',country:'Ghana',lon:-2,lat:8,text:'Praying for my marriage. Lord, restore what has been broken and renew our love.',prayCount:152,created_at:new Date(Date.now()-79200000).toISOString()},
+  {id:'s12',uid:'seed',name:'David L.',flag:'🇨🇦',country:'Canada',lon:-80,lat:45,text:'For the unity of the body of Christ across all nations. That we would be one as He is one.',prayCount:891,created_at:new Date(Date.now()-86400000).toISOString()},
+];
+
+/* ── SEED CHAT MESSAGES ── */
+var SEED_CHAT=[
+  {id:'c1',uid:'seed',name:'Abigail Okafor',flag:'🇳🇬',text:"May God's grace be upon you all this morning. Amen 🙏",created_at:new Date(Date.now()-300000).toISOString()},
+  {id:'c2',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',text:'Amazing to be in communion with believers from every nation. God bless you all.',created_at:new Date(Date.now()-240000).toISOString()},
+  {id:'c3',uid:'seed',name:'Lucia Santos',flag:'🇵🇭',text:"Can anyone pray for my family right now? Going through something difficult.",created_at:new Date(Date.now()-180000).toISOString()},
+  {id:'c4',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',text:'With you Lucia 🙏 Lord, we lift up this family to you right now.',created_at:new Date(Date.now()-120000).toISOString()},
+  {id:'c5',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',text:'Praying for everyone here from South Africa tonight. You are not alone.',created_at:new Date(Date.now()-60000).toISOString()},
+];
+
+/* ── COUNTRIES ── */
 var CC=[
   {c:'CA',n:'Canada',f:'🇨🇦',lo:-80,la:45},{c:'US',n:'United States',f:'🇺🇸',lo:-97,la:38},
   {c:'BR',n:'Brazil',f:'🇧🇷',lo:-47,la:-15},{c:'FR',n:'France',f:'🇫🇷',lo:2,la:47},
@@ -384,22 +417,20 @@ var CC=[
   {c:'SN',n:'Senegal',f:'🇸🇳',lo:-14,la:14},{c:'ZM',n:'Zambia',f:'🇿🇲',lo:27,la:-14},
   {c:'MG',n:'Madagascar',f:'🇲🇬',lo:47,la:-20},{c:'PK',n:'Pakistan',f:'🇵🇰',lo:69,la:30},
   {c:'CI',n:"Cote d'Ivoire",f:'🇨🇮',lo:-6,la:8},{c:'UY',n:'Uruguay',f:'🇺🇾',lo:-56,la:-33},
-  {c:'EC',n:'Ecuador',f:'🇪🇨',lo:-78,la:-2},{c:'PY',n:'Paraguay',f:'🇵🇾',lo:-58,la:-23},
 ];
 
-var cu=null,prof=null,prayers=[],chatMsgs=[],dots=[];
-var pCh=null,cCh=null,pendPhoto=null,obPhoto=null,pendAction=null;
+/* ── STATE ── */
+var cu=null,prof=null,prayers=[],chatMsgs=[],dots=[],privConvos={};
+var pCh=null,cCh=null,prvCh=null,pendAction=null,pendPrayId=null;
+var chatMode='global'; // 'global' or privConvoId
 
+/* ── UTILS ── */
 function toast(m){var t=qs('#toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
 function ago(ts){var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);return dy>0?dy+'d':h>0?h+'h':m>0?m+'m':'now';}
 function qs(s){return document.querySelector(s);}
 function qsa(s){return document.querySelectorAll(s);}
 function getCC(code){return CC.find(function(c){return c.c===code;})||{c:'XX',n:'Unknown',f:'🌍',lo:0,la:0};}
-
-function fillSel(id){
-  var el=qs('#'+id);if(!el||el.children.length>1)return;
-  CC.forEach(function(c){var o=document.createElement('option');o.value=c.c;o.textContent=c.f+' '+c.n;el.appendChild(o);});
-}
+function fillSel(id){var el=qs('#'+id);if(!el||el.children.length>1)return;CC.forEach(function(c){var o=document.createElement('option');o.value=c.c;o.textContent=c.f+' '+c.n;el.appendChild(o);});}
 
 /* ── NAV ── */
 function navTo(id){
@@ -408,7 +439,7 @@ function navTo(id){
   var sec=qs('#sec-'+id);if(sec)sec.classList.add('active');
   var nb=qs('#nb-'+id);if(nb)nb.classList.add('active');
   if(id==='profile')renderProfile();
-  if(id==='chat'){renderChatBar();setTimeout(function(){var e=qs('#chatEl');if(e)e.scrollTop=e.scrollHeight;},150);}
+  if(id==='chat'){renderChatTabs();renderChatContent();setTimeout(function(){var e=qs('#chatEl');if(e)e.scrollTop=e.scrollHeight;},150);}
 }
 window.navTo=navTo;
 
@@ -419,7 +450,6 @@ function renderTopbar(){
   if(cu&&prof){
     b.className='tb-av';
     b.textContent=(prof.name||'U')[0].toUpperCase();
-    if(prof.photo_url){b.style.backgroundImage='url('+prof.photo_url+')';b.style.backgroundSize='cover';b.style.backgroundPosition='center';b.style.color='transparent';}
     b.onclick=function(){navTo('profile');};
   }else{
     b.className='tb-signin-btn';b.textContent='Sign in';
@@ -428,13 +458,17 @@ function renderTopbar(){
   w.appendChild(b);
 }
 
-/* ── AUTH MODAL ── */
+/* ── AUTH ── */
 function openAuth(action){
   pendAction=action;
   fillSel('su-country');fillSel('ob-country');
   qs('#auth-onboard').style.display='none';
   qs('#auth-main').style.display='block';
-  var titles={pray:['Share your prayer','Thousands of Christians worldwide will pray with you — free.'],chat:['Join the conversation','Chat with Christians from 156 nations in real time.']};
+  var titles={
+    pray:['Share your prayer','Thousands of Christians worldwide will pray with you — free.'],
+    chat:['Join the conversation','Chat with Christians from 156 nations in real time.'],
+    priv:['Reply to this prayer','Create a free account to send a private message of encouragement.']
+  };
   var t=titles[action]||['Join GlobePray','Free · No ads. Your prayer on the globe.'];
   qs('#auth-title').textContent=t[0];qs('#auth-sub').textContent=t[1];
   qs('#ov-auth').classList.add('open');
@@ -449,21 +483,6 @@ function switchTab(tab){
   });
 }
 window.switchTab=switchTab;
-
-/* ── PHOTOS ── */
-function prevPhoto(file,imgId,iconId){
-  if(!file)return;
-  var r=new FileReader();
-  r.onload=function(e){qs('#'+imgId).src=e.target.result;qs('#'+imgId).style.display='block';qs('#'+iconId).style.display='none';};
-  r.readAsDataURL(file);
-}
-async function upPhoto(file,uid){
-  if(!file)return null;
-  var ext=file.name.split('.').pop()||'jpg';
-  var res=await sb.storage.from('avatars').upload(uid+'.'+ext,file,{upsert:true});
-  if(res.error)return null;
-  return sb.storage.from('avatars').getPublicUrl(uid+'.'+ext).data.publicUrl;
-}
 
 /* ── SIGN UP ── */
 async function doSignUp(){
@@ -481,8 +500,7 @@ async function doSignUp(){
   var res=await sb.auth.signUp({email:email,password:pass});
   if(res.error){err.textContent=res.error.message;btn.textContent='Join GlobePray — Free';btn.disabled=false;return;}
   var ct=getCC(code);
-  var photoUrl=await upPhoto(pendPhoto,res.data.user.id);
-  var p={id:res.data.user.id,name:name,email:email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:photoUrl};
+  var p={id:res.data.user.id,name:name,email:email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:null};
   await sb.from('profiles').upsert(p);
   prof=p;cu=res.data.user;
   btn.textContent='Join GlobePray — Free';btn.disabled=false;
@@ -507,25 +525,26 @@ async function doSignIn(){
 
 /* ── GOOGLE ── */
 async function doGoogle(){
-  var res=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.href}});
-  if(res.error)toast('Google sign-in failed: '+res.error.message);
+  await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.href}});
 }
 
 /* ── AFTER LOGIN ── */
 function afterLogin(){
-  renderTopbar();renderMyPrayer();renderProfile();renderChatBar();
-  subsRealtime();
+  renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
+  subsRealtime();loadPrivate();
   if(pendAction==='pray')setTimeout(openPrayer,300);
+  else if(pendAction==='priv'&&pendPrayId)setTimeout(function(){openPrivReply(pendPrayId);},300);
   pendAction=null;
   toast('Welcome to GlobePray 🙏');
 }
 
 /* ── LOGOUT ── */
 async function doLogout(){
-  await sb.auth.signOut();cu=null;prof=null;
+  await sb.auth.signOut();cu=null;prof=null;chatMode='global';
   if(pCh){sb.removeChannel(pCh);pCh=null;}
   if(cCh){sb.removeChannel(cCh);cCh=null;}
-  renderTopbar();renderMyPrayer();renderProfile();renderChatBar();
+  if(prvCh){sb.removeChannel(prvCh);prvCh=null;}
+  renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
 }
 
 /* ── GOOGLE ONBOARDING ── */
@@ -533,13 +552,10 @@ function showOnboard(user){
   fillSel('ob-country');
   qs('#auth-onboard').style.display='block';
   qs('#auth-main').style.display='none';
-  var gp=(user.user_metadata||{}).avatar_url||null;
   var gn=(user.user_metadata||{}).full_name||user.email.split('@')[0];
   var av=qs('#ob-av');
-  if(gp){av.innerHTML='<img src="'+gp+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';}
-  else{av.textContent=gn[0].toUpperCase();}
+  av.textContent=gn[0].toUpperCase();
   qs('#ob-uname').textContent=gn;qs('#ob-uemail').textContent=user.email;
-  if(gp){var img=qs('#ob-preview');img.src=gp;img.style.display='block';qs('#ob-ph-icon').style.display='none';}
   qs('#ov-auth').classList.add('open');
 }
 async function doFinishOnboard(){
@@ -549,10 +565,7 @@ async function doFinishOnboard(){
   if(!code){err.textContent='Please select your country.';return;}
   err.textContent='';
   var ct=getCC(code);
-  var gp=(cu.user_metadata||{}).avatar_url||null;
-  var photoUrl=gp;
-  if(obPhoto)photoUrl=await upPhoto(obPhoto,cu.id)||photoUrl;
-  var p={id:cu.id,name:(cu.user_metadata||{}).full_name||cu.email.split('@')[0],email:cu.email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:photoUrl};
+  var p={id:cu.id,name:(cu.user_metadata||{}).full_name||cu.email.split('@')[0],email:cu.email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:null};
   await sb.from('profiles').upsert(p);
   prof=p;closeAuth();afterLogin();
 }
@@ -567,10 +580,9 @@ function renderMyPrayer(){
     txt.innerHTML='<div class="mp-teaser-title">🙏 Share a prayer request</div><div class="mp-teaser-sub">Thousands of Christians worldwide will pray with you — for free.</div>';
     var btn=document.createElement('button');btn.className='mp-teaser-btn';btn.textContent='Pray →';
     btn.onclick=function(){openAuth('pray');};
-    d.appendChild(txt);d.appendChild(btn);box.appendChild(d);
-    return;
+    d.appendChild(txt);d.appendChild(btn);box.appendChild(d);return;
   }
-  var key='gp_p_'+cu.id,tkey='gp_pt_'+cu.id,ckey='gp_pc_'+cu.id;
+  var key='gp_p_'+cu.id,tkey='gp_pt_'+cu.id;
   var myText=localStorage.getItem(key);
   var myTime=parseInt(localStorage.getItem(tkey)||'0');
   var elapsed=Date.now()-myTime;
@@ -580,7 +592,7 @@ function renderMyPrayer(){
     btn.onclick=openPrayer;box.querySelector('.mp-empty').appendChild(btn);
   }else{
     var rem=86400000-elapsed,h=Math.floor(rem/3600000),m=Math.floor((rem%3600000)/60000);
-    var pc=parseInt(localStorage.getItem(ckey)||'0');
+    var pc=parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0');
     box.innerHTML='<div class="mp-live"><div class="mp-top"><div class="mp-badge">My Prayer · Active</div><div class="mp-timer">New in '+h+'h '+m+'m</div></div><div class="mp-content">'+myText+'</div><div class="mp-pc"><strong>'+(pc+12)+'</strong> people praying with you</div></div>';
   }
 }
@@ -588,7 +600,7 @@ function openPrayer(){qs('#ov-prayer').classList.add('open');}
 function closePrayer(){qs('#ov-prayer').classList.remove('open');}
 async function doSubmitPrayer(){
   var txt=(qs('#prayIn').value||'').trim();if(!txt||!cu||!prof)return;
-  var p={user_id:cu.id,name:prof.name,flag:prof.flag,country:prof.country,country_code:prof.country_code,lon:prof.lon,lat:prof.lat,photo_url:prof.photo_url,text:txt,pray_count:0,lang:prof.lang||'en'};
+  var p={user_id:cu.id,name:prof.name,flag:prof.flag,country:prof.country,country_code:prof.country_code,lon:prof.lon,lat:prof.lat,photo_url:null,text:txt,pray_count:0,lang:prof.lang||'en'};
   var res=await sb.from('prayers').insert(p);
   if(res.error){toast('Error: '+res.error.message);return;}
   localStorage.setItem('gp_p_'+cu.id,txt);
@@ -601,82 +613,251 @@ async function doSubmitPrayer(){
 /* ── FEED ── */
 function loadPrayers(){
   sb.from('prayers').select('*').order('created_at',{ascending:false}).limit(20).then(function(res){
-    if(res.data){prayers=res.data;renderFeed();updateDots();}
-    else{qs('#feedEl').innerHTML='<div class="empty-state">No prayers yet. Be the first.</div>';}
+    prayers=res.data||[];
+    renderFeed();updateDots();
+    qs('#sPray').textContent=prayers.length+SEED.length;
   });
   pCh=sb.channel('gp-pray')
-    .on('postgres_changes',{event:'INSERT',schema:'public',table:'prayers'},function(p){prayers.unshift(p.new);renderFeed();updateDots();qs('#sPray').textContent=prayers.length;})
-    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'prayers'},function(p){var i=prayers.findIndex(function(x){return x.id===p.new.id;});if(i>=0){prayers[i]=p.new;}renderFeed();})
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'prayers'},function(p){
+      prayers.unshift(p.new);renderFeed();updateDots();
+      qs('#sPray').textContent=prayers.length+SEED.length;
+    })
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'prayers'},function(p){
+      var i=prayers.findIndex(function(x){return x.id===p.new.id;});
+      if(i>=0){prayers[i]=p.new;}renderFeed();
+    })
     .subscribe();
 }
 
 function renderFeed(){
   var el=qs('#feedEl');if(!el)return;
-  qs('#sPray').textContent=prayers.length;
-  if(!prayers.length){el.innerHTML='<div class="empty-state">No prayers yet. Be the first.</div>';return;}
+  // Merge real + seed prayers
+  var all=[].concat(prayers).concat(SEED);
+  if(!all.length){el.innerHTML='<div class="empty-state">No prayers yet. Be the first.</div>';return;}
   el.innerHTML='';
-  prayers.forEach(function(p){
-    var d=document.createElement('div');d.className='fi';
-    var av=p.photo_url?'<img class="fi-av" src="'+p.photo_url+'" alt="">':'<div class="fi-av-txt">'+(p.name||'?')[0].toUpperCase()+'</div>';
-    d.innerHTML='<div class="fi-head">'+av+'<div class="fi-info"><div class="fi-name">'+(p.name||'Anonymous')+' '+(p.flag||'')+'</div><div class="fi-sub">'+(p.country||'')+'</div></div><div class="fi-time">'+ago(p.created_at)+'</div></div><div class="fi-body">'+(p.text||'')+'</div><div class="fi-foot"></div>';
-    var btn=document.createElement('button');btn.className='fi-pbtn'+(p._prayed?' done':'');
-    btn.textContent=p._prayed?'✓ Praying':'🙏 Praying with you';
+  all.forEach(function(p){
+    var isSeed=p.uid==='seed';
+    var div=document.createElement('div');div.className='fi';
+    var avLetter=(p.name||'?')[0].toUpperCase();
+    var avStyle='background:linear-gradient(135deg,#3B82F6,#8B5CF6)';
+    // Different gradient per person
+    var colors=[['#E91E8C','#9B27AF'],['#F97316','#EAB308'],['#10B981','#3B82F6'],['#8B5CF6','#EC4899'],['#14B8A6','#6366F1']];
+    var ci=Math.abs((p.name||'').charCodeAt(0))%colors.length;
+    avStyle='background:linear-gradient(135deg,'+colors[ci][0]+','+colors[ci][1]+')';
+    div.innerHTML='<div class="fi-head"><div class="fi-av-txt" style="'+avStyle+'">'+avLetter+'</div><div class="fi-info"><div class="fi-name">'+(p.name||'Anonymous')+' <span class="fi-flag">'+(p.flag||'')+'</span></div><div class="fi-sub">'+(p.country||'')+'</div></div><div class="fi-time">'+ago(p.created_at)+'</div></div><div class="fi-body">'+(p.text||'')+'</div><div class="fi-foot"></div>';
+    var foot=div.querySelector('.fi-foot');
+    // Pray button
+    var pBtn=document.createElement('button');
+    pBtn.className='fi-pbtn'+(p._prayed?' done':'');
+    pBtn.textContent=p._prayed?'✓ Praying':'🙏 Praying with you';
+    pBtn.addEventListener('click',(function(pr,b){return function(){
+      if(pr._prayed)return;pr._prayed=true;
+      b.className='fi-pbtn done';b.textContent='✓ Praying';
+      pr.pray_count=(pr.pray_count||0)+1;
+      var cntEl=b.parentElement.querySelector('.fi-cnt');
+      if(cntEl)cntEl.textContent=pr.pray_count+' praying';
+      if(cu&&!isSeed)localStorage.setItem('gp_pc_'+cu.id,String(parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0')+1));
+      if(!isSeed)sb.from('prayers').update({pray_count:pr.pray_count}).eq('id',pr.id);
+    };})(p,pBtn));
+    foot.appendChild(pBtn);
     var cnt=document.createElement('div');cnt.className='fi-cnt';cnt.textContent=(p.pray_count||0)+' praying';
-    btn.addEventListener('click',(function(pr,b,c){return function(){if(pr._prayed)return;pr._prayed=true;pr.pray_count=(pr.pray_count||0)+1;b.className='fi-pbtn done';b.textContent='✓ Praying';c.textContent=pr.pray_count+' praying';if(cu)localStorage.setItem('gp_pc_'+cu.id,String(parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0')+1));sb.from('prayers').update({pray_count:pr.pray_count}).eq('id',pr.id);};})(p,btn,cnt));
-    d.querySelector('.fi-foot').appendChild(btn);d.querySelector('.fi-foot').appendChild(cnt);
-    el.appendChild(d);
+    foot.appendChild(cnt);
+    // Private reply button
+    var rBtn=document.createElement('button');
+    rBtn.className='fi-reply-btn';
+    rBtn.textContent='✉ Encourage';
+    rBtn.addEventListener('click',(function(pr){return function(){
+      if(!cu){pendPrayId=pr.id||pr.uid+'_'+pr.name;openAuth('priv');return;}
+      openPrivReply(pr.id||pr.uid+'_'+pr.name,pr.name,pr.uid);
+    };})(p));
+    foot.appendChild(rBtn);
+    el.appendChild(div);
   });
 }
 
 function updateDots(){
-  dots=prayers.filter(function(p){return p.lon&&p.lat;}).map(function(p){return{lon:p.lon,lat:p.lat,name:p.name,flag:p.flag,txt:p.text,photo:p.photo_url};});
-}
-
-/* ── CHAT ── */
-function loadChat(){
-  sb.from('chat').select('*').order('created_at',{ascending:true}).limit(60).then(function(res){
-    if(res.data){chatMsgs=res.data;renderChat();}
+  var all=[].concat(prayers).concat(SEED);
+  dots=all.filter(function(p){return p.lon&&p.lat;}).map(function(p){
+    return{lon:p.lon,lat:p.lat,name:p.name,flag:p.flag,txt:p.text,id:p.id||p.uid+'_'+p.name,uid:p.uid};
   });
-  cCh=sb.channel('gp-chat').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat'},function(p){chatMsgs.push(p.new);renderChat();}).subscribe();
 }
 
-function renderChat(){
-  var el=qs('#chatEl');if(!el)return;
+/* ── PRIVATE MESSAGES ── */
+function loadPrivate(){
+  if(!cu)return;
+  // Load all private convos for this user
+  sb.from('private_messages').select('*').or('sender_id.eq.'+cu.id+',recipient_id.eq.'+cu.id)
+    .order('created_at',{ascending:true}).limit(200)
+    .then(function(res){
+      if(!res.data)return;
+      privConvos={};
+      res.data.forEach(function(m){
+        var key=m.convo_id||m.id;
+        if(!privConvos[key])privConvos[key]={msgs:[],other_name:m.sender_id===cu.id?m.recipient_name:m.sender_name,prayer_text:m.prayer_text,id:key};
+        privConvos[key].msgs.push(m);
+      });
+      renderChatTabs();
+    });
+
+  prvCh=sb.channel('gp-prv-'+cu.id)
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'private_messages'},function(p){
+      if(p.new.sender_id!==cu.id&&p.new.recipient_id!==cu.id)return;
+      var key=p.new.convo_id;
+      if(!privConvos[key])privConvos[key]={msgs:[],other_name:p.new.sender_id===cu.id?p.new.recipient_name:p.new.sender_name,prayer_text:p.new.prayer_text,id:key};
+      privConvos[key].msgs.push(p.new);
+      renderChatTabs();
+      if(chatMode===key)renderChatContent();
+    })
+    .subscribe();
+}
+
+function openPrivReply(prayId,prayerName,prayerUid){
+  // Find the prayer
+  var all=[].concat(prayers).concat(SEED);
+  var pr=all.find(function(x){return (x.id||x.uid+'_'+x.name)===prayId;});
+  if(!pr){toast('Prayer not found.');return;}
+  if(pr.uid==='seed'||pr.user_id===cu.id){
+    toast("You can't reply to a seed prayer or your own.");return;
+  }
+  var convoId='prv_'+[cu.id,pr.user_id].sort().join('_')+'_'+prayId;
+  chatMode=convoId;
+  if(!privConvos[convoId]){
+    privConvos[convoId]={msgs:[],other_name:pr.name,prayer_text:pr.text,id:convoId,recipient_id:pr.user_id};
+  }
+  navTo('chat');
+  renderChatTabs();
+  renderChatContent();
+}
+
+/* ── CHAT TABS ── */
+function renderChatTabs(){
+  var el=qs('#chat-tabs');if(!el)return;
   el.innerHTML='';
-  chatMsgs.forEach(function(m){
-    var isMe=cu&&m.user_id===cu.id;
-    var d=document.createElement('div');d.className='cm'+(isMe?' cm-me':'');
-    var av=m.photo_url?'<img class="cm-av" src="'+m.photo_url+'" alt="">':'<div class="cm-av-txt">'+(m.name||'?')[0].toUpperCase()+'</div>';
-    var meta=!isMe?'<div class="cm-meta"><span class="cm-name">'+(m.name||'?')+'</span><span class="cm-flag"> '+(m.flag||'')+'</span><span class="cm-time"> '+ago(m.created_at)+'</span></div>':'';
-    d.innerHTML=(!isMe?av:'')+' <div class="cm-bwrap">'+meta+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'"> '+(m.text||'')+'</div></div>';
-    el.appendChild(d);
+  // Global tab
+  var g=document.createElement('button');
+  g.className='chat-tab'+(chatMode==='global'?' active':'');
+  g.textContent='🌍 Global';
+  g.onclick=function(){chatMode='global';renderChatTabs();renderChatContent();};
+  el.appendChild(g);
+  // Private convos
+  Object.values(privConvos).forEach(function(conv){
+    var unread=conv.msgs.filter(function(m){return m.sender_id!==cu&&!m.read;}).length;
+    var b=document.createElement('button');
+    b.className='chat-tab'+(chatMode===conv.id?' active':'');
+    b.innerHTML='🔒 '+(conv.other_name||'Prayer')+(unread?' <span class="chat-badge">'+unread+'</span>':'');
+    b.onclick=(function(cid){return function(){chatMode=cid;renderChatTabs();renderChatContent();};})(conv.id);
+    el.appendChild(b);
+  });
+}
+
+/* ── CHAT CONTENT ── */
+function renderChatContent(){
+  var el=qs('#chatEl');if(!el)return;
+  if(chatMode==='global'){
+    renderGlobalChat();
+    renderChatBar(false);
+  }else{
+    renderPrivChat(chatMode);
+    renderChatBar(true);
+  }
+}
+
+function renderGlobalChat(){
+  var el=qs('#chatEl');
+  var all=[].concat(SEED_CHAT).concat(chatMsgs);
+  el.innerHTML='';
+  all.forEach(function(m){
+    var isMe=cu&&m.uid===cu.id;
+    var div=document.createElement('div');div.className='cm'+(isMe?' cm-me':'');
+    var avLetter=(m.name||'?')[0].toUpperCase();
+    var colors=[['#E91E8C','#9B27AF'],['#F97316','#EAB308'],['#10B981','#3B82F6'],['#8B5CF6','#EC4899'],['#14B8A6','#6366F1']];
+    var ci=Math.abs((m.name||'').charCodeAt(0))%colors.length;
+    var avStyle='background:linear-gradient(135deg,'+colors[ci][0]+','+colors[ci][1]+')';
+    var av='<div class="cm-av-txt" style="'+avStyle+'">'+avLetter+'</div>';
+    var meta='<div class="cm-meta"><span class="cm-name">'+(m.name||'?')+'</span><span class="cm-flag"> '+(m.flag||'')+'</span><span class="cm-time"> '+ago(m.created_at)+'</span></div>';
+    div.innerHTML=(!isMe?av:'')+' <div class="cm-bwrap">'+(!isMe?meta:'')+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'">'+( m.text||'')+'</div></div>';
+    el.appendChild(div);
   });
   el.scrollTop=el.scrollHeight;
 }
 
-function renderChatBar(){
+function renderPrivChat(convoId){
+  var el=qs('#chatEl');
+  var conv=privConvos[convoId];
+  el.innerHTML='';
+  if(!conv){el.innerHTML='<div class="empty-state" style="padding:30px;text-align:center;color:var(--txt3)">No messages yet. Send an encouragement!</div>';return;}
+  // Show prayer context
+  if(conv.prayer_text){
+    var ctx=document.createElement('div');ctx.className='priv-context';
+    ctx.innerHTML='<div class="priv-context-lbl">Prayer request</div><div class="priv-context-txt">'+conv.prayer_text+'</div>';
+    el.appendChild(ctx);
+  }
+  conv.msgs.forEach(function(m){
+    var isMe=cu&&m.sender_id===cu.id;
+    var div=document.createElement('div');div.className='cm'+(isMe?' cm-me':'');
+    var av='<div class="cm-av-txt">'+((isMe?prof.name:conv.other_name)||'?')[0].toUpperCase()+'</div>';
+    var meta='<div class="cm-meta"><span class="cm-name">'+(isMe?'You':conv.other_name)+'</span><span class="cm-time"> '+ago(m.created_at)+'</span></div>';
+    div.innerHTML=(!isMe?av:'')+' <div class="cm-bwrap">'+(!isMe?meta:'')+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'">'+m.text+'</div></div>';
+    el.appendChild(div);
+  });
+  el.scrollTop=el.scrollHeight;
+}
+
+/* ── CHAT BAR ── */
+function renderChatBar(isPriv){
   var el=qs('#chat-bar');if(!el)return;el.innerHTML='';
   if(!cu){
     var d=document.createElement('div');d.className='chat-locked';
     d.innerHTML='<div class="chat-locked-txt">Join to chat with Christians worldwide 🌍</div>';
     var b=document.createElement('button');b.className='chat-locked-btn';b.textContent='Join free';
-    b.onclick=function(){openAuth('chat');};d.appendChild(b);el.appendChild(d);
-  }else{
-    var bar=document.createElement('div');bar.className='chat-bar-inner';
-    var inp=document.createElement('input');inp.className='chat-in';inp.id='chatIn';inp.placeholder='A word, a prayer...';
-    inp.addEventListener('keydown',function(e){if(e.key==='Enter')doSendChat();});
-    var sb2=document.createElement('button');sb2.className='chat-send';
-    sb2.innerHTML='<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
-    sb2.onclick=doSendChat;
-    bar.appendChild(inp);bar.appendChild(sb2);el.appendChild(bar);
+    b.onclick=function(){openAuth('chat');};d.appendChild(b);el.appendChild(d);return;
   }
+  var bar=document.createElement('div');bar.className='chat-bar-inner';
+  var inp=document.createElement('input');inp.className='chat-in';inp.id='chatIn';
+  inp.placeholder=isPriv?'Send a private message...':'A word, a prayer...';
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')isPriv?doSendPriv():doSendChat();});
+  var sb2=document.createElement('button');sb2.className='chat-send';
+  sb2.innerHTML='<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+  sb2.onclick=isPriv?doSendPriv:doSendChat;
+  bar.appendChild(inp);bar.appendChild(sb2);el.appendChild(bar);
 }
 
+/* ── SEND GLOBAL CHAT ── */
+function loadChat(){
+  sb.from('chat').select('*').order('created_at',{ascending:true}).limit(60).then(function(res){
+    chatMsgs=res.data||[];renderChatContent();
+  });
+  cCh=sb.channel('gp-chat').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat'},function(p){
+    chatMsgs.push(p.new);if(chatMode==='global')renderChatContent();
+  }).subscribe();
+}
 async function doSendChat(){
   var inp=qs('#chatIn');if(!inp||!cu||!prof)return;
   var txt=(inp.value||'').trim();if(!txt)return;
   inp.value='';
-  await sb.from('chat').insert({user_id:cu.id,name:prof.name,flag:prof.flag,photo_url:prof.photo_url,text:txt});
+  await sb.from('chat').insert({user_id:cu.id,name:prof.name,flag:prof.flag,photo_url:null,text:txt});
+}
+
+/* ── SEND PRIVATE ── */
+async function doSendPriv(){
+  var inp=qs('#chatIn');if(!inp||!cu||!prof)return;
+  var txt=(inp.value||'').trim();if(!txt)return;
+  inp.value='';
+  var conv=privConvos[chatMode];if(!conv)return;
+  var recipientId=conv.msgs.length>0?(conv.msgs[0].sender_id===cu.id?conv.msgs[0].recipient_id:conv.msgs[0].sender_id):conv.recipient_id;
+  var recipientName=conv.other_name||'';
+  var msg={
+    convo_id:chatMode,
+    sender_id:cu.id,sender_name:prof.name,
+    recipient_id:recipientId,recipient_name:recipientName,
+    prayer_text:conv.prayer_text||'',
+    text:txt
+  };
+  var res=await sb.from('private_messages').insert(msg);
+  if(res.error){toast('Error sending: '+res.error.message);return;}
+  if(!privConvos[chatMode])privConvos[chatMode]={msgs:[],other_name:recipientName,id:chatMode};
+  privConvos[chatMode].msgs.push({...msg,created_at:new Date().toISOString()});
+  renderChatContent();
 }
 
 /* ── PROFILE ── */
@@ -684,15 +865,15 @@ function renderProfile(){
   var el=qs('#profile-content');if(!el)return;el.innerHTML='';
   if(!cu||!prof){
     var d=document.createElement('div');d.className='guest-profile';
-    d.innerHTML='<div class="gp-icon">🌍</div><div class="gp-title">Join GlobePray</div><div class="gp-sub">Create a free account to share your prayer, appear on the globe, track who prays with you, and chat with Christians from 156 nations.</div>';
+    d.innerHTML='<div class="gp-icon">🌍</div><div class="gp-title">Join GlobePray</div><div class="gp-sub">Create a free account to share your prayer, appear on the globe, and chat with Christians from 156 nations.</div>';
     var b1=document.createElement('button');b1.className='gp-btn';b1.textContent='Create free account';b1.onclick=function(){openAuth(null);};
     var b2=document.createElement('button');b2.className='gp-sub-btn';b2.textContent='Already have an account? Sign in';b2.onclick=function(){openAuth(null);setTimeout(function(){switchTab('signin');},100);};
     d.appendChild(b1);d.appendChild(b2);el.appendChild(d);return;
   }
   var init=(prof.name||'U')[0].toUpperCase();
-  var avH=prof.photo_url?'<img src="'+prof.photo_url+'" alt="">':init;
   var langs={en:'English',fr:'Français',es:'Español',pt:'Português'};
-  el.innerHTML='<div class="prof-wrap"><div class="pav-wrap"><div class="pav">'+avH+'</div></div><div class="pname">'+(prof.name||'')+'</div><div class="pemail">'+(prof.email||cu.email||'')+'</div><div class="prow"><div class="prow-ic">🌍</div><div><div class="prow-lbl">Country</div><div class="prow-sub">'+(prof.flag||'')+' '+(prof.country||'')+'</div></div><div class="prow-arr">›</div></div><div class="prow"><div class="prow-ic">🔤</div><div><div class="prow-lbl">Language</div><div class="prow-sub">'+(langs[prof.lang||'en'])+'</div></div><div class="prow-arr">›</div></div><div class="prow"><div class="prow-ic">🙏</div><div><div class="prow-lbl">My prayers</div><div class="prow-sub">History</div></div><div class="prow-arr">›</div></div></div>';
+  var convCount=Object.keys(privConvos).length;
+  el.innerHTML='<div class="prof-wrap"><div class="pav-wrap"><div class="pav">'+init+'</div></div><div class="pname">'+(prof.name||'')+'</div><div class="pemail">'+(prof.email||cu.email||'')+'</div><div class="prow"><div class="prow-ic">🌍</div><div><div class="prow-lbl">Country</div><div class="prow-sub">'+(prof.flag||'')+' '+(prof.country||'')+'</div></div><div class="prow-arr">›</div></div><div class="prow"><div class="prow-ic">🔤</div><div><div class="prow-lbl">Language</div><div class="prow-sub">'+(langs[prof.lang||'en'])+'</div></div><div class="prow-arr">›</div></div><div class="prow" onclick="navTo(\'chat\')"><div class="prow-ic">🔒</div><div><div class="prow-lbl">Private Messages</div><div class="prow-sub">'+convCount+' conversation'+(convCount!==1?'s':'')+'</div></div><div class="prow-arr">›</div></div></div>';
   var lb=document.createElement('button');lb.className='p-logout';lb.textContent='Sign Out';lb.onclick=doLogout;
   el.querySelector('.prof-wrap').appendChild(lb);
 }
@@ -706,16 +887,14 @@ async function doReset(){
 
 /* ── LIVE COUNT ── */
 function startCount(){
-  var base=3200+Math.floor(Math.random()*200);
-  function u(){base+=Math.floor(Math.random()*9)-4;base=Math.max(3000,base);var s=base.toLocaleString();qs('#liveN').textContent=s;qs('#sConn').textContent=s;}
+  var base=3241+Math.floor(Math.random()*200);
+  function u(){base+=Math.floor(Math.random()*7)-3;base=Math.max(3100,base);var s=base.toLocaleString();qs('#liveN').textContent=s;qs('#sConn').textContent=s;}
   u();setInterval(u,5000);
+  qs('#sPray').textContent=SEED.length;
 }
 
 /* ── REALTIME ── */
-function subsRealtime(){
-  if(!pCh)loadPrayers();
-  if(!cCh)loadChat();
-}
+function subsRealtime(){if(!pCh)loadPrayers();if(!cCh)loadChat();}
 
 /* ── GLOBE ── */
 function initGlobe(){
@@ -741,14 +920,33 @@ function initGlobe(){
     var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
     var mx=(e.clientX-rect.left)*scx,my=(e.clientY-rect.top)*scy;
     var closest=null,minD=24;
-    dots.forEach(function(d){var p=proj(d.lon,d.lat);if(!p.vis)return;var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}});
+    // Always use SEED + real dots
+    var allDots=SEED.map(function(p){return{lon:p.lon,lat:p.lat,name:p.name,flag:p.flag,txt:p.text,id:p.id,uid:p.uid};}).concat(dots.filter(function(d){return d.uid!=='seed';}));
+    allDots.forEach(function(d){
+      var p=proj(d.lon,d.lat);if(!p.vis)return;
+      var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));
+      if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}
+    });
     if(closest){
       var pop=qs('#dotpop');
       qs('#dp-flag').textContent=closest.d.flag||'';
       qs('#dp-name').textContent=(closest.d.name||'')+(closest.d.flag?' · ':'');
       qs('#dp-txt').textContent=closest.d.txt||'';
+      // Set reply button
+      var rb=qs('#dp-reply');
+      if(rb){
+        if(closest.d.uid==='seed'){rb.style.display='none';}
+        else{
+          rb.style.display='block';
+          rb.onclick=(function(d){return function(){
+            qs('#dotpop').classList.remove('show');
+            if(!cu){pendPrayId=d.id;openAuth('priv');return;}
+            openPrivReply(d.id,d.name,d.uid);
+          };})(closest.d);
+        }
+      }
       var x=Math.min(closest.cx,window.innerWidth-250);
-      pop.style.left=x+'px';pop.style.top=Math.max(60,closest.cy-160)+'px';
+      pop.style.left=x+'px';pop.style.top=Math.max(60,closest.cy-180)+'px';
       pop.classList.add('show');
     }else{qs('#dotpop').classList.remove('show');}
   });
@@ -771,26 +969,34 @@ function initGlobe(){
       G.closePath();G.fillStyle='#252930';G.fill();G.strokeStyle='#31363E';G.lineWidth=.7;G.stroke();
     });
     G.restore();
+    // Atmosphere glow
+    var atm=G.createRadialGradient(CX-30,CY-35,R*.5,CX,CY,R);
+    atm.addColorStop(0,'rgba(100,150,255,0.03)');atm.addColorStop(1,'rgba(60,100,200,0.08)');
+    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle=atm;G.fill();
     G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,.1)';G.lineWidth=1;G.stroke();
+    // Draw ALL dots (seed always visible)
     var t=Date.now()/1000;
-    dots.forEach(function(d,i){
+    var allDots=SEED.map(function(p,i){return{lon:p.lon,lat:p.lat,i:i};}).concat(
+      dots.filter(function(d){return d.uid!=='seed';}).map(function(d,i){return{lon:d.lon,lat:d.lat,i:i+SEED.length};})
+    );
+    allDots.forEach(function(d,i){
       var p=proj(d.lon,d.lat);if(!p.vis)return;
-      var fl=.55+.45*Math.sin(t*1.3+i*.9);
-      G.beginPath();G.arc(p.sx,p.sy,9,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.08+')';G.fill();
-      G.beginPath();G.arc(p.sx,p.sy,2.8,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.95+')';G.fill();
+      var fl=.55+.45*Math.sin(t*1.3+d.i*.9);
+      G.beginPath();G.arc(p.sx,p.sy,9,0,Math.PI*2);
+      G.fillStyle='rgba(236,238,242,'+fl*.08+')';G.fill();
+      G.beginPath();G.arc(p.sx,p.sy,2.8,0,Math.PI*2);
+      G.fillStyle='rgba(236,238,242,'+fl*.95+')';G.fill();
     });
     requestAnimationFrame(draw);
   }
   draw();
 }
 
-/* ── WIRE UP EVENTS ── */
+/* ── WIRE EVENTS ── */
 function wireEvents(){
-  /* nav */
   qs('#nb-globe').onclick=function(){navTo('globe');};
   qs('#nb-chat').onclick=function(){navTo('chat');};
   qs('#nb-profile').onclick=function(){navTo('profile');};
-  /* auth */
   qs('#su-btn').onclick=doSignUp;
   qs('#si-btn').onclick=doSignIn;
   qs('#google-btn-up').onclick=doGoogle;
@@ -800,29 +1006,23 @@ function wireEvents(){
   qs('#tab-signup').onclick=function(){switchTab('signup');};
   qs('#tab-signin').onclick=function(){switchTab('signin');};
   qs('#forgot-link').onclick=function(){qs('#ov-auth').classList.remove('open');setTimeout(function(){qs('#ov-forgot').classList.add('open');},200);};
-  /* photo */
-  qs('#su-photo-circle').onclick=function(){qs('#su-photo-file').click();};
-  qs('#su-photo-file').onchange=function(e){pendPhoto=e.target.files[0];prevPhoto(pendPhoto,'su-prev','su-ph-icon');};
-  qs('#ob-photo-circle').onclick=function(){qs('#ob-photo-file').click();};
-  qs('#ob-photo-file').onchange=function(e){obPhoto=e.target.files[0];prevPhoto(obPhoto,'ob-prev','ob-ph-icon');};
-  /* onboard */
-  qs('#ob-btn').onclick=doFinishOnboard;
-  /* prayer */
   qs('#cancel-pray').onclick=closePrayer;
   qs('#submit-pray').onclick=doSubmitPrayer;
-  /* forgot */
   qs('#cancel-forgot').onclick=function(){qs('#ov-forgot').classList.remove('open');};
   qs('#send-reset').onclick=doReset;
-  /* dot popup */
+  qs('#ob-btn').onclick=doFinishOnboard;
   qs('#dp-close').onclick=function(){qs('#dotpop').classList.remove('show');};
 }
 
 /* ── INIT ── */
 wireEvents();
-renderTopbar();renderMyPrayer();renderProfile();renderChatBar();
-loadPrayers();loadChat();startCount();initGlobe();
+renderTopbar();renderMyPrayer();renderProfile();
+renderChatTabs();renderChatContent();
+loadChat();startCount();initGlobe();
+// Show seed dots immediately
+updateDots();
 
-/* session */
+// Session
 sb.auth.getSession().then(function(res){
   var session=res.data&&res.data.session;
   if(session){
@@ -833,7 +1033,7 @@ sb.auth.getSession().then(function(res){
   }
 });
 
-/* google redirect */
+// Google redirect
 sb.auth.onAuthStateChange(function(event,session){
   if(event==='SIGNED_IN'&&session&&!cu){
     cu=session.user;
@@ -845,6 +1045,7 @@ sb.auth.onAuthStateChange(function(event,session){
 });
 
 })();
+
 </script>
 </body>
 </html>
