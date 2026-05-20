@@ -3,85 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GlobePray</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>GlobePray — Pray Together, Worldwide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0C0D0E;--s1:#111113;--s2:#18181B;--s3:#222226;
+  --bg:#0A0B0D;--s1:#0F1012;--s2:#16171A;--s3:#1E2024;
   --brd:rgba(255,255,255,0.07);--brd2:rgba(255,255,255,0.13);
-  --txt:#ECEEF2;--txt2:#9AA0B4;--txt3:#3E4558;
+  --txt:#F0F2F5;--txt2:#9299AA;--txt3:#3A404F;
   --grn:#22C55E;--grn-dim:rgba(34,197,94,0.1);
 }
 html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;overscroll-behavior:none}
-
-/* ─── SCREENS ─── */
-.screen{display:none;position:fixed;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.screen.active{display:block}
-
-/* ─── LOGIN ─── */
-#s-login{background:var(--bg)}
-.login-globe-bg{position:fixed;top:0;left:50%;transform:translateX(-50%);width:420px;height:320px;overflow:hidden;pointer-events:none;z-index:0}
-.login-globe-bg::after{content:'';position:absolute;bottom:0;left:-60px;right:-60px;height:160px;background:linear-gradient(transparent,var(--bg));z-index:1}
-#login-globe{display:block;border-radius:50%;touch-action:none;cursor:grab;margin:0 auto;display:block}
-.login-body{position:relative;z-index:2;padding:220px 22px 60px;display:flex;flex-direction:column;align-items:center;max-width:400px;margin:0 auto}
-.login-wordmark{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:var(--txt);letter-spacing:-1px;text-align:center;margin-bottom:6px}
-.login-punch{font-size:15px;font-weight:500;color:var(--txt);text-align:center;line-height:1.5;margin-bottom:6px}
-.login-sub{font-size:12px;color:var(--txt3);text-align:center;line-height:1.6;margin-bottom:12px}
-.login-free{font-size:11px;font-weight:600;color:var(--grn);letter-spacing:.05em;text-transform:uppercase;margin-bottom:20px}
-.login-verse{font-size:11px;font-style:italic;color:var(--txt3);text-align:center;margin-bottom:24px;line-height:1.6;padding:0 10px}
-
-/* Card */
-.lcard{width:100%;background:var(--s1);border:.5px solid var(--brd);border-radius:20px;padding:22px}
-.ltabs{display:flex;background:var(--s2);border-radius:10px;padding:3px;margin-bottom:18px}
-.ltab{flex:1;padding:9px;text-align:center;font-size:13px;font-weight:500;color:var(--txt3);cursor:pointer;border-radius:8px;transition:all .15s}
-.ltab.active{background:var(--s3);color:var(--txt)}
-.lpanel{display:none}
-.lpanel.active{display:block}
-.social-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border-radius:12px;border:.5px solid var(--brd2);background:var(--s2);font-size:14px;font-weight:500;color:var(--txt);font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s;margin-bottom:8px}
-.social-btn:hover{background:var(--s3)}
-.social-btn svg{width:18px;height:18px;flex-shrink:0}
-.divrow{display:flex;align-items:center;gap:10px;margin:14px 0}
-.divline{flex:1;height:.5px;background:var(--brd)}
-.divtxt{font-size:11px;color:var(--txt3);letter-spacing:.06em;text-transform:uppercase}
-.flabel{font-size:11px;color:var(--txt3);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px;font-weight:500;display:block}
-.field{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;margin-bottom:10px}
-.field:focus{border-color:var(--brd2)}
-.field::placeholder{color:var(--txt3)}
-select.field{appearance:none;-webkit-appearance:none}
-.errmsg{font-size:12px;color:#F87171;margin-bottom:8px;min-height:16px}
-.primary-btn{width:100%;background:var(--txt);color:var(--bg);border:none;border-radius:12px;padding:13px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;transition:opacity .15s;margin-top:2px;letter-spacing:-.2px}
-.primary-btn:hover{opacity:.9}
-.primary-btn:disabled{opacity:.5;cursor:not-allowed}
-.linkrow{text-align:center;margin-top:14px}
-.linkbtn{font-size:13px;color:var(--txt3);background:none;border:none;font-family:'Inter',sans-serif;cursor:pointer;text-decoration:underline;text-decoration-color:var(--txt3)}
-.linkbtn:hover{color:var(--txt)}
-.forgotrow{text-align:right;margin-bottom:10px}
-
-/* Photo upload */
-.photo-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.photo-circle{width:50px;height:50px;border-radius:50%;background:var(--s2);border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;flex-shrink:0}
-.photo-circle img{width:100%;height:100%;object-fit:cover;display:none}
-.photo-circle span{font-size:20px}
-.photo-hint{font-size:12px;color:var(--txt3);cursor:pointer}
-.photo-hint strong{color:var(--txt2);font-weight:500}
-
-/* ─── APP ─── */
-#s-app{background:var(--bg)}
-.topbar{position:sticky;top:0;z-index:100;height:54px;display:flex;align-items:center;padding:0 16px;background:rgba(12,13,14,.97);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd)}
-.tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;cursor:pointer;flex-shrink:0;border:none;overflow:hidden;background-size:cover;background-position:center}
-.tb-logo{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.5px;position:absolute;left:50%;transform:translateX(-50%)}
-.tb-right{margin-left:auto}
-.lpill{display:flex;align-items:center;gap:5px;background:var(--grn-dim);border:.5px solid rgba(34,197,94,.2);border-radius:20px;padding:5px 10px}
+.topbar{position:sticky;top:0;z-index:100;height:54px;display:flex;align-items:center;padding:0 16px;background:rgba(10,11,13,.97);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd)}
+.tb-left{display:flex;align-items:center;gap:9px}
+.tb-logo-img{width:26px;height:26px;object-fit:contain;opacity:.9}
+.tb-logo{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:800;color:var(--txt);letter-spacing:-.6px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.lpill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.08);border:.5px solid rgba(34,197,94,.15);border-radius:20px;padding:5px 10px}
 .ldot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pk 2.5s infinite}
 @keyframes pk{0%,100%{opacity:1}50%{opacity:.3}}
 .lnum{font-size:11px;font-weight:700;color:var(--grn)}
-
-/* Sections */
+.tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;cursor:pointer;flex-shrink:0;border:none;overflow:hidden;background-size:cover;background-position:center}
+.tb-signin-btn{font-size:12px;font-weight:600;color:var(--txt);background:var(--s2);border:.5px solid var(--brd2);border-radius:20px;padding:6px 14px;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap}
 .section{display:none;padding-bottom:80px}
 .section.active{display:block}
-
 /* Globe */
 .globe-wrap{display:flex;flex-direction:column;align-items:center;padding:18px 0 0}
 #globe{display:block;border-radius:50%;touch-action:none;cursor:grab;user-select:none}
@@ -89,21 +35,22 @@ select.field{appearance:none;-webkit-appearance:none}
 .globe-hint{font-size:11px;color:var(--txt3);margin-top:8px;text-align:center}
 .globe-stats{display:flex;gap:1px;margin:14px 16px 0;background:var(--brd);border-radius:14px;overflow:hidden}
 .gs{flex:1;background:var(--s1);padding:12px 8px;text-align:center}
-.gsn{font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.8px}
+.gsn{font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.8px;font-family:'Space Grotesk',sans-serif}
 .gsl{font-size:10px;color:var(--txt3);margin-top:2px;text-transform:uppercase;letter-spacing:.07em;font-weight:500}
 .verse-bar{margin:12px 16px 0;padding:12px 14px;background:var(--s1);border-radius:12px;border:.5px solid var(--brd)}
 .verse-q{font-size:12px;color:var(--txt2);line-height:1.65;font-style:italic}
 .verse-r{font-size:10px;color:var(--txt3);margin-top:3px}
-
-/* Sec header */
 .sch{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin:22px 0 12px}
-.sct{font-size:17px;font-weight:700;color:var(--txt);letter-spacing:-.3px;font-family:'Playfair Display',serif}
-.sca{font-size:12px;color:var(--txt3);background:none;border:.5px solid var(--brd);border-radius:20px;padding:5px 12px;font-family:'Inter',sans-serif;cursor:pointer}
-
+.sct{font-size:17px;font-weight:700;color:var(--txt);letter-spacing:-.3px;font-family:'Space Grotesk',sans-serif}
 /* My prayer */
 .mypray-wrap{padding:0 16px}
+.mp-teaser{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:18px;display:flex;align-items:center;gap:14px}
+.mp-teaser-txt{flex:1}
+.mp-teaser-title{font-size:14px;font-weight:600;color:var(--txt);margin-bottom:3px}
+.mp-teaser-sub{font-size:12px;color:var(--txt3);line-height:1.5}
+.mp-teaser-btn{background:var(--txt);color:var(--bg);border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .mp-empty{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:22px 18px;text-align:center}
-.mp-icon{font-size:28px;margin-bottom:8px}
+.mp-icon{font-size:26px;margin-bottom:8px}
 .mp-txt{font-size:13px;color:var(--txt3);line-height:1.6;margin-bottom:14px}
 .mp-btn{background:var(--txt);color:var(--bg);border:none;border-radius:22px;padding:10px 22px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer}
 .mp-live{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:16px}
@@ -113,11 +60,9 @@ select.field{appearance:none;-webkit-appearance:none}
 .mp-content{font-size:14px;color:var(--txt);line-height:1.6}
 .mp-pc{font-size:12px;color:var(--txt3);margin-top:8px}
 .mp-pc strong{color:var(--grn)}
-
 /* Feed */
 .feed{padding:0 16px;display:flex;flex-direction:column;gap:8px}
-.fi{background:var(--s1);border-radius:14px;border:.5px solid var(--brd);padding:14px;transition:border-color .15s}
-.fi:hover{border-color:var(--brd2)}
+.fi{background:var(--s1);border-radius:14px;border:.5px solid var(--brd);padding:14px}
 .fi-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .fi-av{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .fi-av-txt{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex-shrink:0}
@@ -130,10 +75,9 @@ select.field{appearance:none;-webkit-appearance:none}
 .fi-pbtn{background:none;border:.5px solid var(--brd);border-radius:18px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s}
 .fi-pbtn:hover,.fi-pbtn.done{color:var(--grn);border-color:rgba(34,197,94,.3);background:var(--grn-dim)}
 .fi-cnt{font-size:12px;color:var(--txt3)}
-.empty{text-align:center;color:var(--txt3);padding:30px;font-size:14px}
-
+.empty-state{text-align:center;color:var(--txt3);padding:30px;font-size:14px}
 /* Chat */
-.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 54px)}
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 54px - 56px)}
 .chatmsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
 .cm{display:flex;gap:8px;align-items:flex-end}
 .cm-me{flex-direction:row-reverse}
@@ -146,99 +90,221 @@ select.field{appearance:none;-webkit-appearance:none}
 .cm-time{font-size:10px;color:var(--txt3)}
 .cm-bubble{background:var(--s1);border:.5px solid var(--brd);border-radius:14px 14px 14px 4px;padding:9px 13px;font-size:14px;color:var(--txt2);line-height:1.5}
 .cm-bubble-me{background:var(--s2);border-radius:14px 14px 4px 14px;border-color:var(--brd2);color:var(--txt)}
+.chat-locked{padding:14px 16px;border-top:.5px solid var(--brd);background:var(--bg);display:flex;align-items:center;gap:12px}
+.chat-locked-txt{flex:1;font-size:13px;color:var(--txt3)}
+.chat-locked-btn{background:var(--txt);color:var(--bg);border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .chat-bar{padding:10px 14px 14px;border-top:.5px solid var(--brd);display:flex;gap:8px;align-items:center;background:var(--bg)}
 .chat-in{flex:1;background:var(--s1);border:.5px solid var(--brd);border-radius:22px;padding:10px 16px;font-size:14px;color:var(--txt);font-family:'Inter',sans-serif;outline:none}
 .chat-in::placeholder{color:var(--txt3)}
 .chat-send{width:38px;height:38px;border-radius:50%;background:var(--txt);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .chat-send svg{width:14px;height:14px;stroke:var(--bg);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-
-/* Profile section */
+/* Profile */
 .prof-wrap{padding:20px 16px}
 .pav-wrap{display:flex;justify-content:center;margin-bottom:12px}
 .pav{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;overflow:hidden}
 .pav img{width:100%;height:100%;object-fit:cover}
-.pname{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--txt);text-align:center;letter-spacing:-.4px}
+.pname{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--txt);text-align:center;letter-spacing:-.4px}
 .pemail{font-size:13px;color:var(--txt3);text-align:center;margin-bottom:22px}
 .prow{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:.5px solid var(--brd)}
 .prow:last-of-type{border-bottom:none}
 .prow-ic{width:32px;height:32px;border-radius:10px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
 .prow-lbl{font-size:14px;color:var(--txt);font-weight:500}
 .prow-sub{font-size:12px;color:var(--txt3);margin-top:1px}
-.prow-arr{margin-left:auto;color:var(--txt3);font-size:18px;font-weight:300}
+.prow-arr{margin-left:auto;color:var(--txt3);font-size:18px}
 .p-logout{width:100%;background:rgba(239,68,68,.08);border:.5px solid rgba(239,68,68,.2);color:#F87171;border-radius:12px;padding:13px;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;margin-top:20px}
-
+/* Guest profile */
+.guest-profile{padding:40px 20px;text-align:center}
+.gp-icon{font-size:48px;margin-bottom:16px}
+.gp-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.gp-sub{font-size:14px;color:var(--txt3);line-height:1.65;margin-bottom:24px}
+.gp-btn{display:block;width:100%;background:var(--txt);color:var(--bg);border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px}
+.gp-sub-btn{display:block;width:100%;background:none;color:var(--txt3);border:.5px solid var(--brd);border-radius:14px;padding:13px;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer}
 /* Bottom nav */
-.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(12,13,14,.97);backdrop-filter:blur(20px);border-top:.5px solid var(--brd);display:flex;padding-bottom:env(safe-area-inset-bottom,8px)}
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(10,11,13,.97);backdrop-filter:blur(20px);border-top:.5px solid var(--brd);display:flex;padding-bottom:env(safe-area-inset-bottom,8px)}
 .nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 0 6px;cursor:pointer;color:var(--txt3);transition:color .15s;border:none;background:none;font-family:'Inter',sans-serif}
 .nb svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .nb span{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
 .nb.active{color:var(--txt)}
-
 /* Modals */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;align-items:flex-end;backdrop-filter:blur(4px)}
 .overlay.open{display:flex}
-.modal{background:var(--s1);border-radius:24px 24px 0 0;padding:24px 20px 44px;width:100%;border-top:.5px solid var(--brd2);max-height:88vh;overflow-y:auto}
+.modal-sheet{background:var(--s1);border-radius:24px 24px 0 0;padding:24px 20px 44px;width:100%;border-top:.5px solid var(--brd2);max-height:92vh;overflow-y:auto}
 .mhandle{width:32px;height:3px;background:var(--s3);border-radius:2px;margin:0 auto 18px}
-.mtitle{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--txt);margin-bottom:3px}
+.mtitle{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--txt);margin-bottom:3px}
 .msub{font-size:13px;color:var(--txt3);margin-bottom:18px}
-.modal textarea{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:12px;padding:14px;font-size:15px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;resize:none;height:130px;line-height:1.6}
-.modal textarea::placeholder{color:var(--txt3)}
+.modal-textarea{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:12px;padding:14px;font-size:15px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;resize:none;height:130px;line-height:1.6}
+.modal-textarea::placeholder{color:var(--txt3)}
 .modal-btns{display:flex;gap:10px;margin-top:12px}
 .m-cancel{flex:1;background:var(--s2);border:none;border-radius:22px;padding:13px;font-size:14px;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer}
 .m-submit{flex:2;background:var(--txt);border:none;border-radius:22px;padding:13px;font-size:14px;font-weight:700;color:var(--bg);font-family:'Inter',sans-serif;cursor:pointer}
-
+/* Auth tabs */
+.auth-tabs{display:flex;background:var(--s2);border-radius:10px;padding:3px;margin-bottom:16px}
+.auth-tab{flex:1;padding:9px;text-align:center;font-size:13px;font-weight:500;color:var(--txt3);cursor:pointer;border-radius:8px;transition:all .15s}
+.auth-tab.active{background:var(--s3);color:var(--txt)}
+.auth-panel{display:none}
+.auth-panel.active{display:block}
+/* Fields */
+.social-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border-radius:11px;border:.5px solid var(--brd2);background:var(--s2);font-size:14px;font-weight:500;color:var(--txt);font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s;margin-bottom:8px}
+.social-btn:hover{background:var(--s3)}
+.social-btn svg{width:18px;height:18px;flex-shrink:0}
+.divrow{display:flex;align-items:center;gap:10px;margin:12px 0}
+.divline{flex:1;height:.5px;background:var(--brd)}
+.divtxt{font-size:11px;color:var(--txt3);letter-spacing:.05em;text-transform:uppercase}
+.field{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:10px;padding:10px 13px;font-size:14px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;transition:border-color .15s;margin-bottom:8px}
+.field:focus{border-color:var(--brd2)}
+.field::placeholder{color:var(--txt3)}
+select.field{-webkit-appearance:none;appearance:none}
+.errmsg{font-size:12px;color:#F87171;margin-bottom:6px;min-height:14px}
+.primary-btn{width:100%;background:var(--txt);color:var(--bg);border:none;border-radius:11px;padding:12px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;letter-spacing:-.2px}
+.primary-btn:disabled{opacity:.5;cursor:not-allowed}
+.linkrow{text-align:center;margin-top:10px}
+.linkbtn{font-size:12px;color:var(--txt3);background:none;border:none;font-family:'Inter',sans-serif;cursor:pointer}
+.forgotrow{text-align:right;margin-bottom:8px;margin-top:-4px}
+/* Photo upload */
+.photo-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.photo-circle{width:44px;height:44px;border-radius:50%;background:var(--s2);border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;flex-shrink:0}
+.photo-circle img{width:100%;height:100%;object-fit:cover;display:none}
+.photo-circle-icon{font-size:18px}
+.photo-hint{font-size:12px;color:var(--txt3);line-height:1.4}
+.photo-hint strong{color:var(--txt2);font-weight:500}
+/* Onboarding (Google) */
+.ob-user-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px;background:var(--s2);border-radius:12px;border:.5px solid var(--brd)}
+.ob-av{width:38px;height:38px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:var(--txt)}
+.ob-av img{width:100%;height:100%;object-fit:cover}
+.ob-user-name{font-size:14px;font-weight:600;color:var(--txt)}
+.ob-user-email{font-size:12px;color:var(--txt3)}
 /* Dot popup */
-.dotpop{position:fixed;z-index:300;background:var(--s1);border:.5px solid var(--brd2);border-radius:14px;padding:14px;max-width:230px;box-shadow:0 20px 60px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity .18s,transform .18s;transform:translateY(-8px) scale(.97)}
+.dotpop{position:fixed;z-index:300;background:var(--s1);border:.5px solid var(--brd2);border-radius:14px;padding:14px;max-width:240px;box-shadow:0 20px 60px rgba(0,0,0,.6);pointer-events:none;opacity:0;transition:opacity .18s,transform .18s;transform:translateY(-8px) scale(.97)}
 .dotpop.show{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
 .dp-flag{font-size:18px;margin-bottom:4px}
 .dp-name{font-size:12px;font-weight:600;color:var(--txt);margin-bottom:3px}
 .dp-txt{font-size:12px;color:var(--txt2);line-height:1.5}
 .dp-close{font-size:11px;color:var(--txt3);margin-top:8px;cursor:pointer;display:block}
-
-/* Toast */
 .toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--s1);border:.5px solid var(--brd2);border-radius:12px;padding:10px 18px;font-size:13px;color:var(--txt);z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
 
-<!-- ═══════════ LOGIN ═══════════ -->
-<div class="screen active" id="s-login">
-  <div class="login-globe-bg">
-    <canvas id="login-globe" width="420" height="420"></canvas>
+<!-- APP (no login required) -->
+<div id="s-app">
+  <div class="topbar">
+    <div class="tb-left">
+      <img class="tb-logo-img" src="media/logo.png" alt="" onerror="this.style.display='none'">
+      <div class="tb-logo">GlobePray</div>
+    </div>
+    <div class="tb-right">
+      <div class="lpill"><div class="ldot"></div><div class="lnum" id="liveN">0</div></div>
+      <div id="tb-auth"></div>
+    </div>
   </div>
-  <div class="login-body">
-    <div class="login-wordmark">GlobePray</div>
-    <div class="login-punch">Pray Together. Worldwide.</div>
-    <div class="login-sub">Join thousands of Christians from 156 nations praying in real time — right now.</div>
-    <div class="login-free">✦ 100% Free · No ads · No spam</div>
-    <div class="login-verse">"Where two or three gather in my name, I am there among them." — Matthew 18:20</div>
 
-    <div class="lcard">
-      <div class="ltabs">
-        <div class="ltab active" onclick="switchTab('signup',this)">Create Account</div>
-        <div class="ltab" onclick="switchTab('signin',this)">Sign In</div>
+  <div class="section active" id="sec-globe">
+    <div class="globe-wrap">
+      <canvas id="globe" width="320" height="320"></canvas>
+      <div class="globe-hint">Tap a light to read their prayer</div>
+    </div>
+    <div class="globe-stats">
+      <div class="gs"><div class="gsn" id="sConn">0</div><div class="gsl">Connected</div></div>
+      <div class="gs"><div class="gsn">156</div><div class="gsl">Nations</div></div>
+      <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl">Prayers</div></div>
+    </div>
+    <div class="verse-bar">
+      <div class="verse-q">"Where two or three gather in my name, I am there among them."</div>
+      <div class="verse-r">Matthew 18 · 20</div>
+    </div>
+    <div class="sch"><div class="sct">My Prayer</div></div>
+    <div class="mypray-wrap"><div id="myBox"></div></div>
+    <div class="sch"><div class="sct">Community</div></div>
+    <div class="feed" id="feedEl"><div class="empty-state">Loading prayers...</div></div>
+  </div>
+
+  <div class="section" id="sec-chat">
+    <div class="chat-wrap">
+      <div class="chatmsgs" id="chatEl"></div>
+      <div id="chat-bottom"></div>
+    </div>
+  </div>
+
+  <div class="section" id="sec-profile">
+    <div id="profile-content"></div>
+  </div>
+
+  <nav class="bnav">
+    <button class="nb active" id="nb-globe" onclick="navTo('globe',this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span>Globe</span>
+    </button>
+    <button class="nb" id="nb-chat" onclick="navTo('chat',this)">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Chat</span>
+    </button>
+    <button class="nb" id="nb-profile" onclick="navTo('profile',this)">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span>Profile</span>
+    </button>
+  </nav>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="ov-auth" onclick="if(event.target===this)closeAuth()">
+  <div class="modal-sheet">
+    <div class="mhandle"></div>
+
+    <!-- Onboarding Google -->
+    <div id="auth-onboard" style="display:none">
+      <div class="mtitle">Almost there 👋</div>
+      <div class="msub">Tell us where you are from to appear on the globe.</div>
+      <div class="ob-user-row">
+        <div class="ob-av" id="ob-av"></div>
+        <div>
+          <div class="ob-user-name" id="ob-uname"></div>
+          <div class="ob-user-email" id="ob-uemail"></div>
+        </div>
+      </div>
+      <div class="photo-row">
+        <div class="photo-circle" id="ob-photo-circle">
+          <img id="ob-preview" alt=""><span class="photo-circle-icon" id="ob-ph-icon">📷</span>
+        </div>
+        <div class="photo-hint"><strong>Change photo</strong> (optional)</div>
+        <input type="file" id="ob-photo" accept="image/*" style="display:none">
+      </div>
+      <select class="field" id="ob-lang">
+        <option value="en">🌐 English</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="pt">🇧🇷 Português</option>
+      </select>
+      <select class="field" id="ob-country"><option value="">Your country...</option></select>
+      <div class="errmsg" id="ob-err"></div>
+      <button class="primary-btn" id="ob-btn">Enter GlobePray 🌍</button>
+    </div>
+
+    <!-- Sign in / Sign up -->
+    <div id="auth-main">
+      <div class="mtitle" id="auth-title">Join GlobePray</div>
+      <div class="msub" id="auth-sub">Free, no ads. Your prayer on the globe. Thousands praying with you.</div>
+      <div class="auth-tabs">
+        <div class="auth-tab active" id="tab-signup" onclick="switchAuthTab('signup')">Create Account</div>
+        <div class="auth-tab" id="tab-signin" onclick="switchAuthTab('signin')">Sign In</div>
       </div>
 
-      <!-- SIGN UP -->
-      <div class="lpanel active" id="panel-signup">
-        <button class="social-btn" onclick="googleSignIn()">
+      <div class="auth-panel active" id="panel-signup">
+        <button class="social-btn" id="google-btn-up">
           <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
           Continue with Google
         </button>
         <div class="divrow"><div class="divline"></div><div class="divtxt">or</div><div class="divline"></div></div>
         <div class="photo-row">
-          <div class="photo-circle" onclick="document.getElementById('su-photo').click()">
-            <img id="su-preview" alt=""><span id="su-photo-icon">📷</span>
+          <div class="photo-circle" id="su-photo-circle">
+            <img id="su-preview" alt=""><span class="photo-circle-icon" id="su-ph-icon">📷</span>
           </div>
-          <div class="photo-hint" onclick="document.getElementById('su-photo').click()">
-            <strong>Add a photo</strong><br>Your face on the globe
-          </div>
-          <input type="file" id="su-photo" accept="image/*" style="display:none" onchange="previewPhoto(event)">
+          <div class="photo-hint"><strong>Add photo</strong> (optional)</div>
+          <input type="file" id="su-photo" accept="image/*" style="display:none">
         </div>
         <input class="field" type="text" id="su-name" placeholder="Your name">
         <input class="field" type="email" id="su-email" placeholder="Email">
-        <input class="field" type="password" id="su-pass" placeholder="Password (min 8 chars)">
+        <input class="field" type="password" id="su-pass" placeholder="Password (8+ characters)">
         <select class="field" id="su-lang">
           <option value="en">🌐 English</option>
           <option value="fr">🇫🇷 Français</option>
@@ -247,129 +313,51 @@ select.field{appearance:none;-webkit-appearance:none}
         </select>
         <select class="field" id="su-country"><option value="">Your country...</option></select>
         <div class="errmsg" id="su-err"></div>
-        <button class="primary-btn" id="su-btn" onclick="signUp()">Join GlobePray — Free</button>
-        <div class="linkrow"><button class="linkbtn" onclick="switchTab('signin',document.querySelectorAll('.ltab')[1])">Already have an account? Sign in</button></div>
+        <button class="primary-btn" id="su-btn">Join GlobePray — Free</button>
+        <div class="linkrow"><button class="linkbtn" id="go-signin">Already have an account? Sign in</button></div>
       </div>
 
-      <!-- SIGN IN -->
-      <div class="lpanel" id="panel-signin">
-        <button class="social-btn" onclick="googleSignIn()">
+      <div class="auth-panel" id="panel-signin">
+        <button class="social-btn" id="google-btn-in">
           <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
           Continue with Google
         </button>
         <div class="divrow"><div class="divline"></div><div class="divtxt">or</div><div class="divline"></div></div>
         <input class="field" type="email" id="si-email" placeholder="Email">
         <input class="field" type="password" id="si-pass" placeholder="Password">
-        <div class="forgotrow"><button class="linkbtn" onclick="showForgot()">Forgot password?</button></div>
+        <div class="forgotrow"><button class="linkbtn" id="forgot-btn">Forgot password?</button></div>
         <div class="errmsg" id="si-err"></div>
-        <button class="primary-btn" id="si-btn" onclick="signIn()">Sign In</button>
-        <div class="linkrow"><button class="linkbtn" onclick="switchTab('signup',document.querySelectorAll('.ltab')[0])">No account? Create one</button></div>
+        <button class="primary-btn" id="si-btn">Sign In</button>
+        <div class="linkrow"><button class="linkbtn" id="go-signup">No account? Create one</button></div>
       </div>
     </div>
   </div>
-</div>
-
-<!-- ═══════════ APP ═══════════ -->
-<div class="screen" id="s-app">
-  <div class="topbar">
-    <button class="tb-av" id="tb-av" onclick="showSection('profile')">D</button>
-    <div class="tb-logo">GlobePray</div>
-    <div class="tb-right">
-      <div class="lpill"><div class="ldot"></div><div class="lnum" id="liveN">0</div></div>
-    </div>
-  </div>
-
-  <!-- Globe section -->
-  <div class="section active" id="sec-globe">
-    <div class="globe-wrap">
-      <canvas id="globe" width="320" height="320"></canvas>
-      <div class="globe-hint">Tap a light to read their prayer</div>
-    </div>
-    <div class="globe-stats">
-      <div class="gs"><div class="gsn" id="sConn">0</div><div class="gsl">Connected</div></div>
-      <div class="gs"><div class="gsn" id="sNat">156</div><div class="gsl">Nations</div></div>
-      <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl">Prayers</div></div>
-    </div>
-    <div class="verse-bar">
-      <div class="verse-q">"Where two or three gather in my name, I am there among them."</div>
-      <div class="verse-r">Matthew 18 · 20</div>
-    </div>
-    <div class="sch">
-      <div class="sct">My Prayer</div>
-    </div>
-    <div class="mypray-wrap"><div id="myBox"></div></div>
-    <div class="sch">
-      <div class="sct">Community</div>
-    </div>
-    <div class="feed" id="feedEl"><div class="empty">Loading prayers...</div></div>
-  </div>
-
-  <!-- Chat section -->
-  <div class="section" id="sec-chat">
-    <div class="chat-wrap">
-      <div class="chatmsgs" id="chatEl"></div>
-      <div class="chat-bar">
-        <input class="chat-in" id="chatIn" placeholder="A word, a prayer..." onkeydown="if(event.key==='Enter')sendChat()">
-        <button class="chat-send" onclick="sendChat()">
-          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Profile section -->
-  <div class="section" id="sec-profile">
-    <div class="prof-wrap">
-      <div class="pav-wrap"><div class="pav" id="p-av">D</div></div>
-      <div class="pname" id="p-name">Loading...</div>
-      <div class="pemail" id="p-email"></div>
-      <div class="prow"><div class="prow-ic">🌍</div><div><div class="prow-lbl">Country</div><div class="prow-sub" id="p-country">—</div></div><div class="prow-arr">›</div></div>
-      <div class="prow"><div class="prow-ic">🔤</div><div><div class="prow-lbl">Language</div><div class="prow-sub" id="p-lang">English</div></div><div class="prow-arr">›</div></div>
-      <div class="prow"><div class="prow-ic">🙏</div><div><div class="prow-lbl">My prayers</div><div class="prow-sub">History</div></div><div class="prow-arr">›</div></div>
-      <button class="p-logout" onclick="logout()">Sign Out</button>
-    </div>
-  </div>
-
-  <nav class="bnav">
-    <button class="nb active" id="nb-globe" onclick="setNav('globe',this)">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      <span>Globe</span>
-    </button>
-    <button class="nb" id="nb-chat" onclick="setNav('chat',this)">
-      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <span>Chat</span>
-    </button>
-    <button class="nb" id="nb-profile" onclick="setNav('profile',this)">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span>Profile</span>
-    </button>
-  </nav>
 </div>
 
 <!-- Prayer modal -->
 <div class="overlay" id="ov-prayer" onclick="if(event.target===this)closePrayer()">
-  <div class="modal">
+  <div class="modal-sheet">
     <div class="mhandle"></div>
     <div class="mtitle">My Prayer Request</div>
     <div class="msub">Shared with Christians worldwide · active 24h.</div>
-    <textarea id="prayIn" placeholder="Lord, I pray for..."></textarea>
+    <textarea class="modal-textarea" id="prayIn" placeholder="Lord, I pray for..."></textarea>
     <div class="modal-btns">
-      <button class="m-cancel" onclick="closePrayer()">Cancel</button>
-      <button class="m-submit" onclick="submitPrayer()">Share with the world</button>
+      <button class="m-cancel" id="cancel-pray">Cancel</button>
+      <button class="m-submit" id="submit-pray">Share with the world</button>
     </div>
   </div>
 </div>
 
 <!-- Forgot modal -->
 <div class="overlay" id="ov-forgot" onclick="if(event.target===this)closeForgot()">
-  <div class="modal">
+  <div class="modal-sheet">
     <div class="mhandle"></div>
     <div class="mtitle">Reset Password</div>
-    <div class="msub">We'll send you a reset link.</div>
+    <div class="msub">We will send you a reset link.</div>
     <input class="field" type="email" id="forgot-email" placeholder="your@email.com">
     <div class="modal-btns">
-      <button class="m-cancel" onclick="closeForgot()">Cancel</button>
-      <button class="m-submit" onclick="sendReset()">Send Link</button>
+      <button class="m-cancel" id="cancel-forgot">Cancel</button>
+      <button class="m-submit" id="send-reset">Send Link</button>
     </div>
   </div>
 </div>
@@ -379,566 +367,824 @@ select.field{appearance:none;-webkit-appearance:none}
   <div class="dp-flag" id="dp-flag"></div>
   <div class="dp-name" id="dp-name"></div>
   <div class="dp-txt" id="dp-txt"></div>
-  <div class="dp-close" onclick="closeDotPop()">Close ×</div>
+  <div class="dp-close" id="dp-close">Close x</div>
 </div>
-
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════
-// SUPABASE
-// ═══════════════════════════════════════
-const { createClient } = supabase;
-const sb = createClient(
-  'https://ycggtqqyffjjniguidgy.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZ2d0cXF5ZmZqam5pZ3VpZGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjM5MjYsImV4cCI6MjA5NDc5OTkyNn0.UW5gd9TL7Q7vy38I90HCp0P7iq6mlhLW9u1_74OLIkc'
-);
+(function() {
+'use strict';
 
-// ═══════════════════════════════════════
-// COUNTRIES
-// ═══════════════════════════════════════
-const COUNTRIES = [
-  {c:'CA',n:'Canada',f:'🇨🇦',lo:-80,la:45},{c:'US',n:'United States',f:'🇺🇸',lo:-97,la:38},
-  {c:'BR',n:'Brazil',f:'🇧🇷',lo:-47,la:-15},{c:'FR',n:'France',f:'🇫🇷',lo:2,la:47},
-  {c:'NG',n:'Nigeria',f:'🇳🇬',lo:8,la:9},{c:'PH',n:'Philippines',f:'🇵🇭',lo:122,la:12},
-  {c:'KR',n:'South Korea',f:'🇰🇷',lo:128,la:36},{c:'CD',n:'Congo',f:'🇨🇩',lo:24,la:-4},
-  {c:'IN',n:'India',f:'🇮🇳',lo:78,la:22},{c:'CM',n:'Cameroon',f:'🇨🇲',lo:12,la:5},
-  {c:'MX',n:'Mexico',f:'🇲🇽',lo:-99,la:20},{c:'ZA',n:'South Africa',f:'🇿🇦',lo:25,la:-29},
-  {c:'GB',n:'United Kingdom',f:'🇬🇧',lo:-1,la:52},{c:'DE',n:'Germany',f:'🇩🇪',lo:10,la:51},
-  {c:'AU',n:'Australia',f:'🇦🇺',lo:134,la:-26},{c:'CO',n:'Colombia',f:'🇨🇴',lo:-74,la:4},
-  {c:'KE',n:'Kenya',f:'🇰🇪',lo:37,la:-1},{c:'GH',n:'Ghana',f:'🇬🇭',lo:-2,la:8},
-  {c:'ET',n:'Ethiopia',f:'🇪🇹',lo:38,la:9},{c:'RW',n:'Rwanda',f:'🇷🇼',lo:30,la:-2},
-  {c:'HT',n:'Haiti',f:'🇭🇹',lo:-72,la:19},{c:'IT',n:'Italy',f:'🇮🇹',lo:12,la:42},
-  {c:'ES',n:'Spain',f:'🇪🇸',lo:-3,la:40},{c:'PT',n:'Portugal',f:'🇵🇹',lo:-8,la:39},
-  {c:'AR',n:'Argentina',f:'🇦🇷',lo:-64,la:-34},{c:'CL',n:'Chile',f:'🇨🇱',lo:-71,la:-33},
-  {c:'PE',n:'Peru',f:'🇵🇪',lo:-76,la:-10},{c:'VE',n:'Venezuela',f:'🇻🇪',lo:-66,la:8},
-  {c:'ID',n:'Indonesia',f:'🇮🇩',lo:113,la:-5},{c:'MY',n:'Malaysia',f:'🇲🇾',lo:110,la:3},
-  {c:'RO',n:'Romania',f:'🇷🇴',lo:25,la:46},{c:'PL',n:'Poland',f:'🇵🇱',lo:20,la:52},
-  {c:'SE',n:'Sweden',f:'🇸🇪',lo:15,la:62},{c:'UG',n:'Uganda',f:'🇺🇬',lo:32,la:1},
-  {c:'TZ',n:'Tanzania',f:'🇹🇿',lo:35,la:-6},{c:'AO',n:'Angola',f:'🇦🇴',lo:18,la:-12},
-  {c:'SN',n:'Senegal',f:'🇸🇳',lo:-14,la:14},{c:'CI',n:"Côte d'Ivoire",f:'🇨🇮',lo:-6,la:8},
-  {c:'ZM',n:'Zambia',f:'🇿🇲',lo:27,la:-14},{c:'ZW',n:'Zimbabwe',f:'🇿🇼',lo:30,la:-19},
-  {c:'MG',n:'Madagascar',f:'🇲🇬',lo:47,la:-20},{c:'PK',n:'Pakistan',f:'🇵🇰',lo:69,la:30},
+// ── Supabase ──
+var SB_URL = 'https://ycggtqqyffjjniguidgy.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZ2d0cXF5ZmZqam5pZ3VpZGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjM5MjYsImV4cCI6MjA5NDc5OTkyNn0.UW5gd9TL7Q7vy38I90HCp0P7iq6mlhLW9u1_74OLIkc';
+var sb = supabase.createClient(SB_URL, SB_KEY);
+
+// ── Countries ──
+var COUNTRIES = [
+  {c:'CA',n:'Canada',f:'\uD83C\uDDE8\uD83C\uDDE6',lo:-80,la:45},
+  {c:'US',n:'United States',f:'\uD83C\uDDFA\uD83C\uDDF8',lo:-97,la:38},
+  {c:'BR',n:'Brazil',f:'\uD83C\uDDE7\uD83C\uDDF7',lo:-47,la:-15},
+  {c:'FR',n:'France',f:'\uD83C\uDDEB\uD83C\uDDF7',lo:2,la:47},
+  {c:'NG',n:'Nigeria',f:'\uD83C\uDDF3\uD83C\uDDEC',lo:8,la:9},
+  {c:'PH',n:'Philippines',f:'\uD83C\uDDF5\uD83C\uDDED',lo:122,la:12},
+  {c:'KR',n:'South Korea',f:'\uD83C\uDDF0\uD83C\uDDF7',lo:128,la:36},
+  {c:'CD',n:'Congo',f:'\uD83C\uDDE8\uD83C\uDDE9',lo:24,la:-4},
+  {c:'IN',n:'India',f:'\uD83C\uDDEE\uD83C\uDDF3',lo:78,la:22},
+  {c:'CM',n:'Cameroon',f:'\uD83C\uDDE8\uD83C\uDDF2',lo:12,la:5},
+  {c:'MX',n:'Mexico',f:'\uD83C\uDDF2\uD83C\uDDFD',lo:-99,la:20},
+  {c:'ZA',n:'South Africa',f:'\uD83C\uDDFF\uD83C\uDDE6',lo:25,la:-29},
+  {c:'GB',n:'United Kingdom',f:'\uD83C\uDDEC\uD83C\uDDE7',lo:-1,la:52},
+  {c:'DE',n:'Germany',f:'\uD83C\uDDE9\uD83C\uDDEA',lo:10,la:51},
+  {c:'AU',n:'Australia',f:'\uD83C\uDDE6\uD83C\uDDFA',lo:134,la:-26},
+  {c:'CO',n:'Colombia',f:'\uD83C\uDDE8\uD83C\uDDF4',lo:-74,la:4},
+  {c:'KE',n:'Kenya',f:'\uD83C\uDDF0\uD83C\uDDEA',lo:37,la:-1},
+  {c:'GH',n:'Ghana',f:'\uD83C\uDDEC\uD83C\uDDED',lo:-2,la:8},
+  {c:'ET',n:'Ethiopia',f:'\uD83C\uDDEA\uD83C\uDDF9',lo:38,la:9},
+  {c:'RW',n:'Rwanda',f:'\uD83C\uDDF7\uD83C\uDDFC',lo:30,la:-2},
+  {c:'HT',n:'Haiti',f:'\uD83C\uDDED\uD83C\uDDF9',lo:-72,la:19},
+  {c:'IT',n:'Italy',f:'\uD83C\uDDEE\uD83C\uDDF9',lo:12,la:42},
+  {c:'ES',n:'Spain',f:'\uD83C\uDDEA\uD83C\uDDF8',lo:-3,la:40},
+  {c:'PT',n:'Portugal',f:'\uD83C\uDDF5\uD83C\uDDF9',lo:-8,la:39},
+  {c:'AR',n:'Argentina',f:'\uD83C\uDDE6\uD83C\uDDF7',lo:-64,la:-34},
+  {c:'CL',n:'Chile',f:'\uD83C\uDDE8\uD83C\uDDF1',lo:-71,la:-33},
+  {c:'PE',n:'Peru',f:'\uD83C\uDDF5\uD83C\uDDEA',lo:-76,la:-10},
+  {c:'VE',n:'Venezuela',f:'\uD83C\uDDFB\uD83C\uDDEA',lo:-66,la:8},
+  {c:'ID',n:'Indonesia',f:'\uD83C\uDDEE\uD83C\uDDE9',lo:113,la:-5},
+  {c:'MY',n:'Malaysia',f:'\uD83C\uDDF2\uD83C\uDDFE',lo:110,la:3},
+  {c:'RO',n:'Romania',f:'\uD83C\uDDF7\uD83C\uDDF4',lo:25,la:46},
+  {c:'PL',n:'Poland',f:'\uD83C\uDDF5\uD83C\uDDF1',lo:20,la:52},
+  {c:'SE',n:'Sweden',f:'\uD83C\uDDF8\uD83C\uDDEA',lo:15,la:62},
+  {c:'UG',n:'Uganda',f:'\uD83C\uDDFA\uD83C\uDDEC',lo:32,la:1},
+  {c:'TZ',n:'Tanzania',f:'\uD83C\uDDF9\uD83C\uDDFF',lo:35,la:-6},
+  {c:'AO',n:'Angola',f:'\uD83C\uDDE6\uD83C\uDDF4',lo:18,la:-12},
+  {c:'SN',n:'Senegal',f:'\uD83C\uDDF8\uD83C\uDDF3',lo:-14,la:14},
+  {c:'ZM',n:'Zambia',f:'\uD83C\uDDFF\uD83C\uDDF2',lo:27,la:-14},
+  {c:'MG',n:'Madagascar',f:'\uD83C\uDDF2\uD83C\uDDEC',lo:47,la:-20},
+  {c:'PK',n:'Pakistan',f:'\uD83C\uDDF5\uD83C\uDDF0',lo:69,la:30},
+  {c:'CI',n:"Cote d'Ivoire",f:'\uD83C\uDDE8\uD83C\uDDEE',lo:-6,la:8},
 ];
 
-// Populate country selects
-const sel = document.getElementById('su-country');
-COUNTRIES.forEach(c => { const o = document.createElement('option'); o.value=c.c; o.textContent=c.f+' '+c.n; sel.appendChild(o); });
+// ── State ──
+var currentUser = null, profile = null;
+var prayers = [], chatMessages = [], globeDots = [];
+var prayerCh = null, chatCh = null;
+var pendingPhoto = null, pendingAction = null;
+var obPhoto = null;
 
-// ═══════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════
-let currentUser = null, profile = null;
-let prayers = [], chatUnsub = null, prayerUnsub = null;
-let globeDots = [];
-let pendingPhoto = null;
-
-// ═══════════════════════════════════════
-// WORLD MAP DATA (Natural Earth)
-// ═══════════════════════════════════════
-const WORLD=[[[178.6,-16.6],[180,-16.6],[178.7,-17]],[[177.7,-17.4],[178.6,-18.2],[177.4,-18.2]],[[33.9,-1],[39.2,-4.7],[39.5,-10.9],[34.6,-11.5],[29.6,-6.5],[30.4,-1.1]],[[-8.7,27.7],[-8.7,25.9],[-12,25.9],[-12.9,21.3],[-17.1,21],[-14.8,21.5],[-11.4,26.9]],[[-122.8,49],[-125.6,50.4],[-127.4,50.8],[-130.5,54.3],[-130,55.9],[-135.5,59.8],[-137.5,58.9],[-141,60.3],[-141,69.7],[-136.5,68.9],[-128.1,70.5],[-113.5,67.7],[-106.2,68.8],[-101.5,67.6],[-97.7,68.6],[-96.1,67.3],[-94.2,69.1],[-96.5,70.1],[-95.2,71.9],[-87.4,67.2],[-85.5,69.9],[-82.6,69.7],[-81.4,67.1],[-85.8,66.6],[-90.7,63.6],[-94.7,58.9],[-92.3,57.1],[-82.3,55.1],[-79.9,51.2],[-78.6,52.6],[-79.8,54.7],[-76.5,56.5],[-78.5,58.8],[-77.3,59.9],[-78.1,62.3],[-73.8,62.4],[-69.6,61.1],[-67.6,58.2],[-64.6,60.3],[-61.8,56.3],[-57.3,54.6],[-55.7,52.1],[-60,50.2],[-66.4,50.2],[-71.1,46.8],[-65.1,49.2],[-64.5,46.2],[-63.2,45.7],[-61.5,45.9],[-60.5,47],[-59.8,45.9],[-65.4,43.5],[-66.2,44.5],[-64.4,45.3],[-67.1,45.1],[-69.2,47.4],[-71.5,45],[-82.4,41.7],[-82.6,45.3],[-88.4,48.3],[-122.8,49]],[[-122.8,49],[-88.4,48.3],[-82.6,45.3],[-82.7,41.7],[-71.5,45],[-69.2,47.4],[-67,44.8],[-70.1,43.7],[-70,41.6],[-75.5,39.5],[-75.1,38.4],[-75.9,37.2],[-76.4,39.1],[-77,38.2],[-75.7,35.6],[-81.3,31.4],[-80.4,25.2],[-83.7,29.9],[-86.4,30.4],[-94.7,29.5],[-97.5,25.8],[-101,29.4],[-103.9,29.3],[-106.5,31.8],[-117.1,32.5],[-120.6,34.6],[-124.4,40.3],[-124.7,48.2],[-122.6,47.1]],[[-141,69.7],[-141,60.3],[-137.5,58.9],[-135.5,59.8],[-130,55.9],[-130.5,54.8],[-134.1,58.1],[-136.6,58.2],[-139.9,59.5],[-147.1,60.9],[-151.7,59.2],[-150.6,61.3],[-158.4,56],[-164.9,54.6],[-157,58.9],[-162,58.7],[-165.3,60.5],[-165.7,62.1],[-160.8,64.8],[-168.1,65.7],[-161.7,66.1],[-166.2,68.9],[-156.6,71.4]],[[87.4,49.2],[80,44.9],[80.3,42.3],[74.2,43.3],[68.6,40.7],[64.9,43.7],[62,43.5],[58.5,45.6],[55.9,45],[56,41.3],[52.5,41.8],[50.3,44.6],[53,45.3],[53,46.9],[49.1,46.4],[46.5,48.4],[50.8,51.7],[61.3,50.8],[60,52],[61.4,54],[69.1,55.4],[73.4,53.5],[76.9,54.5],[80,50.9]],[[141,-2.6],[147.6,-6.1],[147.2,-7.4],[150.7,-10.6],[144.7,-7.6],[141,-9.1]],[[141,-2.6],[141,-9.1],[137.6,-8.4],[137.9,-5.4],[133,-4.1],[132,-2.8],[133.7,-2.2],[130.5,-0.9],[134,-0.8],[135.5,-3.4],[137.4,-1.7]],[[117.9,4.1],[119,0.9],[116.1,-4],[110.2,-2.9],[109.7,2],[110.5,0.8],[113.8,1.2],[115.9,4.3]],[[-57.6,-30.2],[-58.5,-34.4],[-56.8,-36.9],[-62.3,-38.8],[-62.7,-41],[-65.1,-41.1],[-63.5,-42.6],[-67.3,-45.6],[-65.6,-47.2],[-69.1,-50.7],[-68.1,-52.3],[-71.9,-52],[-73.4,-49.3],[-71.2,-44.8],[-72.1,-42.3],[-68.4,-24.5],[-66.3,-21.8],[-62.8,-22],[-57.8,-25.2],[-58.6,-27.1],[-55.7,-27.4],[-54.1,-25.5],[-53.6,-26.9]],[[-69.6,-17.6],[-67,-23],[-70.5,-31.4],[-69.8,-34.2],[-72.1,-42.3],[-71.2,-44.8],[-73.4,-49.3],[-71.9,-52],[-68.6,-52.3],[-71.4,-53.9],[-74.9,-52.3],[-75.6,-48.7],[-74.1,-46.9],[-75.6,-46.6],[-72.7,-42.4],[-74.3,-43.2]],[[29.3,-4.5],[30.7,-8.3],[28.7,-8.5],[28.4,-11.8],[29.7,-13.3],[22.2,-11.1],[21.7,-7.3],[17.5,-8.1],[16.3,-5.9],[12.2,-5.8],[16,-3.5],[19.5,5],[29.7,4.6],[31.2,2.2]],[[41.6,-1.7],[41,2.8],[45,5],[48.9,9.5],[48.9,11.4],[51.1,12],[48.6,5.3]],[[39.2,-4.7],[33.9,-1],[35.3,5.5],[38.1,3.6],[41.9,3.9],[41.6,-1.7]],[[25.1,10.3],[23.8,8.7],[23.5,9],[21.9,12.6],[25,22],[36.9,22],[38.4,18],[34,8.7],[32.7,12.2],[31.4,9.8]],[[23.8,19.6],[23.9,15.6],[21.9,12.6],[22.9,11.1],[15.3,7.4],[13.5,14.4],[15.9,20.4],[14.9,22.9]],[[49.1,46.4],[46.7,44.6],[47.8,41.2],[36.7,45.2],[40.1,49.6],[31.8,52.1],[32.7,53.4],[30.9,55.6],[27.3,57.5],[29.1,60],[28.1,60.5],[31.5,62.9],[30,63.6],[28.6,69.1],[32.1,69.9],[41.1,67.5],[38.4,66],[33.2,66.6],[37,63.8],[37.2,65.1],[43.9,66.1],[43.5,68.6],[46.3,68.2],[46.3,66.7],[53.7,68.9],[59.9,68.3],[60.6,69.9],[68.5,68.1],[66.7,71],[69.9,73],[72.8,72.2],[71.8,71.4],[73.7,68.4],[71.3,66.3],[72.4,66.2],[75.1,67.8],[73.1,71.4],[74.7,72.8],[76.4,71.2],[81.5,71.8],[80.5,73.6],[104.4,77.7],[114.1,75.8],[109.4,74.2],[127,73.6],[131.3,70.8],[139.9,71.5],[139.1,72.4],[140.5,72.8],[159,70.9],[160.9,69.4],[180,69],[180,65],[177.4,64.6],[179.2,62.3],[170.3,59.9],[163.5,59.9],[162,58.2],[163.2,57.6],[162.1,54.9],[156.8,51],[155.9,56.8],[164.5,62.6],[160.1,60.5],[156.7,61.4],[154.2,59.8],[155,59.1],[142.2,59],[135.1,54.7],[141.3,53.1],[140.1,48.4],[134.9,43.4],[130.8,42.2],[131,45],[133.1,45.1],[135,48.5],[131,47.8],[123.6,53.5],[120.2,52.8],[117.9,49.5],[108.5,49.3],[98.9,52],[97.3,49.7],[92.2,50.8],[87.4,49.2],[80,50.9],[76.9,54.5],[73.4,53.5],[69.1,55.4],[61.4,54],[60,52],[61.3,50.8],[50.8,51.7],[47.5,50.5],[46.5,48.4]],[[-46.8,82.6],[-27.1,83.5],[-20.8,82.7],[-31.9,82.2],[-12.2,81.3],[-20,80.2],[-17.7,80.1],[-19.7,78.8],[-18.5,77],[-21.7,76.6],[-19.4,74.3],[-24.8,72.3],[-21.8,70.7],[-25.5,71.4],[-26.4,70.2],[-22.3,70.1],[-39.8,65.5],[-43.4,60.1],[-48.3,60.9],[-51.6,63.6],[-54,67.2],[-50.9,69.9],[-54.7,69.6],[-54.4,70.8],[-51.4,70.6],[-55.8,71.7],[-54.7,72.6],[-58.6,75.5],[-68.5,76.1],[-71.4,77],[-66.8,77.4],[-73.3,78],[-65.7,79.4],[-68,80.1],[-62.7,81.8],[-44.5,81.7]],[[16.3,-28.6],[19.9,-28.5],[19.9,-24.8],[21.6,-26.7],[25.7,-25.5],[29.4,-22.1],[31.2,-22.3],[31.9,-24.4],[30.7,-26.7],[32.8,-26.7],[28.2,-32.8],[20.1,-34.8],[18.4,-34.1]],[[-117.1,32.5],[-106.5,31.8],[-103.9,29.3],[-101.7,29.8],[-97.1,25.9],[-97.9,22.4],[-95.9,18.8],[-91.4,18.9],[-90.3,21],[-87.1,21.5],[-87.8,18.3],[-91,17.8],[-90.5,16.1],[-92.2,14.5],[-103.5,18.3],[-113.1,31.2],[-114.9,31.4],[-109.9,22.8],[-115.1,27.7],[-114.2,28.6]],[[-53.4,-33.8],[-53.8,-32],[-57.6,-30.2],[-53.6,-26.1],[-55.8,-22.4],[-57.9,-22.1],[-58.2,-16.3],[-60.2,-16.3],[-60.5,-13.8],[-65.4,-11.6],[-65.3,-9.8],[-70.5,-11],[-70.5,-9.5],[-72.2,-10.1],[-74,-7.5],[-72.9,-5.3],[-69.9,-4.3],[-69.8,1.7],[-65.5,0.8],[-63.4,2.2],[-64.8,4.1],[-60.7,5.2],[-59,1.3],[-52.9,2.1],[-51.3,4.2],[-50.4,-0.1],[-44.6,-2.7],[-40,-2.9],[-35.6,-5.1],[-34.7,-7.3],[-38.7,-13.1],[-40.9,-21.9],[-47.6,-24.9],[-48.9,-28.7]],[[-66.9,1.3],[-69.8,1.7],[-69.9,-4.3],[-70,-2.7],[-77.4,0.4],[-79,1.7],[-77.1,3.8],[-77.5,8.5],[-71.4,12.4],[-73.3,9.2],[-72,7],[-67.3,6.1]],[[2.5,51.1],[8.1,49],[6,46.7],[7.4,43.7],[1.8,42.3],[-1.9,43.4],[-1.2,46],[-4.6,48.7],[-1.6,48.6],[-1.9,49.8]],[[-13.8,13.5],[-17.6,14.7],[-14.6,16.6],[-11.5,12.4],[-16.7,12.4]],[[-11.5,12.4],[-11.7,15.4],[-5.5,15.5],[-6.5,25],[4.3,19.2],[3.6,15.6],[-4,13.5],[-5.4,10.4]],[[-17.1,21],[-12.9,21.3],[-12,25.9],[-8.7,25.9],[-8.7,27.4],[-4.9,25],[-6.5,25],[-5.5,15.5],[-12.2,14.6],[-14.6,16.6],[-16.5,16.1]],[[14.9,22.9],[15.9,20.4],[13.5,14.4],[14.2,12.5],[5.4,13.9],[3.6,11.7],[1,12.9],[0.4,14.9],[3.6,15.6],[4.3,19.2],[12,23.5]],[[2.7,6.3],[4.4,13.7],[13.1,13.6],[14.6,12.1],[11.7,7],[8.5,4.8],[5.9,4.3]],[[27.4,5.2],[22.4,4],[19.5,5],[16,2.3],[14.5,5.5],[15.3,7.4],[22.9,11.1]],[[30.7,-8.3],[33.2,-9.7],[33.2,-14],[27,-17.9],[23.2,-17.5],[21.9,-12.9],[24,-12.9],[23.9,-10.9],[29.7,-13.3],[28.4,-9.2]],[[34.6,-11.5],[40.3,-10.3],[40.8,-14.7],[34.8,-19.8],[35.5,-24.1],[32.1,-26.7],[31.2,-22.3],[32.8,-16.7],[30.2,-14.8],[33.2,-14],[35,-16.8]],[[12.3,-6.1],[16.3,-5.9],[17.5,-8.1],[21.7,-7.3],[22.2,-11.1],[24,-11.2],[24,-12.9],[21.9,-12.9],[23.2,-17.5],[11.7,-17.3],[13.7,-11.3]],[[49.5,-12.5],[50.4,-15.7],[47.1,-24.9],[45.4,-25.6],[43.3,-22.8],[44,-17.4]],[[178.5,-37.7],[174.7,-41.3],[174.7,-37.4],[172.6,-34.5],[176,-37.6]],[[131.3,-31.5],[118,-35.1],[115,-34.2],[113.7,-22.5],[120.9,-19.7],[125.7,-14.2],[129.6,-15],[132.4,-11.1],[136.5,-11.9],[135.5,-15],[140.2,-17.7],[142.5,-10.7],[146.4,-19],[150.7,-22.4],[153.6,-28.1],[150,-37.4],[146.3,-39],[140.6,-38],[138.2,-34.4],[136.8,-35.3],[137.8,-32.9],[136,-34.9]],[[80.3,42.3],[80,44.9],[87.8,49.3],[91,46.9],[90.9,45.3],[96.3,42.7],[109.2,42.5],[111.9,45.1],[119.7,46.7],[115.5,48.1],[122.2,53.4],[125.9,52.8],[131,47.8],[135,48.5],[133.1,45.1],[131,45],[130.6,42.4],[121.1,38.9],[121.6,40.9],[117.5,38.7],[122.4,37.5],[119.2,34.9],[121.9,31.7],[121.7,28.2],[118.7,24.5],[110.4,20.3],[105.3,23.4],[101.7,22.3],[101.8,21.2],[99.2,22.1],[97.6,23.9],[98.7,27.5],[96.1,29.5],[88.8,27.3],[78.7,31.5],[78.9,34.3],[73.7,39.4]],[[97.3,28.3],[92.7,22],[91.2,23.5],[92.4,25],[88.6,26.4],[88.9,21.7],[80.3,15.9],[79.9,10.4],[77.5,8],[72.6,21.4],[70.5,20.9],[68.2,23.7],[71,24.4],[69.5,26.9],[75.3,32.3],[73.7,34.3],[77.8,35.5],[78.7,31.5],[81.1,30.2],[80.1,28.8],[83.3,27.4],[88.1,26.4],[88.7,28.1],[92,26.8],[96.1,29.5]],[[11,58.9],[12.6,61.3],[11.9,63.1],[16.8,68],[20.6,69.1],[23.5,67.9],[23.9,66],[17.8,62.7],[17.1,61.3],[18.8,60.1],[15.9,56.1],[12.9,55.4]],[[28.2,56.2],[30.9,55.6],[32.7,53.4],[31.8,52.1],[23.5,51.6],[23.5,53.9]],[[31.8,52.1],[40.1,49.6],[39.7,47.9],[35,45.7],[31.7,46.7],[28.7,45.3],[30,46.4],[28.7,48.1],[22.1,48.4],[23.5,51.6]],[[6.8,46],[13.8,46.5],[12.6,44.1],[18.4,40.4],[18.3,39.8],[16.9,40.4],[15.7,37.9],[15.4,40],[10.2,43.9],[7.4,43.7]],[[141.9,39.2],[140.3,35.1],[135.8,33.5],[135.1,34.6],[131,33.9],[132,33.1],[130.2,31.4],[129.4,33.3],[139.4,38.2],[140.3,41.2]]];
-
-// ═══════════════════════════════════════
-// UI UTILS
-// ═══════════════════════════════════════
+// ── Utils ──
 function showToast(msg) {
-  const t = document.getElementById('toast');
+  var t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+  setTimeout(function() { t.classList.remove('show'); }, 2800);
 }
-
 function timeAgo(ts) {
-  const d = Date.now() - new Date(ts).getTime();
-  const m = Math.floor(d/60000), h = Math.floor(d/3600000), dy = Math.floor(d/86400000);
-  if(dy>0) return dy+'d'; if(h>0) return h+'h'; if(m>0) return m+'m'; return 'now';
+  var d = Date.now() - new Date(ts).getTime();
+  var m = Math.floor(d/60000), h = Math.floor(d/3600000), dy = Math.floor(d/86400000);
+  if (dy > 0) return dy + 'd';
+  if (h > 0) return h + 'h';
+  if (m > 0) return m + 'm';
+  return 'now';
+}
+function country(cc) {
+  return COUNTRIES.find(function(c) { return c.c === cc; }) || {c:'US',n:'Unknown',f:'\uD83C\uDF0D',lo:0,la:0};
+}
+function populateSel(id) {
+  var el = document.getElementById(id);
+  if (!el || el.children.length > 1) return;
+  COUNTRIES.forEach(function(c) {
+    var o = document.createElement('option');
+    o.value = c.c; o.textContent = c.f + ' ' + c.n;
+    el.appendChild(o);
+  });
 }
 
-function previewPhoto(e) {
-  const f = e.target.files[0]; if(!f) return;
-  pendingPhoto = f;
-  const r = new FileReader();
-  r.onload = ev => {
-    document.getElementById('su-preview').src = ev.target.result;
-    document.getElementById('su-preview').style.display = 'block';
-    document.getElementById('su-photo-icon').style.display = 'none';
+// ── Navigation ──
+function navTo(id, btn) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.nb').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('sec-' + id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id === 'profile') renderProfile();
+  if (id === 'chat') { renderChatBottom(); setTimeout(function() { var el = document.getElementById('chatEl'); if (el) el.scrollTop = el.scrollHeight; }, 100); }
+}
+window.navTo = navTo;
+
+// ── Topbar ──
+function renderTopbar() {
+  var wrap = document.getElementById('tb-auth');
+  wrap.innerHTML = '';
+  if (currentUser && profile) {
+    var btn = document.createElement('button');
+    btn.className = 'tb-av';
+    btn.textContent = (profile.name || 'U')[0].toUpperCase();
+    if (profile.photo_url) {
+      btn.style.backgroundImage = 'url(' + profile.photo_url + ')';
+      btn.style.backgroundSize = 'cover';
+      btn.style.backgroundPosition = 'center';
+      btn.style.color = 'transparent';
+    }
+    btn.addEventListener('click', function() { navTo('profile', document.getElementById('nb-profile')); });
+    wrap.appendChild(btn);
+  } else {
+    var btn = document.createElement('button');
+    btn.className = 'tb-signin-btn';
+    btn.textContent = 'Sign in';
+    btn.addEventListener('click', function() { openAuth(null); });
+    wrap.appendChild(btn);
+  }
+}
+
+// ── Auth modal ──
+function openAuth(action) {
+  pendingAction = action || null;
+  populateSel('su-country'); populateSel('ob-country');
+  document.getElementById('auth-onboard').style.display = 'none';
+  document.getElementById('auth-main').style.display = 'block';
+  var titles = {
+    pray: ['Share your prayer', 'Create a free account — thousands worldwide will pray with you.'],
+    chat: ['Join the conversation', 'Create a free account to chat with Christians from 156 nations.'],
   };
-  r.readAsDataURL(f);
+  var t = titles[action] || ['Join GlobePray', 'Free, no ads. Your prayer on the globe. Thousands praying with you.'];
+  document.getElementById('auth-title').textContent = t[0];
+  document.getElementById('auth-sub').textContent = t[1];
+  document.getElementById('ov-auth').classList.add('open');
+}
+function closeAuth() { document.getElementById('ov-auth').classList.remove('open'); }
+window.closeAuth = closeAuth;
+
+function switchAuthTab(tab) {
+  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('tab-signin').classList.toggle('active', tab === 'signin');
+  document.getElementById('panel-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('panel-signin').classList.toggle('active', tab === 'signin');
+}
+window.switchAuthTab = switchAuthTab;
+
+// ── Photo previews ──
+function previewPhoto(file, imgId, iconId) {
+  if (!file) return;
+  var r = new FileReader();
+  r.onload = function(ev) {
+    document.getElementById(imgId).src = ev.target.result;
+    document.getElementById(imgId).style.display = 'block';
+    document.getElementById(iconId).style.display = 'none';
+  };
+  r.readAsDataURL(file);
+}
+async function uploadPhoto(file, uid) {
+  if (!file) return null;
+  var ext = file.name.split('.').pop();
+  var res = await sb.storage.from('avatars').upload(uid + '.' + ext, file, {upsert: true});
+  if (!res.data) return null;
+  return sb.storage.from('avatars').getPublicUrl(uid + '.' + ext).data.publicUrl;
 }
 
-function switchTab(id, el) {
-  document.querySelectorAll('.ltab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('panel-signup').classList.toggle('active', id==='signup');
-  document.getElementById('panel-signin').classList.toggle('active', id==='signin');
+// ── Sign Up ──
+async function doSignUp() {
+  var name = document.getElementById('su-name').value.trim();
+  var email = document.getElementById('su-email').value.trim();
+  var pass = document.getElementById('su-pass').value;
+  var lang = document.getElementById('su-lang').value;
+  var cc = document.getElementById('su-country').value;
+  var err = document.getElementById('su-err');
+  err.textContent = '';
+  if (!name) { err.textContent = 'Enter your name.'; return; }
+  if (!email) { err.textContent = 'Enter your email.'; return; }
+  if (pass.length < 8) { err.textContent = 'Password must be 8+ characters.'; return; }
+  if (!cc) { err.textContent = 'Select your country.'; return; }
+  var btn = document.getElementById('su-btn');
+  btn.textContent = 'Creating...'; btn.disabled = true;
+  var res = await sb.auth.signUp({email: email, password: pass});
+  if (res.error) { err.textContent = res.error.message; btn.textContent = 'Join GlobePray — Free'; btn.disabled = false; return; }
+  var ct = country(cc);
+  var photoUrl = await uploadPhoto(pendingPhoto, res.data.user.id);
+  var prof = {id: res.data.user.id, name: name, email: email, lang: lang, country: ct.n, country_code: cc, flag: ct.f, lon: ct.lo, lat: ct.la, photo_url: photoUrl};
+  await sb.from('profiles').upsert(prof);
+  profile = prof; currentUser = res.data.user;
+  closeAuth(); afterLogin();
 }
 
-function setNav(id, btn) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('active'));
-  document.getElementById('sec-'+id).classList.add('active');
-  btn.classList.add('active');
-  if(id==='chat') setTimeout(() => { const el=document.getElementById('chatEl'); if(el) el.scrollTop=el.scrollHeight; }, 100);
+// ── Sign In ──
+async function doSignIn() {
+  var email = document.getElementById('si-email').value.trim();
+  var pass = document.getElementById('si-pass').value;
+  var err = document.getElementById('si-err');
+  err.textContent = '';
+  if (!email || !pass) { err.textContent = 'Fill all fields.'; return; }
+  var btn = document.getElementById('si-btn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+  var res = await sb.auth.signInWithPassword({email: email, password: pass});
+  if (res.error) { err.textContent = 'Invalid email or password.'; btn.textContent = 'Sign In'; btn.disabled = false; return; }
+  currentUser = res.data.user;
+  var prof = await sb.from('profiles').select('*').eq('id', currentUser.id).single();
+  profile = prof.data;
+  closeAuth(); afterLogin();
 }
 
-function showSection(id) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('active'));
-  document.getElementById('sec-'+id)?.classList.add('active');
-  document.getElementById('nb-'+id)?.classList.add('active');
+// ── Google ──
+async function doGoogle() {
+  await sb.auth.signInWithOAuth({provider: 'google', options: {redirectTo: window.location.href}});
 }
 
-function showForgot() { document.getElementById('ov-forgot').classList.add('open'); }
-function closeForgot() { document.getElementById('ov-forgot').classList.remove('open'); }
+// ── After login ──
+function afterLogin() {
+  renderTopbar(); renderMyPrayer(); renderProfile(); renderChatBottom();
+  if (pendingAction === 'pray') setTimeout(openPrayer, 300);
+  pendingAction = null;
+  showToast('Welcome to GlobePray \uD83D\uDE4F');
+}
+
+// ── Logout ──
+async function doLogout() {
+  await sb.auth.signOut();
+  currentUser = null; profile = null;
+  if (prayerCh) { sb.removeChannel(prayerCh); prayerCh = null; }
+  if (chatCh) { sb.removeChannel(chatCh); chatCh = null; }
+  renderTopbar(); renderMyPrayer(); renderProfile(); renderChatBottom();
+}
+
+// ── Google onboarding ──
+function showOnboarding(user) {
+  populateSel('ob-country');
+  document.getElementById('auth-onboard').style.display = 'block';
+  document.getElementById('auth-main').style.display = 'none';
+  var gPhoto = user.user_metadata && user.user_metadata.avatar_url;
+  var avEl = document.getElementById('ob-av');
+  if (gPhoto) { avEl.innerHTML = '<img src="' + gPhoto + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'; }
+  else { avEl.textContent = ((user.user_metadata && user.user_metadata.full_name) || user.email || '?')[0].toUpperCase(); }
+  document.getElementById('ob-uname').textContent = (user.user_metadata && user.user_metadata.full_name) || user.email.split('@')[0];
+  document.getElementById('ob-uemail').textContent = user.email;
+  if (gPhoto) {
+    document.getElementById('ob-preview').src = gPhoto;
+    document.getElementById('ob-preview').style.display = 'block';
+    document.getElementById('ob-ph-icon').style.display = 'none';
+  }
+  document.getElementById('ov-auth').classList.add('open');
+}
+
+async function doFinishOnboarding() {
+  var lang = document.getElementById('ob-lang').value;
+  var cc = document.getElementById('ob-country').value;
+  var err = document.getElementById('ob-err');
+  if (!cc) { err.textContent = 'Please select your country.'; return; }
+  err.textContent = '';
+  var ct = country(cc);
+  var photoUrl = (currentUser.user_metadata && currentUser.user_metadata.avatar_url) || null;
+  if (obPhoto) photoUrl = await uploadPhoto(obPhoto, currentUser.id) || photoUrl;
+  var prof = {id: currentUser.id, name: (currentUser.user_metadata && currentUser.user_metadata.full_name) || currentUser.email.split('@')[0], email: currentUser.email, lang: lang, country: ct.n, country_code: cc, flag: ct.f, lon: ct.lo, lat: ct.la, photo_url: photoUrl};
+  await sb.from('profiles').upsert(prof);
+  profile = prof; closeAuth(); afterLogin();
+}
+
+// ── My Prayer ──
+function renderMyPrayer() {
+  var box = document.getElementById('myBox');
+  if (!currentUser) {
+    var d = document.createElement('div');
+    d.className = 'mp-teaser';
+    d.innerHTML = '<div class="mp-teaser-txt"><div class="mp-teaser-title">\uD83D\uDE4F Share a prayer request</div><div class="mp-teaser-sub">Thousands of Christians worldwide will pray with you.</div></div>';
+    var btn = document.createElement('button');
+    btn.className = 'mp-teaser-btn';
+    btn.textContent = 'Pray \u2192';
+    btn.addEventListener('click', function() { openAuth('pray'); });
+    d.appendChild(btn);
+    box.innerHTML = ''; box.appendChild(d);
+    return;
+  }
+  var myText = localStorage.getItem('gp_p_' + currentUser.id);
+  var myTime = parseInt(localStorage.getItem('gp_pt_' + currentUser.id) || '0');
+  var elapsed = Date.now() - myTime;
+  if (!myText || elapsed > 86400000) {
+    box.innerHTML = '<div class="mp-empty"><div class="mp-icon">\uD83D\uDE4F</div><div class="mp-txt">Share your prayer request with thousands of Christians worldwide.</div></div>';
+    var btn = document.createElement('button');
+    btn.className = 'mp-btn';
+    btn.textContent = 'Share my prayer';
+    btn.addEventListener('click', openPrayer);
+    box.querySelector('.mp-empty').appendChild(btn);
+  } else {
+    var rem = 86400000 - elapsed;
+    var h = Math.floor(rem/3600000), m = Math.floor((rem%3600000)/60000);
+    var pc = parseInt(localStorage.getItem('gp_pc_' + currentUser.id) || '0');
+    box.innerHTML = '<div class="mp-live"><div class="mp-top"><div class="mp-badge">My Prayer \u00B7 Active</div><div class="mp-timer">New in ' + h + 'h ' + m + 'm</div></div><div class="mp-content">' + myText + '</div><div class="mp-pc"><strong>' + (pc + 12) + '</strong> people praying with you</div></div>';
+  }
+}
 function openPrayer() { document.getElementById('ov-prayer').classList.add('open'); }
 function closePrayer() { document.getElementById('ov-prayer').classList.remove('open'); }
-function closeDotPop() { document.getElementById('dotpop').classList.remove('show'); }
-
-// ═══════════════════════════════════════
-// AUTH
-// ═══════════════════════════════════════
-async function signUp() {
-  const name = document.getElementById('su-name').value.trim();
-  const email = document.getElementById('su-email').value.trim();
-  const pass = document.getElementById('su-pass').value;
-  const lang = document.getElementById('su-lang').value;
-  const cc = document.getElementById('su-country').value;
-  const err = document.getElementById('su-err');
-  err.textContent = '';
-
-  if(!name){err.textContent='Enter your name.';return;}
-  if(!email){err.textContent='Enter your email.';return;}
-  if(pass.length<8){err.textContent='Password must be 8+ characters.';return;}
-  if(!cc){err.textContent='Select your country.';return;}
-
-  const btn = document.getElementById('su-btn');
-  btn.textContent='Creating account...'; btn.disabled=true;
-
-  const { data, error } = await sb.auth.signUp({ email, password: pass });
-  if(error){ err.textContent=error.message; btn.textContent='Join GlobePray — Free'; btn.disabled=false; return; }
-
-  const country = COUNTRIES.find(c=>c.c===cc)||{c:'US',n:'Unknown',f:'🌍',lo:0,la:0};
-  const prof = { id: data.user.id, name, email, lang, country: country.n, country_code: cc, flag: country.f, lon: country.lo, lat: country.la, photo_url: null };
-
-  // Upload photo if any
-  if(pendingPhoto) {
-    const ext = pendingPhoto.name.split('.').pop();
-    const { data: upd } = await sb.storage.from('avatars').upload(data.user.id+'.'+ext, pendingPhoto, {upsert:true});
-    if(upd) {
-      const { data: urlD } = sb.storage.from('avatars').getPublicUrl(data.user.id+'.'+ext);
-      prof.photo_url = urlD.publicUrl;
-    }
-  }
-
-  await sb.from('profiles').upsert(prof);
-  profile = prof;
-  currentUser = data.user;
-  enterApp();
-}
-
-async function signIn() {
-  const email = document.getElementById('si-email').value.trim();
-  const pass = document.getElementById('si-pass').value;
-  const err = document.getElementById('si-err');
-  err.textContent = '';
-  if(!email||!pass){err.textContent='Fill all fields.';return;}
-
-  const btn = document.getElementById('si-btn');
-  btn.textContent='Signing in...'; btn.disabled=true;
-
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  if(error){ err.textContent='Invalid email or password.'; btn.textContent='Sign In'; btn.disabled=false; return; }
-
-  currentUser = data.user;
-  const { data: prof } = await sb.from('profiles').select('*').eq('id', data.user.id).single();
-  profile = prof;
-  enterApp();
-}
-
-async function googleSignIn() {
-  await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
-}
-
-async function sendReset() {
-  const email = document.getElementById('forgot-email').value.trim();
-  if(!email){showToast('Enter your email.');return;}
-  await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
-  closeForgot();
-  showToast('Reset link sent! Check your inbox.');
-}
-
-async function logout() {
-  await sb.auth.signOut();
-  if(chatUnsub) chatUnsub();
-  if(prayerUnsub) prayerUnsub();
-  currentUser = null; profile = null;
-  document.getElementById('s-app').classList.remove('active');
-  document.getElementById('s-login').classList.add('active');
-}
-
-// ═══════════════════════════════════════
-// ENTER APP
-// ═══════════════════════════════════════
-function enterApp() {
-  document.getElementById('s-login').classList.remove('active');
-  document.getElementById('s-app').classList.add('active');
-  updateProfileUI();
-  renderMyPrayer();
-  loadPrayers();
-  loadChat();
-  startLiveCount();
-  initAppGlobe();
-}
-
-function updateProfileUI() {
-  if(!profile) return;
-  const init = (profile.name||'U')[0].toUpperCase();
-  const av = document.getElementById('tb-av');
-  if(profile.photo_url){ av.style.backgroundImage=`url(${profile.photo_url})`; av.textContent=''; } else { av.textContent=init; }
-  const pav = document.getElementById('p-av');
-  if(profile.photo_url){ pav.innerHTML=`<img src="${profile.photo_url}" alt="">`; } else { pav.textContent=init; }
-  document.getElementById('p-name').textContent = profile.name||'';
-  document.getElementById('p-email').textContent = profile.email||currentUser?.email||'';
-  document.getElementById('p-country').textContent = (profile.flag||'') + ' ' + (profile.country||'');
-  document.getElementById('p-lang').textContent = {en:'English',fr:'Français',es:'Español',pt:'Português'}[profile.lang||'en'];
-}
-
-// ═══════════════════════════════════════
-// PRAYERS
-// ═══════════════════════════════════════
-function renderMyPrayer() {
-  const box = document.getElementById('myBox');
-  const myText = localStorage.getItem('gp_p_'+currentUser?.id);
-  const myTime = parseInt(localStorage.getItem('gp_pt_'+currentUser?.id)||'0');
-  const elapsed = Date.now() - myTime;
-  const canPost = !myText || elapsed > 86400000;
-
-  if(canPost) {
-    box.innerHTML = `<div class="mp-empty"><div class="mp-icon">🙏</div><div class="mp-txt">Share your prayer request with thousands of Christians worldwide.</div><button class="mp-btn" onclick="openPrayer()">Share my prayer</button></div>`;
-  } else {
-    const rem = 86400000 - elapsed;
-    const h = Math.floor(rem/3600000), m = Math.floor((rem%3600000)/60000);
-    const pc = parseInt(localStorage.getItem('gp_pc_'+currentUser?.id)||'0');
-    box.innerHTML = `<div class="mp-live"><div class="mp-top"><div class="mp-badge">My Prayer · Active</div><div class="mp-timer">New in ${h}h ${m}m</div></div><div class="mp-content">${myText}</div><div class="mp-pc"><strong>${pc+12}</strong> people praying with you</div></div>`;
-  }
-}
-
-async function submitPrayer() {
-  const txt = document.getElementById('prayIn').value.trim();
-  if(!txt) return;
-  if(!profile) return;
-
-  const prayer = {
-    user_id: currentUser.id,
-    name: profile.name,
-    flag: profile.flag,
-    country: profile.country,
-    country_code: profile.country_code,
-    lon: profile.lon,
-    lat: profile.lat,
-    photo_url: profile.photo_url,
-    text: txt,
-    pray_count: 0,
-    lang: profile.lang || 'en',
-  };
-
-  const { error } = await sb.from('prayers').insert(prayer);
-  if(error) { showToast('Error posting prayer.'); return; }
-
-  localStorage.setItem('gp_p_'+currentUser.id, txt);
-  localStorage.setItem('gp_pt_'+currentUser.id, Date.now());
-  localStorage.setItem('gp_pc_'+currentUser.id, '0');
+async function doSubmitPrayer() {
+  var txt = document.getElementById('prayIn').value.trim();
+  if (!txt) return;
+  var p = {user_id: currentUser.id, name: profile.name, flag: profile.flag, country: profile.country, country_code: profile.country_code, lon: profile.lon, lat: profile.lat, photo_url: profile.photo_url, text: txt, pray_count: 0, lang: profile.lang || 'en'};
+  var res = await sb.from('prayers').insert(p);
+  if (res.error) { showToast('Error posting prayer.'); return; }
+  localStorage.setItem('gp_p_' + currentUser.id, txt);
+  localStorage.setItem('gp_pt_' + currentUser.id, Date.now());
+  localStorage.setItem('gp_pc_' + currentUser.id, '0');
   document.getElementById('prayIn').value = '';
-  closePrayer();
-  renderMyPrayer();
-  showToast('Prayer shared with the world 🙏');
+  closePrayer(); renderMyPrayer();
+  showToast('Prayer shared with the world \uD83D\uDE4F');
 }
 
+// ── Feed ──
 function loadPrayers() {
-  // Initial load
-  sb.from('prayers').select('*').order('created_at', {ascending:false}).limit(20)
-    .then(({data}) => {
-      if(data) { prayers = data; renderFeed(); updateGlobeDots(); }
-    });
-
-  // Realtime
-  prayerUnsub = sb.channel('prayers-channel')
-    .on('postgres_changes', {event:'INSERT', schema:'public', table:'prayers'}, payload => {
-      prayers.unshift(payload.new);
-      renderFeed();
-      updateGlobeDots();
+  sb.from('prayers').select('*').order('created_at', {ascending: false}).limit(20).then(function(res) {
+    if (res.data) { prayers = res.data; renderFeed(); updateDots(); }
+  });
+  prayerCh = sb.channel('prayers-ch')
+    .on('postgres_changes', {event: 'INSERT', schema: 'public', table: 'prayers'}, function(p) {
+      prayers.unshift(p.new); renderFeed(); updateDots();
       document.getElementById('sPray').textContent = prayers.length;
     })
-    .on('postgres_changes', {event:'UPDATE', schema:'public', table:'prayers'}, payload => {
-      const idx = prayers.findIndex(p=>p.id===payload.new.id);
-      if(idx>=0) prayers[idx] = payload.new;
-      renderFeed();
+    .on('postgres_changes', {event: 'UPDATE', schema: 'public', table: 'prayers'}, function(p) {
+      var i = prayers.findIndex(function(x) { return x.id === p.new.id; });
+      if (i >= 0) prayers[i] = p.new; renderFeed();
     })
     .subscribe();
 }
 
 function renderFeed() {
-  const el = document.getElementById('feedEl');
+  var el = document.getElementById('feedEl');
   document.getElementById('sPray').textContent = prayers.length;
-  if(!prayers.length){ el.innerHTML='<div class="empty">No prayers yet. Be the first.</div>'; return; }
+  if (!prayers.length) { el.innerHTML = '<div class="empty-state">No prayers yet. Be the first.</div>'; return; }
   el.innerHTML = '';
-  prayers.forEach(p => {
-    const div = document.createElement('div');
+  prayers.forEach(function(p) {
+    var div = document.createElement('div');
     div.className = 'fi';
-    const isMe = currentUser && p.user_id === currentUser.id;
-    const av = p.photo_url
-      ? `<img class="fi-av" src="${p.photo_url}" alt="">`
-      : `<div class="fi-av-txt">${(p.name||'?')[0].toUpperCase()}</div>`;
-    div.innerHTML = `
-      <div class="fi-head">
-        ${av}
-        <div class="fi-info">
-          <div class="fi-name">${p.name||'Anonymous'} ${p.flag||''}</div>
-          <div class="fi-sub">${p.country||''}</div>
-        </div>
-        <div class="fi-time">${timeAgo(p.created_at)}</div>
-      </div>
-      <div class="fi-body">${p.text||''}</div>
-      <div class="fi-foot">
-        <button class="fi-pbtn${p._prayed?' done':''}" onclick="prayFor(this,'${p.id}')">
-          ${p._prayed ? '✓ Praying' : '🙏 I\'m praying'}
-        </button>
-        <div class="fi-cnt">${p.pray_count||0} praying</div>
-      </div>`;
+    var avHtml = p.photo_url ? '<img class="fi-av" src="' + p.photo_url + '" alt="">' : '<div class="fi-av-txt">' + (p.name || '?')[0].toUpperCase() + '</div>';
+    div.innerHTML = '<div class="fi-head">' + avHtml + '<div class="fi-info"><div class="fi-name">' + (p.name || 'Anonymous') + ' ' + (p.flag || '') + '</div><div class="fi-sub">' + (p.country || '') + '</div></div><div class="fi-time">' + timeAgo(p.created_at) + '</div></div><div class="fi-body">' + (p.text || '') + '</div><div class="fi-foot"></div>';
+    var btn = document.createElement('button');
+    btn.className = 'fi-pbtn' + (p._prayed ? ' done' : '');
+    btn.textContent = p._prayed ? '\u2713 Praying' : '\uD83D\uDE4F Praying with you';
+    var cntEl = document.createElement('div');
+    cntEl.className = 'fi-cnt';
+    cntEl.textContent = (p.pray_count || 0) + ' praying';
+    btn.addEventListener('click', (function(prayer, b, c) { return function() { doPrayFor(prayer, b, c); }; })(p, btn, cntEl));
+    div.querySelector('.fi-foot').appendChild(btn);
+    div.querySelector('.fi-foot').appendChild(cntEl);
     el.appendChild(div);
   });
 }
 
-async function prayFor(btn, id) {
-  if(btn.classList.contains('done')) return;
-  btn.classList.add('done'); btn.textContent='✓ Praying';
-  const cnt = btn.nextElementSibling;
-  const cur = parseInt(cnt.textContent)||0;
-  cnt.textContent = (cur+1)+' praying';
-  const p = prayers.find(x=>x.id===id);
-  if(p) { p._prayed=true; p.pray_count=(p.pray_count||0)+1; }
-  if(currentUser) {
-    localStorage.setItem('gp_pc_'+currentUser.id, (parseInt(localStorage.getItem('gp_pc_'+currentUser.id)||'0')+1));
-    await sb.from('prayers').update({pray_count: (p?.pray_count||1)}).eq('id', id);
-  }
+async function doPrayFor(p, btn, cntEl) {
+  if (p._prayed) return;
+  p._prayed = true; p.pray_count = (p.pray_count || 0) + 1;
+  btn.className = 'fi-pbtn done'; btn.textContent = '\u2713 Praying';
+  cntEl.textContent = p.pray_count + ' praying';
+  if (currentUser) localStorage.setItem('gp_pc_' + currentUser.id, (parseInt(localStorage.getItem('gp_pc_' + currentUser.id) || '0') + 1));
+  await sb.from('prayers').update({pray_count: p.pray_count}).eq('id', p.id);
 }
 
-function updateGlobeDots() {
-  globeDots = prayers.filter(p=>p.lon&&p.lat).map(p=>({
-    lon:p.lon, lat:p.lat, name:p.name, flag:p.flag, txt:p.text, photo:p.photo_url
-  }));
+function updateDots() {
+  globeDots = prayers.filter(function(p) { return p.lon && p.lat; }).map(function(p) { return {lon: p.lon, lat: p.lat, name: p.name, flag: p.flag, txt: p.text, photo: p.photo_url}; });
 }
 
-// ═══════════════════════════════════════
-// CHAT
-// ═══════════════════════════════════════
-let chatMessages = [];
-
+// ── Chat ──
 function loadChat() {
-  sb.from('chat').select('*').order('created_at',{ascending:true}).limit(50)
-    .then(({data}) => { if(data){ chatMessages=data; renderChat(); } });
-
-  chatUnsub = sb.channel('chat-channel')
-    .on('postgres_changes', {event:'INSERT', schema:'public', table:'chat'}, payload => {
-      chatMessages.push(payload.new);
-      renderChat();
+  sb.from('chat').select('*').order('created_at', {ascending: true}).limit(60).then(function(res) {
+    if (res.data) { chatMessages = res.data; renderChat(); }
+  });
+  chatCh = sb.channel('chat-ch')
+    .on('postgres_changes', {event: 'INSERT', schema: 'public', table: 'chat'}, function(p) {
+      chatMessages.push(p.new); renderChat();
     })
     .subscribe();
 }
 
 function renderChat() {
-  const el = document.getElementById('chatEl');
+  var el = document.getElementById('chatEl');
   el.innerHTML = '';
-  chatMessages.forEach(m => {
-    const isMe = currentUser && m.user_id === currentUser.id;
-    const div = document.createElement('div');
-    div.className = 'cm' + (isMe?' cm-me':'');
-    const av = m.photo_url
-      ? `<img class="cm-av" src="${m.photo_url}" alt="">`
-      : `<div class="cm-av-txt">${(m.name||'?')[0].toUpperCase()}</div>`;
-    div.innerHTML = `
-      ${!isMe ? av : ''}
-      <div class="cm-bwrap">
-        ${!isMe ? `<div class="cm-meta"><span class="cm-name">${m.name||'?'}</span><span class="cm-flag">${m.flag||''}</span><span class="cm-time">${timeAgo(m.created_at)}</span></div>` : ''}
-        <div class="cm-bubble ${isMe?'cm-bubble-me':''}">${m.text||''}</div>
-      </div>`;
+  chatMessages.forEach(function(m) {
+    var isMe = currentUser && m.user_id === currentUser.id;
+    var div = document.createElement('div');
+    div.className = 'cm' + (isMe ? ' cm-me' : '');
+    var avHtml = m.photo_url ? '<img class="cm-av" src="' + m.photo_url + '" alt="">' : '<div class="cm-av-txt">' + (m.name || '?')[0].toUpperCase() + '</div>';
+    var metaHtml = !isMe ? '<div class="cm-meta"><span class="cm-name">' + (m.name || '?') + '</span><span class="cm-flag">' + (m.flag || '') + '</span><span class="cm-time">' + timeAgo(m.created_at) + '</span></div>' : '';
+    div.innerHTML = (!isMe ? avHtml : '') + '<div class="cm-bwrap">' + metaHtml + '<div class="cm-bubble ' + (isMe ? 'cm-bubble-me' : '') + '">' + (m.text || '') + '</div></div>';
     el.appendChild(div);
   });
   el.scrollTop = el.scrollHeight;
 }
 
-async function sendChat() {
-  const inp = document.getElementById('chatIn');
-  const txt = inp.value.trim();
-  if(!txt || !currentUser || !profile) return;
+function renderChatBottom() {
+  var el = document.getElementById('chat-bottom');
+  el.innerHTML = '';
+  if (!currentUser) {
+    var locked = document.createElement('div');
+    locked.className = 'chat-locked';
+    locked.innerHTML = '<div class="chat-locked-txt">Join to chat with Christians worldwide \uD83C\uDF0D</div>';
+    var btn = document.createElement('button');
+    btn.className = 'chat-locked-btn';
+    btn.textContent = 'Join free';
+    btn.addEventListener('click', function() { openAuth('chat'); });
+    locked.appendChild(btn);
+    el.appendChild(locked);
+  } else {
+    var bar = document.createElement('div');
+    bar.className = 'chat-bar';
+    var inp = document.createElement('input');
+    inp.className = 'chat-in'; inp.id = 'chatIn'; inp.placeholder = 'A word, a prayer...';
+    inp.addEventListener('keydown', function(e) { if (e.key === 'Enter') doSendChat(); });
+    var sendBtn = document.createElement('button');
+    sendBtn.className = 'chat-send';
+    sendBtn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    sendBtn.addEventListener('click', doSendChat);
+    bar.appendChild(inp); bar.appendChild(sendBtn);
+    el.appendChild(bar);
+  }
+}
+
+async function doSendChat() {
+  var inp = document.getElementById('chatIn');
+  if (!inp) return;
+  var txt = inp.value.trim();
+  if (!txt || !currentUser || !profile) return;
   inp.value = '';
-  await sb.from('chat').insert({
-    user_id: currentUser.id,
-    name: profile.name,
-    flag: profile.flag,
-    photo_url: profile.photo_url,
-    text: txt,
-  });
+  await sb.from('chat').insert({user_id: currentUser.id, name: profile.name, flag: profile.flag, photo_url: profile.photo_url, text: txt});
 }
 
-// ═══════════════════════════════════════
-// LIVE COUNT
-// ═══════════════════════════════════════
+// ── Profile ──
+function renderProfile() {
+  var el = document.getElementById('profile-content');
+  if (!currentUser || !profile) {
+    el.innerHTML = '<div class="guest-profile"><div class="gp-icon">\uD83C\uDF0D</div><div class="gp-title">Join GlobePray</div><div class="gp-sub">Create a free account to share your prayer, appear on the globe, track who prays with you, and chat with Christians from 156 nations.</div></div>';
+    var btn1 = document.createElement('button'); btn1.className = 'gp-btn'; btn1.textContent = 'Create free account';
+    btn1.addEventListener('click', function() { openAuth(null); });
+    var btn2 = document.createElement('button'); btn2.className = 'gp-sub-btn'; btn2.textContent = 'Already have an account? Sign in';
+    btn2.addEventListener('click', function() { openAuth(null); setTimeout(function() { switchAuthTab('signin'); }, 100); });
+    el.querySelector('.guest-profile').appendChild(btn1);
+    el.querySelector('.guest-profile').appendChild(btn2);
+    return;
+  }
+  var init = (profile.name || 'U')[0].toUpperCase();
+  var avHtml = profile.photo_url ? '<img src="' + profile.photo_url + '" alt="">' : init;
+  var langNames = {en:'English',fr:'Fran\u00E7ais',es:'Espa\u00F1ol',pt:'Portugu\u00EAs'};
+  el.innerHTML = '<div class="prof-wrap"><div class="pav-wrap"><div class="pav">' + avHtml + '</div></div><div class="pname">' + (profile.name || '') + '</div><div class="pemail">' + (profile.email || currentUser.email || '') + '</div><div class="prow"><div class="prow-ic">\uD83C\uDF0D</div><div><div class="prow-lbl">Country</div><div class="prow-sub">' + (profile.flag || '') + ' ' + (profile.country || '') + '</div></div><div class="prow-arr">\u203A</div></div><div class="prow"><div class="prow-ic">\uD83D\uDD24</div><div><div class="prow-lbl">Language</div><div class="prow-sub">' + (langNames[profile.lang || 'en']) + '</div></div><div class="prow-arr">\u203A</div></div><div class="prow"><div class="prow-ic">\uD83D\uDE4F</div><div><div class="prow-lbl">My prayers</div><div class="prow-sub">History</div></div><div class="prow-arr">\u203A</div></div></div>';
+  var logoutBtn = document.createElement('button');
+  logoutBtn.className = 'p-logout'; logoutBtn.textContent = 'Sign Out';
+  logoutBtn.addEventListener('click', doLogout);
+  el.querySelector('.prof-wrap').appendChild(logoutBtn);
+}
+
+// ── Forgot ──
+function closeForgot() { document.getElementById('ov-forgot').classList.remove('open'); }
+async function doSendReset() {
+  var email = document.getElementById('forgot-email').value.trim();
+  if (!email) { showToast('Enter your email.'); return; }
+  await sb.auth.resetPasswordForEmail(email, {redirectTo: window.location.href});
+  closeForgot(); showToast('Reset link sent! Check your inbox.');
+}
+
+// ── Live count ──
 function startLiveCount() {
-  let base = 3200 + Math.floor(Math.random()*200);
-  function update() {
-    base += Math.floor(Math.random()*9)-4;
+  var base = 3200 + Math.floor(Math.random() * 200);
+  function u() {
+    base += Math.floor(Math.random() * 9) - 4;
     base = Math.max(3000, base);
-    const s = base.toLocaleString();
-    document.getElementById('liveN').textContent = s;
-    document.getElementById('sConn').textContent = s;
+    document.getElementById('liveN').textContent = base.toLocaleString();
+    document.getElementById('sConn').textContent = base.toLocaleString();
   }
-  update();
-  setInterval(update, 5000);
+  u(); setInterval(u, 5000);
 }
 
-// ═══════════════════════════════════════
-// GLOBE — LOGIN
-// ═══════════════════════════════════════
-(function initLoginGlobe() {
-  const cv = document.getElementById('login-globe');
-  const G = cv.getContext('2d');
-  const SZ=420, CX=210, CY=210, R=204;
-  let lon0=-10, lat0=20, vLon=0.3, vLat=0, drag=false, px=0, py=0;
+// ── Dot popup ──
+document.getElementById('dp-close').addEventListener('click', function() { document.getElementById('dotpop').classList.remove('show'); });
 
-  function proj(lon,lat){
-    const D=Math.PI/180,dL=(lon-lon0)*D,lR=lat*D,l0R=lat0*D;
-    const cL=Math.cos(lR),sL=Math.sin(lR),cL0=Math.cos(l0R),sL0=Math.sin(l0R),cdL=Math.cos(dL),sdL=Math.sin(dL);
-    return{sx:CX+R*cL*sdL,sy:CY-R*(cL0*sL-sL0*cL*cdL),vis:sL0*sL+cL0*cL*cdL>=0};
+// ── Globe ──
+(function() {
+  var cv = document.getElementById('globe');
+  var G = cv.getContext('2d');
+  var SZ=320, CX=160, CY=160, R=148;
+  var lon0=-10, lat0=20, vLon=0.3, vLat=0, dragging=false, px=0, py=0;
+
+  function proj(lon, lat) {
+    var D=Math.PI/180, dL=(lon-lon0)*D, lR=lat*D, l0R=lat0*D;
+    var cL=Math.cos(lR), sL=Math.sin(lR), cL0=Math.cos(l0R), sL0=Math.sin(l0R), cdL=Math.cos(dL), sdL=Math.sin(dL);
+    return {sx: CX+R*cL*sdL, sy: CY-R*(cL0*sL-sL0*cL*cdL), vis: sL0*sL+cL0*cL*cdL >= 0};
   }
-  cv.addEventListener('mousedown',e=>{drag=true;px=e.clientX;py=e.clientY;vLon=0;e.preventDefault();},{passive:false});
-  window.addEventListener('mousemove',e=>{if(!drag)return;const dx=e.clientX-px,dy=e.clientY-py;lon0-=dx*.4;lat0+=dy*.3;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.4;vLat=dy*.3;px=e.clientX;py=e.clientY;});
-  window.addEventListener('mouseup',()=>drag=false);
-  cv.addEventListener('touchstart',e=>{drag=true;px=e.touches[0].clientX;py=e.touches[0].clientY;vLon=0;e.preventDefault();},{passive:false});
-  cv.addEventListener('touchmove',e=>{if(!drag)return;const dx=e.touches[0].clientX-px,dy=e.touches[0].clientY-py;lon0-=dx*.5;lat0+=dy*.4;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5;vLat=dy*.4;px=e.touches[0].clientX;py=e.touches[0].clientY;e.preventDefault();},{passive:false});
-  cv.addEventListener('touchend',()=>drag=false);
 
-  function draw(){
-    if(!drag){lon0-=vLon;vLon*=.9;lat0+=vLat;vLat*=.9;lat0=Math.max(-80,Math.min(80,lat0));if(Math.abs(vLon)<.05&&Math.abs(vLat)<.05)vLon=.3;}
-    G.clearRect(0,0,SZ,SZ);
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle='#14161B';G.fill();
+  cv.addEventListener('mousedown', function(e) { dragging=true; px=e.clientX; py=e.clientY; vLon=0; vLat=0; e.preventDefault(); }, {passive:false});
+  window.addEventListener('mousemove', function(e) { if(!dragging) return; var dx=e.clientX-px, dy=e.clientY-py; lon0-=dx*.4; lat0+=dy*.3; lat0=Math.max(-80,Math.min(80,lat0)); vLon=-dx*.4; vLat=dy*.3; px=e.clientX; py=e.clientY; });
+  window.addEventListener('mouseup', function() { dragging=false; });
+  cv.addEventListener('touchstart', function(e) { dragging=true; px=e.touches[0].clientX; py=e.touches[0].clientY; vLon=0; vLat=0; e.preventDefault(); }, {passive:false});
+  cv.addEventListener('touchmove', function(e) { if(!dragging) return; var dx=e.touches[0].clientX-px, dy=e.touches[0].clientY-py; lon0-=dx*.5; lat0+=dy*.4; lat0=Math.max(-80,Math.min(80,lat0)); vLon=-dx*.5; vLat=dy*.4; px=e.touches[0].clientX; py=e.touches[0].clientY; e.preventDefault(); }, {passive:false});
+  cv.addEventListener('touchend', function(e) { dragging=false; e.preventDefault(); }, {passive:false});
+
+  cv.addEventListener('click', function(e) {
+    var rect=cv.getBoundingClientRect(), scx=SZ/rect.width, scy=SZ/rect.height;
+    var mx=(e.clientX-rect.left)*scx, my=(e.clientY-rect.top)*scy;
+    var closest=null, minD=22;
+    globeDots.forEach(function(d) {
+      var p=proj(d.lon,d.lat); if(!p.vis) return;
+      var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));
+      if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}
+    });
+    if(closest){
+      var pop=document.getElementById('dotpop');
+      document.getElementById('dp-flag').textContent=closest.d.flag||'';
+      document.getElementById('dp-name').textContent=(closest.d.name||'')+(closest.d.flag?' \u00B7 ':'');
+      document.getElementById('dp-txt').textContent=closest.d.txt||'';
+      var x=Math.min(closest.cx,window.innerWidth-250);
+      pop.style.left=x+'px'; pop.style.top=Math.max(60,closest.cy-160)+'px';
+      pop.classList.add('show');
+    } else { document.getElementById('dotpop').classList.remove('show'); }
+  });
+
+  function draw() {
+    if(!dragging){lon0-=vLon;vLon*=.9;lat0+=vLat;vLat*=.9;lat0=Math.max(-80,Math.min(80,lat0));if(Math.abs(vLon)<.05&&Math.abs(vLat)<.05)vLon=.3;}
+    G.clearRect(0,0,SZ,SZ);G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle='#14161B';G.fill();
     G.save();G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.clip();
     G.strokeStyle='rgba(255,255,255,.04)';G.lineWidth=.4;
-    [-60,-30,0,30,60].forEach(lat=>{G.beginPath();let f=true,pv=false;for(let lo=-180;lo<=181;lo+=4){const p=proj(lo,lat);if(p.vis){if(f||!pv)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;pv=true;}else pv=false;}G.stroke();});
-    [-150,-120,-90,-60,-30,0,30,60,90,120,150].forEach(lo=>{G.beginPath();let f=true;for(let la=-88;la<=88;la+=4){const p=proj(lo,la);if(p.vis){if(f)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;}}G.stroke();});
-    WORLD.forEach(poly=>{if(poly.length<3)return;let any=false;for(let i=0;i<poly.length;i+=Math.max(1,Math.floor(poly.length/8))){if(proj(poly[i][0],poly[i][1]).vis){any=true;break;}}if(!any)return;G.beginPath();let s=false,w=false;for(let i=0;i<poly.length;i++){const p=proj(poly[i][0],poly[i][1]);if(p.vis){if(!s||!w)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);s=true;w=true;}else w=false;}G.closePath();G.fillStyle='#1E2228';G.fill();G.strokeStyle='#2A2F38';G.lineWidth=.7;G.stroke();});
+    [-60,-30,0,30,60].forEach(function(lat){G.beginPath();var f=true,pv=false;for(var lo=-180;lo<=181;lo+=4){var p=proj(lo,lat);if(p.vis){if(f||!pv)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;pv=true;}else pv=false;}G.stroke();});
+    [-150,-120,-90,-60,-30,0,30,60,90,120,150].forEach(function(lo){G.beginPath();var f=true;for(var la=-88;la<=88;la+=4){var p=proj(lo,la);if(p.vis){if(f)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;}}G.stroke();});
+    WORLD.forEach(function(poly){if(poly.length<3)return;var any=false;for(var i=0;i<poly.length;i+=Math.max(1,Math.floor(poly.length/8))){if(proj(poly[i][0],poly[i][1]).vis){any=true;break;}}if(!any)return;G.beginPath();var s=false,w=false;for(var i=0;i<poly.length;i++){var p=proj(poly[i][0],poly[i][1]);if(p.vis){if(!s||!w)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);s=true;w=true;}else w=false;}G.closePath();G.fillStyle='#252930';G.fill();G.strokeStyle='#31363E';G.lineWidth=.7;G.stroke();});
     G.restore();
-    const t=Date.now()/1000;
-    COUNTRIES.slice(0,12).forEach((c,i)=>{const p=proj(c.lo,c.la);if(!p.vis)return;const fl=.5+.5*Math.sin(t*1.3+i*.9);G.beginPath();G.arc(p.sx,p.sy,2.5,0,Math.PI*2);G.fillStyle=`rgba(236,238,242,${fl*.8})`;G.fill();});
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,.07)';G.lineWidth=1;G.stroke();
+    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,.1)';G.lineWidth=1;G.stroke();
+    var t=Date.now()/1000;
+    globeDots.forEach(function(d,i){var p=proj(d.lon,d.lat);if(!p.vis)return;var fl=.55+.45*Math.sin(t*1.3+i*.9);G.beginPath();G.arc(p.sx,p.sy,9,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.07+')';G.fill();G.beginPath();G.arc(p.sx,p.sy,2.8,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.95+')';G.fill();});
     requestAnimationFrame(draw);
   }
   draw();
 })();
 
-// ═══════════════════════════════════════
-// GLOBE — APP
-// ═══════════════════════════════════════
-function initAppGlobe() {
-  const cv = document.getElementById('globe');
-  const G = cv.getContext('2d');
-  const SZ=320, CX=160, CY=160, R=148;
-  let lon0=-10, lat0=20, vLon=.3, vLat=0, drag=false, px=0, py=0;
+const WORLD=[[[178.6,-16.6],[180,-16.6],[178.7,-17]],[[177.7,-17.4],[178.6,-18.2],[177.4,-18.2]],[[33.9,-1],[39.2,-4.7],[39.5,-10.9],[34.6,-11.5],[29.6,-6.5],[30.4,-1.1]],[[-8.7,27.7],[-8.7,25.9],[-12,25.9],[-12.9,21.3],[-17.1,21],[-14.8,21.5],[-11.4,26.9]],[[-122.8,49],[-125.6,50.4],[-127.4,50.8],[-130.5,54.3],[-130,55.9],[-135.5,59.8],[-137.5,58.9],[-141,60.3],[-141,69.7],[-136.5,68.9],[-128.1,70.5],[-113.5,67.7],[-106.2,68.8],[-101.5,67.6],[-97.7,68.6],[-96.1,67.3],[-94.2,69.1],[-96.5,70.1],[-95.2,71.9],[-87.4,67.2],[-85.5,69.9],[-82.6,69.7],[-81.4,67.1],[-85.8,66.6],[-90.7,63.6],[-94.7,58.9],[-92.3,57.1],[-82.3,55.1],[-79.9,51.2],[-78.6,52.6],[-79.8,54.7],[-76.5,56.5],[-78.5,58.8],[-77.3,59.9],[-78.1,62.3],[-73.8,62.4],[-69.6,61.1],[-67.6,58.2],[-64.6,60.3],[-61.8,56.3],[-57.3,54.6],[-55.7,52.1],[-60,50.2],[-66.4,50.2],[-71.1,46.8],[-65.1,49.2],[-64.5,46.2],[-63.2,45.7],[-61.5,45.9],[-60.5,47],[-59.8,45.9],[-65.4,43.5],[-66.2,44.5],[-64.4,45.3],[-67.1,45.1],[-69.2,47.4],[-71.5,45],[-82.4,41.7],[-82.6,45.3],[-88.4,48.3],[-122.8,49]],[[-122.8,49],[-88.4,48.3],[-82.6,45.3],[-82.7,41.7],[-71.5,45],[-69.2,47.4],[-67,44.8],[-70.1,43.7],[-70,41.6],[-75.5,39.5],[-75.1,38.4],[-75.9,37.2],[-76.4,39.1],[-77,38.2],[-75.7,35.6],[-81.3,31.4],[-80.4,25.2],[-83.7,29.9],[-86.4,30.4],[-94.7,29.5],[-97.5,25.8],[-101,29.4],[-103.9,29.3],[-106.5,31.8],[-117.1,32.5],[-120.6,34.6],[-124.4,40.3],[-124.7,48.2],[-122.6,47.1]],[[-141,69.7],[-141,60.3],[-137.5,58.9],[-135.5,59.8],[-130,55.9],[-130.5,54.8],[-134.1,58.1],[-136.6,58.2],[-139.9,59.5],[-147.1,60.9],[-151.7,59.2],[-150.6,61.3],[-158.4,56],[-164.9,54.6],[-157,58.9],[-162,58.7],[-165.3,60.5],[-165.7,62.1],[-160.8,64.8],[-168.1,65.7],[-161.7,66.1],[-166.2,68.9],[-156.6,71.4]],[[87.4,49.2],[80,44.9],[80.3,42.3],[74.2,43.3],[68.6,40.7],[64.9,43.7],[62,43.5],[58.5,45.6],[55.9,45],[56,41.3],[52.5,41.8],[50.3,44.6],[53,45.3],[53,46.9],[49.1,46.4],[46.5,48.4],[50.8,51.7],[61.3,50.8],[60,52],[61.4,54],[69.1,55.4],[73.4,53.5],[76.9,54.5],[80,50.9]],[[141,-2.6],[147.6,-6.1],[147.2,-7.4],[150.7,-10.6],[144.7,-7.6],[141,-9.1]],[[141,-2.6],[141,-9.1],[137.6,-8.4],[137.9,-5.4],[133,-4.1],[132,-2.8],[133.7,-2.2],[130.5,-0.9],[134,-0.8],[135.5,-3.4],[137.4,-1.7]],[[117.9,4.1],[119,0.9],[116.1,-4],[110.2,-2.9],[109.7,2],[110.5,0.8],[113.8,1.2],[115.9,4.3]],[[-57.6,-30.2],[-58.5,-34.4],[-56.8,-36.9],[-62.3,-38.8],[-62.7,-41],[-65.1,-41.1],[-63.5,-42.6],[-67.3,-45.6],[-65.6,-47.2],[-69.1,-50.7],[-68.1,-52.3],[-71.9,-52],[-73.4,-49.3],[-71.2,-44.8],[-72.1,-42.3],[-68.4,-24.5],[-66.3,-21.8],[-62.8,-22],[-57.8,-25.2],[-58.6,-27.1],[-55.7,-27.4],[-54.1,-25.5],[-53.6,-26.9]],[[-69.6,-17.6],[-67,-23],[-70.5,-31.4],[-69.8,-34.2],[-72.1,-42.3],[-71.2,-44.8],[-73.4,-49.3],[-71.9,-52],[-68.6,-52.3],[-71.4,-53.9],[-74.9,-52.3],[-75.6,-48.7],[-74.1,-46.9],[-75.6,-46.6],[-72.7,-42.4],[-74.3,-43.2]],[[29.3,-4.5],[30.7,-8.3],[28.7,-8.5],[28.4,-11.8],[29.7,-13.3],[22.2,-11.1],[21.7,-7.3],[17.5,-8.1],[16.3,-5.9],[12.2,-5.8],[16,-3.5],[19.5,5],[29.7,4.6],[31.2,2.2]],[[41.6,-1.7],[41,2.8],[45,5],[48.9,9.5],[48.9,11.4],[51.1,12],[48.6,5.3]],[[39.2,-4.7],[33.9,-1],[35.3,5.5],[38.1,3.6],[41.9,3.9],[41.6,-1.7]],[[25.1,10.3],[23.8,8.7],[23.5,9],[21.9,12.6],[25,22],[36.9,22],[38.4,18],[34,8.7],[32.7,12.2],[31.4,9.8]],[[23.8,19.6],[23.9,15.6],[21.9,12.6],[22.9,11.1],[15.3,7.4],[13.5,14.4],[15.9,20.4],[14.9,22.9]],[[49.1,46.4],[46.7,44.6],[47.8,41.2],[36.7,45.2],[40.1,49.6],[31.8,52.1],[32.7,53.4],[30.9,55.6],[27.3,57.5],[29.1,60],[28.1,60.5],[31.5,62.9],[30,63.6],[28.6,69.1],[32.1,69.9],[41.1,67.5],[38.4,66],[33.2,66.6],[37,63.8],[37.2,65.1],[43.9,66.1],[43.5,68.6],[46.3,68.2],[46.3,66.7],[53.7,68.9],[59.9,68.3],[60.6,69.9],[68.5,68.1],[66.7,71],[69.9,73],[72.8,72.2],[71.8,71.4],[73.7,68.4],[71.3,66.3],[72.4,66.2],[75.1,67.8],[73.1,71.4],[74.7,72.8],[76.4,71.2],[81.5,71.8],[80.5,73.6],[104.4,77.7],[114.1,75.8],[109.4,74.2],[127,73.6],[131.3,70.8],[139.9,71.5],[139.1,72.4],[140.5,72.8],[159,70.9],[160.9,69.4],[180,69],[180,65],[177.4,64.6],[179.2,62.3],[170.3,59.9],[163.5,59.9],[162,58.2],[163.2,57.6],[162.1,54.9],[156.8,51],[155.9,56.8],[164.5,62.6],[160.1,60.5],[156.7,61.4],[154.2,59.8],[155,59.1],[142.2,59],[135.1,54.7],[141.3,53.1],[140.1,48.4],[134.9,43.4],[130.8,42.2],[131,45],[133.1,45.1],[135,48.5],[131,47.8],[123.6,53.5],[120.2,52.8],[117.9,49.5],[108.5,49.3],[98.9,52],[97.3,49.7],[92.2,50.8],[87.4,49.2],[80,50.9],[76.9,54.5],[73.4,53.5],[69.1,55.4],[61.4,54],[60,52],[61.3,50.8],[50.8,51.7],[47.5,50.5],[46.5,48.4]],[[-46.8,82.6],[-27.1,83.5],[-20.8,82.7],[-31.9,82.2],[-12.2,81.3],[-20,80.2],[-17.7,80.1],[-19.7,78.8],[-18.5,77],[-21.7,76.6],[-19.4,74.3],[-24.8,72.3],[-21.8,70.7],[-25.5,71.4],[-26.4,70.2],[-22.3,70.1],[-39.8,65.5],[-43.4,60.1],[-48.3,60.9],[-51.6,63.6],[-54,67.2],[-50.9,69.9],[-54.7,69.6],[-54.4,70.8],[-51.4,70.6],[-55.8,71.7],[-54.7,72.6],[-58.6,75.5],[-68.5,76.1],[-71.4,77],[-66.8,77.4],[-73.3,78],[-65.7,79.4],[-68,80.1],[-62.7,81.8],[-44.5,81.7]],[[16.3,-28.6],[19.9,-28.5],[19.9,-24.8],[21.6,-26.7],[25.7,-25.5],[29.4,-22.1],[31.2,-22.3],[31.9,-24.4],[30.7,-26.7],[32.8,-26.7],[28.2,-32.8],[20.1,-34.8],[18.4,-34.1]],[[-117.1,32.5],[-106.5,31.8],[-103.9,29.3],[-101.7,29.8],[-97.1,25.9],[-97.9,22.4],[-95.9,18.8],[-91.4,18.9],[-90.3,21],[-87.1,21.5],[-87.8,18.3],[-91,17.8],[-90.5,16.1],[-92.2,14.5],[-103.5,18.3],[-113.1,31.2],[-114.9,31.4],[-109.9,22.8],[-115.1,27.7],[-114.2,28.6]],[[-53.4,-33.8],[-53.8,-32],[-57.6,-30.2],[-53.6,-26.1],[-55.8,-22.4],[-57.9,-22.1],[-58.2,-16.3],[-60.2,-16.3],[-60.5,-13.8],[-65.4,-11.6],[-65.3,-9.8],[-70.5,-11],[-70.5,-9.5],[-72.2,-10.1],[-74,-7.5],[-72.9,-5.3],[-69.9,-4.3],[-69.8,1.7],[-65.5,0.8],[-63.4,2.2],[-64.8,4.1],[-60.7,5.2],[-59,1.3],[-52.9,2.1],[-51.3,4.2],[-50.4,-0.1],[-44.6,-2.7],[-40,-2.9],[-35.6,-5.1],[-34.7,-7.3],[-38.7,-13.1],[-40.9,-21.9],[-47.6,-24.9],[-48.9,-28.7]],[[-66.9,1.3],[-69.8,1.7],[-69.9,-4.3],[-70,-2.7],[-77.4,0.4],[-79,1.7],[-77.1,3.8],[-77.5,8.5],[-71.4,12.4],[-73.3,9.2],[-72,7],[-67.3,6.1]],[[2.5,51.1],[8.1,49],[6,46.7],[7.4,43.7],[1.8,42.3],[-1.9,43.4],[-1.2,46],[-4.6,48.7],[-1.6,48.6],[-1.9,49.8]],[[-13.8,13.5],[-17.6,14.7],[-14.6,16.6],[-11.5,12.4],[-16.7,12.4]],[[-11.5,12.4],[-11.7,15.4],[-5.5,15.5],[-6.5,25],[4.3,19.2],[3.6,15.6],[-4,13.5],[-5.4,10.4]],[[-17.1,21],[-12.9,21.3],[-12,25.9],[-8.7,25.9],[-8.7,27.4],[-4.9,25],[-6.5,25],[-5.5,15.5],[-12.2,14.6],[-14.6,16.6],[-16.5,16.1]],[[14.9,22.9],[15.9,20.4],[13.5,14.4],[14.2,12.5],[5.4,13.9],[3.6,11.7],[1,12.9],[0.4,14.9],[3.6,15.6],[4.3,19.2],[12,23.5]],[[2.7,6.3],[4.4,13.7],[13.1,13.6],[14.6,12.1],[11.7,7],[8.5,4.8],[5.9,4.3]],[[27.4,5.2],[22.4,4],[19.5,5],[16,2.3],[14.5,5.5],[15.3,7.4],[22.9,11.1]],[[30.7,-8.3],[33.2,-9.7],[33.2,-14],[27,-17.9],[23.2,-17.5],[21.9,-12.9],[24,-12.9],[23.9,-10.9],[29.7,-13.3],[28.4,-9.2]],[[34.6,-11.5],[40.3,-10.3],[40.8,-14.7],[34.8,-19.8],[35.5,-24.1],[32.1,-26.7],[31.2,-22.3],[32.8,-16.7],[30.2,-14.8],[33.2,-14],[35,-16.8]],[[12.3,-6.1],[16.3,-5.9],[17.5,-8.1],[21.7,-7.3],[22.2,-11.1],[24,-11.2],[24,-12.9],[21.9,-12.9],[23.2,-17.5],[11.7,-17.3],[13.7,-11.3]],[[49.5,-12.5],[50.4,-15.7],[47.1,-24.9],[45.4,-25.6],[43.3,-22.8],[44,-17.4]],[[178.5,-37.7],[174.7,-41.3],[174.7,-37.4],[172.6,-34.5],[176,-37.6]],[[131.3,-31.5],[118,-35.1],[115,-34.2],[113.7,-22.5],[120.9,-19.7],[125.7,-14.2],[129.6,-15],[132.4,-11.1],[136.5,-11.9],[135.5,-15],[140.2,-17.7],[142.5,-10.7],[146.4,-19],[150.7,-22.4],[153.6,-28.1],[150,-37.4],[146.3,-39],[140.6,-38],[138.2,-34.4],[136.8,-35.3],[137.8,-32.9],[136,-34.9]],[[80.3,42.3],[80,44.9],[87.8,49.3],[91,46.9],[90.9,45.3],[96.3,42.7],[109.2,42.5],[111.9,45.1],[119.7,46.7],[115.5,48.1],[122.2,53.4],[125.9,52.8],[131,47.8],[135,48.5],[133.1,45.1],[131,45],[130.6,42.4],[121.1,38.9],[121.6,40.9],[117.5,38.7],[122.4,37.5],[119.2,34.9],[121.9,31.7],[121.7,28.2],[118.7,24.5],[110.4,20.3],[105.3,23.4],[101.7,22.3],[101.8,21.2],[99.2,22.1],[97.6,23.9],[98.7,27.5],[96.1,29.5],[88.8,27.3],[78.7,31.5],[78.9,34.3],[73.7,39.4]],[[97.3,28.3],[92.7,22],[91.2,23.5],[92.4,25],[88.6,26.4],[88.9,21.7],[80.3,15.9],[79.9,10.4],[77.5,8],[72.6,21.4],[70.5,20.9],[68.2,23.7],[71,24.4],[69.5,26.9],[75.3,32.3],[73.7,34.3],[77.8,35.5],[78.7,31.5],[81.1,30.2],[80.1,28.8],[83.3,27.4],[88.1,26.4],[88.7,28.1],[92,26.8],[96.1,29.5]],[[11,58.9],[12.6,61.3],[11.9,63.1],[16.8,68],[20.6,69.1],[23.5,67.9],[23.9,66],[17.8,62.7],[17.1,61.3],[18.8,60.1],[15.9,56.1],[12.9,55.4]],[[28.2,56.2],[30.9,55.6],[32.7,53.4],[31.8,52.1],[23.5,51.6],[23.5,53.9]],[[31.8,52.1],[40.1,49.6],[39.7,47.9],[35,45.7],[31.7,46.7],[28.7,45.3],[30,46.4],[28.7,48.1],[22.1,48.4],[23.5,51.6]],[[6.8,46],[13.8,46.5],[12.6,44.1],[18.4,40.4],[18.3,39.8],[16.9,40.4],[15.7,37.9],[15.4,40],[10.2,43.9],[7.4,43.7]],[[141.9,39.2],[140.3,35.1],[135.8,33.5],[135.1,34.6],[131,33.9],[132,33.1],[130.2,31.4],[129.4,33.3],[139.4,38.2],[140.3,41.2]]];
 
-  function proj(lon,lat){
-    const D=Math.PI/180,dL=(lon-lon0)*D,lR=lat*D,l0R=lat0*D;
-    const cL=Math.cos(lR),sL=Math.sin(lR),cL0=Math.cos(l0R),sL0=Math.sin(l0R),cdL=Math.cos(dL),sdL=Math.sin(dL);
-    return{sx:CX+R*cL*sdL,sy:CY-R*(cL0*sL-sL0*cL*cdL),vis:sL0*sL+cL0*cL*cdL>=0};
+var currentUser=null,profile=null,prayers=[],chatMessages=[],globeDots=[],prayerUnsub=null,chatUnsub=null,pendingAction=null,pendingPhoto=null;
+
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+function timeAgo(ts){var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);if(dy>0)return dy+'d';if(h>0)return h+'h';if(m>0)return m+'m';return 'now';}
+function setNav(id,btn){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('sec-'+id).classList.add('active');btn.classList.add('active');
+  if(id==='chat'&&currentUser){setTimeout(function(){var el=document.getElementById('chatEl');if(el)el.scrollTop=el.scrollHeight;},100);}
+  if(id==='profile')renderProfileSection();
+  if(id==='chat')renderChatBottom();
+}
+function populateSel(id){var el=document.getElementById(id);if(!el||el.children.length>1)return;COUNTRIES.forEach(function(c){var o=document.createElement('option');o.value=c.c;o.textContent=c.f+' '+c.n;el.appendChild(o);});}
+function openAuth(action){
+  pendingAction=action||null;populateSel('su-country');populateSel('ob-country');
+  document.getElementById('auth-onboard').style.display='none';document.getElementById('auth-main').style.display='block';
+  var h=document.getElementById('auth-headline'),s=document.getElementById('auth-sub');
+  if(action==='pray'){h.textContent='Share your prayer';s.textContent='Create a free account. Your prayer appears on the globe and people worldwide pray with you.';}
+  else if(action==='chat'){h.textContent='Join the chat';s.textContent='Chat in real time with Christians from 156 nations. Free.';}
+  else{h.textContent='Join GlobePray';s.textContent='Free. Your prayer on the globe. People worldwide praying with you.';}
+  document.getElementById('ov-auth').classList.add('open');
+}
+function closeAuth(){document.getElementById('ov-auth').classList.remove('open');}
+function switchAuthTab(tab){
+  document.getElementById('tab-signup').classList.toggle('active',tab==='signup');
+  document.getElementById('tab-signin').classList.toggle('active',tab==='signin');
+  document.getElementById('auth-panel-signup').classList.toggle('active',tab==='signup');
+  document.getElementById('auth-panel-signin').classList.toggle('active',tab==='signin');
+}
+function showForgot(){closeAuth();setTimeout(function(){document.getElementById('ov-forgot').classList.add('open');},200);}
+function closeForgot(){document.getElementById('ov-forgot').classList.remove('open');}
+async function sendReset(){var email=document.getElementById('forgot-email').value.trim();if(!email){showToast('Enter your email.');return;}await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.href});closeForgot();showToast('Reset link sent!');}
+function previewSuPhoto(e){var f=e.target.files[0];if(!f)return;pendingPhoto=f;var r=new FileReader();r.onload=function(ev){document.getElementById('su-preview').src=ev.target.result;document.getElementById('su-preview').style.display='block';document.getElementById('su-ph-icon').style.display='none';};r.readAsDataURL(f);}
+function previewObPhoto(e){var f=e.target.files[0];if(!f)return;window._obPhoto=f;var r=new FileReader();r.onload=function(ev){document.getElementById('ob-preview').src=ev.target.result;document.getElementById('ob-preview').style.display='block';document.getElementById('ob-ph-icon').style.display='none';};r.readAsDataURL(f);}
+async function uploadPhoto(file,uid){if(!file)return null;var ext=file.name.split('.').pop();var res=await sb.storage.from('avatars').upload(uid+'.'+ext,file,{upsert:true});if(!res.data)return null;return sb.storage.from('avatars').getPublicUrl(uid+'.'+ext).data.publicUrl;}
+async function signUp(){
+  var name=document.getElementById('su-name').value.trim(),email=document.getElementById('su-email').value.trim(),pass=document.getElementById('su-pass').value,lang=document.getElementById('su-lang').value,cc=document.getElementById('su-country').value,err=document.getElementById('su-err');err.textContent='';
+  if(!name){err.textContent='Enter your name.';return;}if(!email){err.textContent='Enter your email.';return;}if(pass.length<8){err.textContent='Password: 8+ characters.';return;}if(!cc){err.textContent='Select your country.';return;}
+  var btn=document.getElementById('su-btn');btn.textContent='Creating...';btn.disabled=true;
+  var res=await sb.auth.signUp({email:email,password:pass});
+  if(res.error){err.textContent=res.error.message;btn.textContent='Join GlobePray - Free';btn.disabled=false;return;}
+  var country=COUNTRIES.find(function(c){return c.c===cc;})||{c:'US',n:'Unknown',f:'',lo:0,la:0};
+  var photoUrl=await uploadPhoto(pendingPhoto,res.data.user.id);
+  var prof={id:res.data.user.id,name:name,email:email,lang:lang,country:country.n,country_code:cc,flag:country.f,lon:country.lo,lat:country.la,photo_url:photoUrl};
+  await sb.from('profiles').upsert(prof);profile=prof;currentUser=res.data.user;closeAuth();afterLogin();
+}
+async function signIn(){
+  var email=document.getElementById('si-email').value.trim(),pass=document.getElementById('si-pass').value,err=document.getElementById('si-err');err.textContent='';
+  if(!email||!pass){err.textContent='Fill all fields.';return;}
+  var btn=document.getElementById('si-btn');btn.textContent='Signing in...';btn.disabled=true;
+  var res=await sb.auth.signInWithPassword({email:email,password:pass});
+  if(res.error){err.textContent='Invalid email or password.';btn.textContent='Sign In';btn.disabled=false;return;}
+  currentUser=res.data.user;var p=await sb.from('profiles').select('*').eq('id',res.data.user.id).single();profile=p.data;closeAuth();afterLogin();
+}
+async function googleSignIn(){await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:window.location.href}});}
+function afterLogin(){
+  updateTopbar();renderMyPrayer();renderProfileSection();renderChatBottom();
+  if(!prayerUnsub)subscribeRealtime();
+  if(pendingAction==='pray')setTimeout(openPrayer,300);
+  else if(pendingAction==='chat')setTimeout(function(){var i=document.getElementById('chatIn');if(i)i.focus();},300);
+  pendingAction=null;showToast('Welcome to GlobePray');
+}
+async function logout(){
+  await sb.auth.signOut();currentUser=null;profile=null;
+  if(prayerUnsub)prayerUnsub();if(chatUnsub)chatUnsub();prayerUnsub=null;chatUnsub=null;
+  updateTopbar();renderMyPrayer();renderProfileSection();renderChatBottom();
+}
+function showOnboarding(user){
+  populateSel('ob-country');
+  document.getElementById('auth-onboard').style.display='block';document.getElementById('auth-main').style.display='none';
+  var gp=user.user_metadata&&user.user_metadata.avatar_url?user.user_metadata.avatar_url:null;
+  var gn=user.user_metadata&&user.user_metadata.full_name?user.user_metadata.full_name:user.email.split('@')[0];
+  var wrap=document.getElementById('ob-av-wrap');
+  if(gp){wrap.innerHTML='<img src="'+gp+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    document.getElementById('ob-preview').src=gp;document.getElementById('ob-preview').style.display='block';document.getElementById('ob-ph-icon').style.display='none';}
+  else{wrap.textContent=gn[0].toUpperCase();}
+  document.getElementById('ob-uname').textContent=gn;document.getElementById('ob-uemail').textContent=user.email;
+  document.getElementById('ov-auth').classList.add('open');
+}
+async function finishOnboarding(){
+  var lang=document.getElementById('ob-lang').value,cc=document.getElementById('ob-country').value,err=document.getElementById('ob-err');
+  if(!cc){err.textContent='Select your country.';return;}err.textContent='';
+  var country=COUNTRIES.find(function(c){return c.c===cc;})||{c:'US',n:'Unknown',f:'',lo:0,la:0};
+  var photoUrl=currentUser.user_metadata&&currentUser.user_metadata.avatar_url?currentUser.user_metadata.avatar_url:null;
+  if(window._obPhoto)photoUrl=await uploadPhoto(window._obPhoto,currentUser.id)||photoUrl;
+  var gn=currentUser.user_metadata&&currentUser.user_metadata.full_name?currentUser.user_metadata.full_name:currentUser.email.split('@')[0];
+  var prof={id:currentUser.id,name:gn,email:currentUser.email,lang:lang,country:country.n,country_code:cc,flag:country.f,lon:country.lo,lat:country.la,photo_url:photoUrl};
+  await sb.from('profiles').upsert(prof);profile=prof;closeAuth();afterLogin();
+}
+function updateTopbar(){
+  var wrap=document.getElementById('tb-auth');
+  if(currentUser&&profile){
+    var init=(profile.name||'U')[0].toUpperCase();
+    var st=profile.photo_url?'style="background-image:url('+profile.photo_url+');background-size:cover;background-position:center;color:transparent"':'';
+    wrap.innerHTML='<button class="tb-av" '+st+' onclick="document.querySelectorAll(\'.nb\').forEach(function(b){b.classList.remove(\'active\');});setNav(\'profile\',document.getElementById(\'nb-profile\'));document.getElementById(\'nb-profile\').classList.add(\'active\');">'+init+'</button>';
+  }else{
+    wrap.innerHTML='<button class="tb-signin-btn" onclick="openAuth()">Sign in</button>';
   }
-
-  cv.addEventListener('mousedown',e=>{drag=true;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
-  window.addEventListener('mousemove',e=>{if(!drag)return;const dx=e.clientX-px,dy=e.clientY-py;lon0-=dx*.4;lat0+=dy*.3;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.4;vLat=dy*.3;px=e.clientX;py=e.clientY;});
-  window.addEventListener('mouseup',()=>drag=false);
-  cv.addEventListener('touchstart',e=>{drag=true;px=e.touches[0].clientX;py=e.touches[0].clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
-  cv.addEventListener('touchmove',e=>{if(!drag)return;const dx=e.touches[0].clientX-px,dy=e.touches[0].clientY-py;lon0-=dx*.5;lat0+=dy*.4;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5;vLat=dy*.4;px=e.touches[0].clientX;py=e.touches[0].clientY;e.preventDefault();},{passive:false});
-  cv.addEventListener('touchend',e=>{drag=false;e.preventDefault();},{passive:false});
-
-  cv.addEventListener('click', e=>{
-    const rect=cv.getBoundingClientRect();
-    const scx=SZ/rect.width,scy=SZ/rect.height;
-    const mx=(e.clientX-rect.left)*scx, my=(e.clientY-rect.top)*scy;
-    let closest=null, minD=22;
-    globeDots.forEach(d=>{
-      const p=proj(d.lon,d.lat);
-      if(!p.vis) return;
-      const dist=Math.sqrt((p.sx-mx)**2+(p.sy-my)**2);
-      if(dist<minD){minD=dist;closest={d,cx:e.clientX,cy:e.clientY};}
-    });
-    if(closest) {
-      const pop=document.getElementById('dotpop');
-      document.getElementById('dp-flag').textContent=closest.d.flag||'';
-      document.getElementById('dp-name').textContent=(closest.d.name||'')+(closest.d.flag?' · ':'');
-      document.getElementById('dp-txt').textContent=closest.d.txt||'';
-      const x=Math.min(closest.cx,window.innerWidth-240);
-      pop.style.left=x+'px'; pop.style.top=Math.max(60,closest.cy-160)+'px';
-      pop.classList.add('show');
-    } else { closeDotPop(); }
+}
+function renderMyPrayer(){
+  var box=document.getElementById('myBox');
+  if(!currentUser){box.innerHTML='<div class="mp-teaser"><div class="mp-teaser-txt"><div class="mp-teaser-title">Share a prayer request</div><div class="mp-teaser-sub">Thousands of Christians worldwide will pray with you.</div></div><button class="mp-teaser-btn" onclick="openAuth(\'pray\')">Pray</button></div>';return;}
+  var myText=localStorage.getItem('gp_p_'+currentUser.id),myTime=parseInt(localStorage.getItem('gp_pt_'+currentUser.id)||'0'),elapsed=Date.now()-myTime,canPost=!myText||elapsed>86400000;
+  if(canPost){box.innerHTML='<div class="mp-empty"><div class="mp-icon">&#x1F64F;</div><div class="mp-txt">Share your prayer request with thousands of Christians worldwide.</div><button class="mp-btn" onclick="openPrayer()">Share my prayer</button></div>';}
+  else{var rem=86400000-elapsed,h=Math.floor(rem/3600000),m2=Math.floor((rem%3600000)/60000),pc=parseInt(localStorage.getItem('gp_pc_'+currentUser.id)||'0');box.innerHTML='<div class="mp-live"><div class="mp-top"><div class="mp-badge">My Prayer Active</div><div class="mp-timer">New in '+h+'h '+m2+'m</div></div><div class="mp-content">'+myText+'</div><div class="mp-pc"><strong>'+(pc+12)+'</strong> people praying with you</div></div>';}
+}
+function openPrayer(){document.getElementById('ov-prayer').classList.add('open');}
+function closePrayer(){document.getElementById('ov-prayer').classList.remove('open');}
+async function submitPrayer(){
+  var txt=document.getElementById('prayIn').value.trim();if(!txt)return;
+  var prayer={user_id:currentUser.id,name:profile.name,flag:profile.flag,country:profile.country,country_code:profile.country_code,lon:profile.lon,lat:profile.lat,photo_url:profile.photo_url,text:txt,pray_count:0,lang:profile.lang||'en'};
+  var res=await sb.from('prayers').insert(prayer);if(res.error){showToast('Error posting.');return;}
+  localStorage.setItem('gp_p_'+currentUser.id,txt);localStorage.setItem('gp_pt_'+currentUser.id,Date.now());localStorage.setItem('gp_pc_'+currentUser.id,'0');
+  document.getElementById('prayIn').value='';closePrayer();renderMyPrayer();showToast('Prayer shared with the world');
+}
+function loadPrayers(){
+  sb.from('prayers').select('*').order('created_at',{ascending:false}).limit(20).then(function(res){if(res.data){prayers=res.data;renderFeed();updateGlobeDots();}});
+  prayerUnsub=sb.channel('p-ch').on('postgres_changes',{event:'INSERT',schema:'public',table:'prayers'},function(p){prayers.unshift(p.new);renderFeed();updateGlobeDots();document.getElementById('sPray').textContent=prayers.length;}).on('postgres_changes',{event:'UPDATE',schema:'public',table:'prayers'},function(p){var i=prayers.findIndex(function(x){return x.id===p.new.id;});if(i>=0)prayers[i]=p.new;renderFeed();}).subscribe();
+}
+function renderFeed(){
+  var el=document.getElementById('feedEl');document.getElementById('sPray').textContent=prayers.length;
+  if(!prayers.length){el.innerHTML='<div class="empty">No prayers yet. Be the first.</div>';return;}
+  el.innerHTML='';
+  prayers.forEach(function(p){
+    var div=document.createElement('div');div.className='fi';
+    var av=p.photo_url?'<img class="fi-av" src="'+p.photo_url+'" alt="">':'<div class="fi-av-txt">'+(p.name||'?')[0].toUpperCase()+'</div>';
+    div.innerHTML='<div class="fi-head">'+av+'<div class="fi-info"><div class="fi-name">'+(p.name||'Anonymous')+' '+(p.flag||'')+'</div><div class="fi-sub">'+(p.country||'')+'</div></div><div class="fi-time">'+timeAgo(p.created_at)+'</div></div><div class="fi-body">'+(p.text||'')+'</div><div class="fi-foot"><button class="fi-pbtn'+(p._prayed?' done':'')+'" onclick="prayFor(this,\''+p.id+'\')">'+(p._prayed?'Praying':'I am praying')+'</button><div class="fi-cnt">'+(p.pray_count||0)+' praying</div></div>';
+    el.appendChild(div);
   });
+}
+async function prayFor(btn,id){
+  if(btn.classList.contains('done'))return;btn.classList.add('done');btn.textContent='Praying';
+  var cnt=btn.nextElementSibling;cnt.textContent=(parseInt(cnt.textContent)||0)+1+' praying';
+  var p=prayers.find(function(x){return x.id===id;});if(p){p._prayed=true;p.pray_count=(p.pray_count||0)+1;}
+  await sb.from('prayers').update({pray_count:p?p.pray_count:1}).eq('id',id);
+}
+function updateGlobeDots(){globeDots=prayers.filter(function(p){return p.lon&&p.lat;}).map(function(p){return{lon:p.lon,lat:p.lat,name:p.name,flag:p.flag,txt:p.text};});}
+function renderChatBottom(){
+  var el=document.getElementById('chat-bottom');
+  if(!currentUser){el.innerHTML='<div class="chat-locked"><div class="chat-locked-txt">Join to chat with Christians worldwide</div><button class="chat-locked-btn" onclick="openAuth(\'chat\')">Join free</button></div>';}
+  else{el.innerHTML='<div class="chat-bar"><input class="chat-in" id="chatIn" placeholder="A word, a prayer..." onkeydown="if(event.key===\'Enter\')sendChat()"><button class="chat-send" onclick="sendChat()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>';}
+}
+function loadChat(){
+  sb.from('chat').select('*').order('created_at',{ascending:true}).limit(60).then(function(res){if(res.data){chatMessages=res.data;renderChat();}});
+  chatUnsub=sb.channel('c-ch').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat'},function(p){chatMessages.push(p.new);renderChat();}).subscribe();
+}
+function renderChat(){
+  var el=document.getElementById('chatEl');el.innerHTML='';
+  chatMessages.forEach(function(m){
+    var isMe=currentUser&&m.user_id===currentUser.id;
+    var div=document.createElement('div');div.className='cm'+(isMe?' cm-me':'');
+    var av=m.photo_url?'<img class="cm-av" src="'+m.photo_url+'" alt="">':'<div class="cm-av-txt">'+(m.name||'?')[0].toUpperCase()+'</div>';
+    var meta='<div class="cm-meta"><span class="cm-name">'+(m.name||'?')+'</span><span class="cm-flag">'+(m.flag||'')+'</span><span class="cm-time">'+timeAgo(m.created_at)+'</span></div>';
+    div.innerHTML=(isMe?'':av)+'<div class="cm-bwrap">'+(isMe?'':meta)+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'">'+(m.text||'')+'</div></div>';
+    el.appendChild(div);
+  });
+  el.scrollTop=el.scrollHeight;
+}
+async function sendChat(){var inp=document.getElementById('chatIn');if(!inp)return;var txt=inp.value.trim();if(!txt||!currentUser||!profile)return;inp.value='';await sb.from('chat').insert({user_id:currentUser.id,name:profile.name,flag:profile.flag,photo_url:profile.photo_url,text:txt});}
+function renderProfileSection(){
+  var el=document.getElementById('profile-content');
+  if(!currentUser||!profile){el.innerHTML='<div class="guest-profile"><div class="gp-icon">&#x1F30D;</div><div class="gp-title">Join GlobePray</div><div class="gp-sub">Create a free account to share your prayer, be placed on the globe, track who prays with you, and chat with Christians from 156 nations.</div><button class="gp-btn" onclick="openAuth()">Create free account</button><button class="gp-sub-btn" onclick="openAuth();switchAuthTab(\'signin\')">Already have an account? Sign in</button></div>';return;}
+  var init=(profile.name||'U')[0].toUpperCase(),avHtml=profile.photo_url?'<img src="'+profile.photo_url+'" alt="">':init,lm={en:'English',fr:'Francais',es:'Espanol',pt:'Portugues'};
+  el.innerHTML='<div class="prof-wrap"><div class="pav-wrap"><div class="pav">'+avHtml+'</div></div><div class="pname">'+(profile.name||'')+'</div><div class="pemail">'+(profile.email||currentUser.email||'')+'</div><div class="prow"><div class="prow-ic">&#x1F30D;</div><div><div class="prow-lbl">Country</div><div class="prow-sub">'+(profile.flag||'')+' '+(profile.country||'')+'</div></div><div class="prow-arr">&#x203A;</div></div><div class="prow"><div class="prow-ic">&#x1F524;</div><div><div class="prow-lbl">Language</div><div class="prow-sub">'+(lm[profile.lang||'en']||'English')+'</div></div><div class="prow-arr">&#x203A;</div></div><div class="prow"><div class="prow-ic">&#x1F64F;</div><div><div class="prow-lbl">My prayers</div><div class="prow-sub">History</div></div><div class="prow-arr">&#x203A;</div></div><button class="p-logout" onclick="logout()">Sign Out</button></div>';
+}
+function subscribeRealtime(){loadPrayers();loadChat();}
+function startLiveCount(){var base=3200+Math.floor(Math.random()*200);function u(){base+=Math.floor(Math.random()*9)-4;base=Math.max(3000,base);var s=base.toLocaleString();document.getElementById('liveN').textContent=s;document.getElementById('sConn').textContent=s;}u();setInterval(u,5000);}
+function closeDotPop(){document.getElementById('dotpop').classList.remove('show');}
+const WORLD=[[[178.6,-16.6],[180,-16.6],[178.7,-17]],[[177.7,-17.4],[178.6,-18.2],[177.4,-18.2]],[[33.9,-1],[39.2,-4.7],[39.5,-10.9],[34.6,-11.5],[29.6,-6.5],[30.4,-1.1]],[[-8.7,27.7],[-8.7,25.9],[-12,25.9],[-12.9,21.3],[-17.1,21],[-14.8,21.5],[-11.4,26.9]],[[-122.8,49],[-125.6,50.4],[-127.4,50.8],[-130.5,54.3],[-130,55.9],[-135.5,59.8],[-137.5,58.9],[-141,60.3],[-141,69.7],[-136.5,68.9],[-128.1,70.5],[-113.5,67.7],[-106.2,68.8],[-101.5,67.6],[-97.7,68.6],[-96.1,67.3],[-94.2,69.1],[-96.5,70.1],[-95.2,71.9],[-87.4,67.2],[-85.5,69.9],[-82.6,69.7],[-81.4,67.1],[-85.8,66.6],[-90.7,63.6],[-94.7,58.9],[-92.3,57.1],[-82.3,55.1],[-79.9,51.2],[-78.6,52.6],[-79.8,54.7],[-76.5,56.5],[-78.5,58.8],[-77.3,59.9],[-78.1,62.3],[-73.8,62.4],[-69.6,61.1],[-67.6,58.2],[-64.6,60.3],[-61.8,56.3],[-57.3,54.6],[-55.7,52.1],[-60,50.2],[-66.4,50.2],[-71.1,46.8],[-65.1,49.2],[-64.5,46.2],[-63.2,45.7],[-61.5,45.9],[-60.5,47],[-59.8,45.9],[-65.4,43.5],[-66.2,44.5],[-64.4,45.3],[-67.1,45.1],[-69.2,47.4],[-71.5,45],[-82.4,41.7],[-82.6,45.3],[-88.4,48.3],[-122.8,49]],[[-122.8,49],[-88.4,48.3],[-82.6,45.3],[-82.7,41.7],[-71.5,45],[-69.2,47.4],[-67,44.8],[-70.1,43.7],[-70,41.6],[-75.5,39.5],[-75.1,38.4],[-75.9,37.2],[-76.4,39.1],[-77,38.2],[-75.7,35.6],[-81.3,31.4],[-80.4,25.2],[-83.7,29.9],[-86.4,30.4],[-94.7,29.5],[-97.5,25.8],[-101,29.4],[-103.9,29.3],[-106.5,31.8],[-117.1,32.5],[-120.6,34.6],[-124.4,40.3],[-124.7,48.2],[-122.6,47.1]],[[-141,69.7],[-141,60.3],[-137.5,58.9],[-135.5,59.8],[-130,55.9],[-130.5,54.8],[-134.1,58.1],[-136.6,58.2],[-139.9,59.5],[-147.1,60.9],[-151.7,59.2],[-150.6,61.3],[-158.4,56],[-164.9,54.6],[-157,58.9],[-162,58.7],[-165.3,60.5],[-165.7,62.1],[-160.8,64.8],[-168.1,65.7],[-161.7,66.1],[-166.2,68.9],[-156.6,71.4]],[[87.4,49.2],[80,44.9],[80.3,42.3],[74.2,43.3],[68.6,40.7],[64.9,43.7],[62,43.5],[58.5,45.6],[55.9,45],[56,41.3],[52.5,41.8],[50.3,44.6],[53,45.3],[53,46.9],[49.1,46.4],[46.5,48.4],[50.8,51.7],[61.3,50.8],[60,52],[61.4,54],[69.1,55.4],[73.4,53.5],[76.9,54.5],[80,50.9]],[[141,-2.6],[147.6,-6.1],[147.2,-7.4],[150.7,-10.6],[144.7,-7.6],[141,-9.1]],[[141,-2.6],[141,-9.1],[137.6,-8.4],[137.9,-5.4],[133,-4.1],[132,-2.8],[133.7,-2.2],[130.5,-0.9],[134,-0.8],[135.5,-3.4],[137.4,-1.7]],[[117.9,4.1],[119,0.9],[116.1,-4],[110.2,-2.9],[109.7,2],[110.5,0.8],[113.8,1.2],[115.9,4.3]],[[-57.6,-30.2],[-58.5,-34.4],[-56.8,-36.9],[-62.3,-38.8],[-62.7,-41],[-65.1,-41.1],[-63.5,-42.6],[-67.3,-45.6],[-65.6,-47.2],[-69.1,-50.7],[-68.1,-52.3],[-71.9,-52],[-73.4,-49.3],[-71.2,-44.8],[-72.1,-42.3],[-68.4,-24.5],[-66.3,-21.8],[-62.8,-22],[-57.8,-25.2],[-58.6,-27.1],[-55.7,-27.4],[-54.1,-25.5],[-53.6,-26.9]],[[-69.6,-17.6],[-67,-23],[-70.5,-31.4],[-69.8,-34.2],[-72.1,-42.3],[-71.2,-44.8],[-73.4,-49.3],[-71.9,-52],[-68.6,-52.3],[-71.4,-53.9],[-74.9,-52.3],[-75.6,-48.7],[-74.1,-46.9],[-75.6,-46.6],[-72.7,-42.4],[-74.3,-43.2]],[[29.3,-4.5],[30.7,-8.3],[28.7,-8.5],[28.4,-11.8],[29.7,-13.3],[22.2,-11.1],[21.7,-7.3],[17.5,-8.1],[16.3,-5.9],[12.2,-5.8],[16,-3.5],[19.5,5],[29.7,4.6],[31.2,2.2]],[[41.6,-1.7],[41,2.8],[45,5],[48.9,9.5],[48.9,11.4],[51.1,12],[48.6,5.3]],[[39.2,-4.7],[33.9,-1],[35.3,5.5],[38.1,3.6],[41.9,3.9],[41.6,-1.7]],[[25.1,10.3],[23.8,8.7],[23.5,9],[21.9,12.6],[25,22],[36.9,22],[38.4,18],[34,8.7],[32.7,12.2],[31.4,9.8]],[[23.8,19.6],[23.9,15.6],[21.9,12.6],[22.9,11.1],[15.3,7.4],[13.5,14.4],[15.9,20.4],[14.9,22.9]],[[49.1,46.4],[46.7,44.6],[47.8,41.2],[36.7,45.2],[40.1,49.6],[31.8,52.1],[32.7,53.4],[30.9,55.6],[27.3,57.5],[29.1,60],[28.1,60.5],[31.5,62.9],[30,63.6],[28.6,69.1],[32.1,69.9],[41.1,67.5],[38.4,66],[33.2,66.6],[37,63.8],[37.2,65.1],[43.9,66.1],[43.5,68.6],[46.3,68.2],[46.3,66.7],[53.7,68.9],[59.9,68.3],[60.6,69.9],[68.5,68.1],[66.7,71],[69.9,73],[72.8,72.2],[71.8,71.4],[73.7,68.4],[71.3,66.3],[72.4,66.2],[75.1,67.8],[73.1,71.4],[74.7,72.8],[76.4,71.2],[81.5,71.8],[80.5,73.6],[104.4,77.7],[114.1,75.8],[109.4,74.2],[127,73.6],[131.3,70.8],[139.9,71.5],[139.1,72.4],[140.5,72.8],[159,70.9],[160.9,69.4],[180,69],[180,65],[177.4,64.6],[179.2,62.3],[170.3,59.9],[163.5,59.9],[162,58.2],[163.2,57.6],[162.1,54.9],[156.8,51],[155.9,56.8],[164.5,62.6],[160.1,60.5],[156.7,61.4],[154.2,59.8],[155,59.1],[142.2,59],[135.1,54.7],[141.3,53.1],[140.1,48.4],[134.9,43.4],[130.8,42.2],[131,45],[133.1,45.1],[135,48.5],[131,47.8],[123.6,53.5],[120.2,52.8],[117.9,49.5],[108.5,49.3],[98.9,52],[97.3,49.7],[92.2,50.8],[87.4,49.2],[80,50.9],[76.9,54.5],[73.4,53.5],[69.1,55.4],[61.4,54],[60,52],[61.3,50.8],[50.8,51.7],[47.5,50.5],[46.5,48.4]],[[-46.8,82.6],[-27.1,83.5],[-20.8,82.7],[-31.9,82.2],[-12.2,81.3],[-20,80.2],[-17.7,80.1],[-19.7,78.8],[-18.5,77],[-21.7,76.6],[-19.4,74.3],[-24.8,72.3],[-21.8,70.7],[-25.5,71.4],[-26.4,70.2],[-22.3,70.1],[-39.8,65.5],[-43.4,60.1],[-48.3,60.9],[-51.6,63.6],[-54,67.2],[-50.9,69.9],[-54.7,69.6],[-54.4,70.8],[-51.4,70.6],[-55.8,71.7],[-54.7,72.6],[-58.6,75.5],[-68.5,76.1],[-71.4,77],[-66.8,77.4],[-73.3,78],[-65.7,79.4],[-68,80.1],[-62.7,81.8],[-44.5,81.7]],[[16.3,-28.6],[19.9,-28.5],[19.9,-24.8],[21.6,-26.7],[25.7,-25.5],[29.4,-22.1],[31.2,-22.3],[31.9,-24.4],[30.7,-26.7],[32.8,-26.7],[28.2,-32.8],[20.1,-34.8],[18.4,-34.1]],[[-117.1,32.5],[-106.5,31.8],[-103.9,29.3],[-101.7,29.8],[-97.1,25.9],[-97.9,22.4],[-95.9,18.8],[-91.4,18.9],[-90.3,21],[-87.1,21.5],[-87.8,18.3],[-91,17.8],[-90.5,16.1],[-92.2,14.5],[-103.5,18.3],[-113.1,31.2],[-114.9,31.4],[-109.9,22.8],[-115.1,27.7],[-114.2,28.6]],[[-53.4,-33.8],[-53.8,-32],[-57.6,-30.2],[-53.6,-26.1],[-55.8,-22.4],[-57.9,-22.1],[-58.2,-16.3],[-60.2,-16.3],[-60.5,-13.8],[-65.4,-11.6],[-65.3,-9.8],[-70.5,-11],[-70.5,-9.5],[-72.2,-10.1],[-74,-7.5],[-72.9,-5.3],[-69.9,-4.3],[-69.8,1.7],[-65.5,0.8],[-63.4,2.2],[-64.8,4.1],[-60.7,5.2],[-59,1.3],[-52.9,2.1],[-51.3,4.2],[-50.4,-0.1],[-44.6,-2.7],[-40,-2.9],[-35.6,-5.1],[-34.7,-7.3],[-38.7,-13.1],[-40.9,-21.9],[-47.6,-24.9],[-48.9,-28.7]],[[-66.9,1.3],[-69.8,1.7],[-69.9,-4.3],[-70,-2.7],[-77.4,0.4],[-79,1.7],[-77.1,3.8],[-77.5,8.5],[-71.4,12.4],[-73.3,9.2],[-72,7],[-67.3,6.1]],[[2.5,51.1],[8.1,49],[6,46.7],[7.4,43.7],[1.8,42.3],[-1.9,43.4],[-1.2,46],[-4.6,48.7],[-1.6,48.6],[-1.9,49.8]],[[-13.8,13.5],[-17.6,14.7],[-14.6,16.6],[-11.5,12.4],[-16.7,12.4]],[[-11.5,12.4],[-11.7,15.4],[-5.5,15.5],[-6.5,25],[4.3,19.2],[3.6,15.6],[-4,13.5],[-5.4,10.4]],[[-17.1,21],[-12.9,21.3],[-12,25.9],[-8.7,25.9],[-8.7,27.4],[-4.9,25],[-6.5,25],[-5.5,15.5],[-12.2,14.6],[-14.6,16.6],[-16.5,16.1]],[[14.9,22.9],[15.9,20.4],[13.5,14.4],[14.2,12.5],[5.4,13.9],[3.6,11.7],[1,12.9],[0.4,14.9],[3.6,15.6],[4.3,19.2],[12,23.5]],[[2.7,6.3],[4.4,13.7],[13.1,13.6],[14.6,12.1],[11.7,7],[8.5,4.8],[5.9,4.3]],[[27.4,5.2],[22.4,4],[19.5,5],[16,2.3],[14.5,5.5],[15.3,7.4],[22.9,11.1]],[[30.7,-8.3],[33.2,-9.7],[33.2,-14],[27,-17.9],[23.2,-17.5],[21.9,-12.9],[24,-12.9],[23.9,-10.9],[29.7,-13.3],[28.4,-9.2]],[[34.6,-11.5],[40.3,-10.3],[40.8,-14.7],[34.8,-19.8],[35.5,-24.1],[32.1,-26.7],[31.2,-22.3],[32.8,-16.7],[30.2,-14.8],[33.2,-14],[35,-16.8]],[[12.3,-6.1],[16.3,-5.9],[17.5,-8.1],[21.7,-7.3],[22.2,-11.1],[24,-11.2],[24,-12.9],[21.9,-12.9],[23.2,-17.5],[11.7,-17.3],[13.7,-11.3]],[[49.5,-12.5],[50.4,-15.7],[47.1,-24.9],[45.4,-25.6],[43.3,-22.8],[44,-17.4]],[[178.5,-37.7],[174.7,-41.3],[174.7,-37.4],[172.6,-34.5],[176,-37.6]],[[131.3,-31.5],[118,-35.1],[115,-34.2],[113.7,-22.5],[120.9,-19.7],[125.7,-14.2],[129.6,-15],[132.4,-11.1],[136.5,-11.9],[135.5,-15],[140.2,-17.7],[142.5,-10.7],[146.4,-19],[150.7,-22.4],[153.6,-28.1],[150,-37.4],[146.3,-39],[140.6,-38],[138.2,-34.4],[136.8,-35.3],[137.8,-32.9],[136,-34.9]],[[80.3,42.3],[80,44.9],[87.8,49.3],[91,46.9],[90.9,45.3],[96.3,42.7],[109.2,42.5],[111.9,45.1],[119.7,46.7],[115.5,48.1],[122.2,53.4],[125.9,52.8],[131,47.8],[135,48.5],[133.1,45.1],[131,45],[130.6,42.4],[121.1,38.9],[121.6,40.9],[117.5,38.7],[122.4,37.5],[119.2,34.9],[121.9,31.7],[121.7,28.2],[118.7,24.5],[110.4,20.3],[105.3,23.4],[101.7,22.3],[101.8,21.2],[99.2,22.1],[97.6,23.9],[98.7,27.5],[96.1,29.5],[88.8,27.3],[78.7,31.5],[78.9,34.3],[73.7,39.4]],[[97.3,28.3],[92.7,22],[91.2,23.5],[92.4,25],[88.6,26.4],[88.9,21.7],[80.3,15.9],[79.9,10.4],[77.5,8],[72.6,21.4],[70.5,20.9],[68.2,23.7],[71,24.4],[69.5,26.9],[75.3,32.3],[73.7,34.3],[77.8,35.5],[78.7,31.5],[81.1,30.2],[80.1,28.8],[83.3,27.4],[88.1,26.4],[88.7,28.1],[92,26.8],[96.1,29.5]],[[11,58.9],[12.6,61.3],[11.9,63.1],[16.8,68],[20.6,69.1],[23.5,67.9],[23.9,66],[17.8,62.7],[17.1,61.3],[18.8,60.1],[15.9,56.1],[12.9,55.4]],[[28.2,56.2],[30.9,55.6],[32.7,53.4],[31.8,52.1],[23.5,51.6],[23.5,53.9]],[[31.8,52.1],[40.1,49.6],[39.7,47.9],[35,45.7],[31.7,46.7],[28.7,45.3],[30,46.4],[28.7,48.1],[22.1,48.4],[23.5,51.6]],[[6.8,46],[13.8,46.5],[12.6,44.1],[18.4,40.4],[18.3,39.8],[16.9,40.4],[15.7,37.9],[15.4,40],[10.2,43.9],[7.4,43.7]],[[141.9,39.2],[140.3,35.1],[135.8,33.5],[135.1,34.6],[131,33.9],[132,33.1],[130.2,31.4],[129.4,33.3],[139.4,38.2],[140.3,41.2]]];
 
+(function(){
+  var cv=document.getElementById('globe'),G=cv.getContext('2d'),SZ=320,CX=160,CY=160,R=148;
+  var lon0=-10,lat0=20,vLon=.3,vLat=0,drag=false,px=0,py=0;
+  function proj(lon,lat){var D=Math.PI/180,dL=(lon-lon0)*D,lR=lat*D,l0R=lat0*D,cL=Math.cos(lR),sL=Math.sin(lR),cL0=Math.cos(l0R),sL0=Math.sin(l0R),cdL=Math.cos(dL),sdL=Math.sin(dL);return{sx:CX+R*cL*sdL,sy:CY-R*(cL0*sL-sL0*cL*cdL),vis:sL0*sL+cL0*cL*cdL>=0};}
+  cv.addEventListener('mousedown',function(e){drag=true;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
+  window.addEventListener('mousemove',function(e){if(!drag)return;var dx=e.clientX-px,dy=e.clientY-py;lon0-=dx*.4;lat0+=dy*.3;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.4;vLat=dy*.3;px=e.clientX;py=e.clientY;});
+  window.addEventListener('mouseup',function(){drag=false;});
+  cv.addEventListener('touchstart',function(e){drag=true;px=e.touches[0].clientX;py=e.touches[0].clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
+  cv.addEventListener('touchmove',function(e){if(!drag)return;var dx=e.touches[0].clientX-px,dy=e.touches[0].clientY-py;lon0-=dx*.5;lat0+=dy*.4;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5;vLat=dy*.4;px=e.touches[0].clientX;py=e.touches[0].clientY;e.preventDefault();},{passive:false});
+  cv.addEventListener('touchend',function(e){drag=false;e.preventDefault();},{passive:false});
+  cv.addEventListener('click',function(e){
+    var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height,mx=(e.clientX-rect.left)*scx,my=(e.clientY-rect.top)*scy,closest=null,minD=22;
+    globeDots.forEach(function(d){var p=proj(d.lon,d.lat);if(!p.vis)return;var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}});
+    if(closest){var pop=document.getElementById('dotpop');document.getElementById('dp-flag').textContent=closest.d.flag||'';document.getElementById('dp-name').textContent=(closest.d.name||'');document.getElementById('dp-txt').textContent=closest.d.txt||'';var x=Math.min(closest.cx,window.innerWidth-250);pop.style.left=x+'px';pop.style.top=Math.max(60,closest.cy-160)+'px';pop.classList.add('show');}
+    else closeDotPop();
+  });
   function draw(){
     if(!drag){lon0-=vLon;vLon*=.9;lat0+=vLat;vLat*=.9;lat0=Math.max(-80,Math.min(80,lat0));if(Math.abs(vLon)<.05&&Math.abs(vLat)<.05)vLon=.3;}
-    G.clearRect(0,0,SZ,SZ);
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle='#14161B';G.fill();
+    G.clearRect(0,0,SZ,SZ);G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle='#14161B';G.fill();
     G.save();G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.clip();
     G.strokeStyle='rgba(255,255,255,.04)';G.lineWidth=.4;
-    [-60,-30,0,30,60].forEach(lat=>{G.beginPath();let f=true,pv=false;for(let lo=-180;lo<=181;lo+=4){const p=proj(lo,lat);if(p.vis){if(f||!pv)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;pv=true;}else pv=false;}G.stroke();});
-    [-150,-120,-90,-60,-30,0,30,60,90,120,150].forEach(lo=>{G.beginPath();let f=true;for(let la=-88;la<=88;la+=4){const p=proj(lo,la);if(p.vis){if(f)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;}}G.stroke();});
-    WORLD.forEach(poly=>{if(poly.length<3)return;let any=false;for(let i=0;i<poly.length;i+=Math.max(1,Math.floor(poly.length/8))){if(proj(poly[i][0],poly[i][1]).vis){any=true;break;}}if(!any)return;G.beginPath();let s=false,w=false;for(let i=0;i<poly.length;i++){const p=proj(poly[i][0],poly[i][1]);if(p.vis){if(!s||!w)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);s=true;w=true;}else w=false;}G.closePath();G.fillStyle='#252930';G.fill();G.strokeStyle='#31363E';G.lineWidth=.7;G.stroke();});
+    [-60,-30,0,30,60].forEach(function(lat){G.beginPath();var f=true,pv=false;for(var lo=-180;lo<=181;lo+=4){var p=proj(lo,lat);if(p.vis){if(f||!pv)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;pv=true;}else pv=false;}G.stroke();});
+    [-150,-120,-90,-60,-30,0,30,60,90,120,150].forEach(function(lo){G.beginPath();var f=true;for(var la=-88;la<=88;la+=4){var p=proj(lo,la);if(p.vis){if(f)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;}}G.stroke();});
+    WORLD.forEach(function(poly){if(poly.length<3)return;var any=false;for(var i=0;i<poly.length;i+=Math.max(1,Math.floor(poly.length/8))){if(proj(poly[i][0],poly[i][1]).vis){any=true;break;}}if(!any)return;G.beginPath();var s=false,w=false;for(var j=0;j<poly.length;j++){var p=proj(poly[j][0],poly[j][1]);if(p.vis){if(!s||!w)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);s=true;w=true;}else w=false;}G.closePath();G.fillStyle='#252930';G.fill();G.strokeStyle='#31363E';G.lineWidth=.7;G.stroke();});
     G.restore();
     G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,.1)';G.lineWidth=1;G.stroke();
-    const t=Date.now()/1000;
-    globeDots.forEach((d,i)=>{
-      const p=proj(d.lon,d.lat);if(!p.vis)return;
-      const fl=.55+.45*Math.sin(t*1.3+i*.9);
-      G.beginPath();G.arc(p.sx,p.sy,9,0,Math.PI*2);G.fillStyle=`rgba(236,238,242,${fl*.07})`;G.fill();
-      G.beginPath();G.arc(p.sx,p.sy,2.8,0,Math.PI*2);G.fillStyle=`rgba(236,238,242,${fl*.95})`;G.fill();
-    });
+    var t=Date.now()/1000;
+    globeDots.forEach(function(d,i){var p=proj(d.lon,d.lat);if(!p.vis)return;var fl=.55+.45*Math.sin(t*1.3+i*.9);G.beginPath();G.arc(p.sx,p.sy,9,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.07+')';G.fill();G.beginPath();G.arc(p.sx,p.sy,2.8,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.95+')';G.fill();});
     requestAnimationFrame(draw);
   }
   draw();
-}
+})();
 
-// ═══════════════════════════════════════
-// AUTO LOGIN CHECK
-// ═══════════════════════════════════════
-sb.auth.getSession().then(async ({ data: { session } }) => {
-  if(session) {
+updateTopbar();renderMyPrayer();renderProfileSection();renderChatBottom();loadPrayers();loadChat();startLiveCount();
+
+sb.auth.getSession().then(function(res){
+  if(res.data&&res.data.session){
+    currentUser=res.data.session.user;
+    sb.from('profiles').select('*').eq('id',currentUser.id).single().then(function(p){
+      if(p.data&&p.data.country_code){profile=p.data;updateTopbar();renderMyPrayer();renderProfileSection();renderChatBottom();subscribeRealtime();}
+    });
+  }
+});
+sb.auth.onAuthStateChange(function(event,session){
+  if(event==='SIGNED_IN'&&session&&!currentUser){
+    currentUser=session.user;
+    sb.from('profiles').select('*').eq('id',currentUser.id).single().then(function(p){
+      if(p.data&&p.data.country_code){profile=p.data;closeAuth();afterLogin();}
+      else showOnboarding(session.user);
+    });
+  }
+});
+</script>
+</body>
+</html
+
+// ── Event listeners (no inline JS) ──
+document.getElementById('su-btn').addEventListener('click', doSignUp);
+document.getElementById('si-btn').addEventListener('click', doSignIn);
+document.getElementById('google-btn-up').addEventListener('click', doGoogle);
+document.getElementById('google-btn-in').addEventListener('click', doGoogle);
+document.getElementById('go-signin').addEventListener('click', function() { switchAuthTab('signin'); });
+document.getElementById('go-signup').addEventListener('click', function() { switchAuthTab('signup'); });
+document.getElementById('forgot-btn').addEventListener('click', function() { closeAuth(); setTimeout(function() { document.getElementById('ov-forgot').classList.add('open'); }, 200); });
+document.getElementById('cancel-pray').addEventListener('click', closePrayer);
+document.getElementById('submit-pray').addEventListener('click', doSubmitPrayer);
+document.getElementById('cancel-forgot').addEventListener('click', closeForgot);
+document.getElementById('send-reset').addEventListener('click', doSendReset);
+document.getElementById('ob-btn').addEventListener('click', doFinishOnboarding);
+document.getElementById('su-photo').addEventListener('change', function(e) { pendingPhoto = e.target.files[0]; previewPhoto(pendingPhoto, 'su-preview', 'su-ph-icon'); });
+document.getElementById('ob-photo').addEventListener('change', function(e) { obPhoto = e.target.files[0]; previewPhoto(obPhoto, 'ob-preview', 'ob-ph-icon'); });
+document.getElementById('su-photo-circle').addEventListener('click', function() { document.getElementById('su-photo').click(); });
+document.getElementById('ob-photo-circle').addEventListener('click', function() { document.getElementById('ob-photo').click(); });
+
+// ── Init ──
+renderTopbar(); renderMyPrayer(); renderProfile(); renderChatBottom();
+loadPrayers(); loadChat(); startLiveCount();
+
+// Session check
+sb.auth.getSession().then(function(res) {
+  var session = res.data && res.data.session;
+  if (session) {
     currentUser = session.user;
-    const { data: prof } = await sb.from('profiles').select('*').eq('id', session.user.id).single();
-    profile = prof;
-    if(profile) enterApp();
-    else {
-      // Profile not complete — show signup
-    }
+    sb.from('profiles').select('*').eq('id', currentUser.id).single().then(function(p) {
+      if (p.data && p.data.country_code) {
+        profile = p.data;
+        renderTopbar(); renderMyPrayer(); renderProfile(); renderChatBottom();
+      }
+    });
   }
 });
 
-// Auth state change (for Google OAuth redirect)
-sb.auth.onAuthStateChange(async (event, session) => {
-  if(event === 'SIGNED_IN' && session && !currentUser) {
+// Auth state change (Google redirect)
+sb.auth.onAuthStateChange(function(event, session) {
+  if (event === 'SIGNED_IN' && session && !currentUser) {
     currentUser = session.user;
-    const { data: prof } = await sb.from('profiles').select('*').eq('id', session.user.id).single();
-    if(prof) { profile = prof; enterApp(); }
-    else {
-      // New Google user — pre-fill name
-      profile = {
-        id: session.user.id,
-        name: session.user.user_metadata?.full_name || session.user.email.split('@')[0],
-        email: session.user.email,
-        photo_url: session.user.user_metadata?.avatar_url || null,
-        lang: 'en', country: 'Unknown', flag: '🌍', lon: 0, lat: 0
-      };
-      await sb.from('profiles').upsert(profile);
-      currentUser = session.user;
-      enterApp();
-    }
+    sb.from('profiles').select('*').eq('id', currentUser.id).single().then(function(p) {
+      if (p.data && p.data.country_code) {
+        profile = p.data; closeAuth(); afterLogin();
+      } else {
+        showOnboarding(session.user);
+      }
+    });
   }
 });
+
+})(); // end IIFE
 </script>
 </body>
 </html>
