@@ -204,6 +204,10 @@ select.field{-webkit-appearance:none;appearance:none}
 .loc-opt input{accent-color:var(--grn);width:16px;height:16px;cursor:pointer}
 .anon-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--txt3);cursor:pointer;margin-bottom:6px}
 .anon-row input{accent-color:var(--grn);width:15px;height:15px;cursor:pointer}
+
+.fi-comment-btn{background:rgba(139,92,246,0.12);border:.5px solid rgba(139,92,246,0.35);border-radius:18px;padding:5px 13px;font-size:12px;font-weight:600;color:#A78BFA;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s}
+.fi-comment-btn:hover{background:rgba(139,92,246,0.22);border-color:rgba(139,92,246,0.6)}
+.fi-cnt{font-size:12px;color:var(--txt3)}
 </style>
 </head>
 <body>
@@ -391,26 +395,27 @@ var SURL='https://ycggtqqyffjjniguidgy.supabase.co';
 var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZ2d0cXF5ZmZqam5pZ3VpZGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjM5MjYsImV4cCI6MjA5NDc5OTkyNn0.UW5gd9TL7Q7vy38I90HCp0P7iq6mlhLW9u1_74OLIkc';
 var sb=supabase.createClient(SURL,SKEY);
 
+/* ── SEED DATA ── */
 var SEED=[
   {id:'s1',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',country:'Brazil',lon:-47,lat:-15,text:'For the families affected by the floods in southern Brazil. Lord, be their refuge and strength.',pray_count:312,created_at:new Date(Date.now()-7200000).toISOString()},
   {id:'s2',uid:'seed',name:'Abigail Okafor',flag:'🇳🇬',country:'Nigeria',lon:8,lat:9,text:"For my daughter's full recovery. She has been in hospital since Monday. God, heal her completely.",pray_count:287,created_at:new Date(Date.now()-14400000).toISOString()},
   {id:'s3',uid:'seed',name:'Lucia Santos',flag:'🇵🇭',country:'Philippines',lon:122,lat:12,text:"For peace in our community and wisdom for our leaders. May God's grace cover our nation.",pray_count:198,created_at:new Date(Date.now()-21600000).toISOString()},
   {id:'s4',uid:'seed',name:'Ji-ho Park',flag:'🇰🇷',country:'South Korea',lon:128,lat:36,text:'For my family going through a very difficult season. Lord, I trust you with all my heart.',pray_count:143,created_at:new Date(Date.now()-28800000).toISOString()},
-  {id:'s5',uid:'seed',name:'Marie Dubois',flag:'🇫🇷',country:'France',lon:2,lat:47,text:"For my friend who lost his job this week. May God open new doors and provide for his family.",pray_count:89,created_at:new Date(Date.now()-36000000).toISOString()},
+  {id:'s5',uid:'seed',name:'Marie Dubois',flag:'🇫🇷',country:'France',lon:2,lat:47,text:"For my friend who lost his job this week. May God open new doors for his family.",pray_count:89,created_at:new Date(Date.now()-36000000).toISOString()},
   {id:'s6',uid:'seed',name:'Priya Thomas',flag:'🇮🇳',country:'India',lon:78,lat:22,text:'For revival across India. Lord, pour out your Spirit on every village and city.',pray_count:231,created_at:new Date(Date.now()-43200000).toISOString()},
   {id:'s7',uid:'seed',name:'Emmanuel Mbeki',flag:'🇨🇩',country:'Congo',lon:24,lat:-4,text:'For reconciliation and peace in our nation. Lord, let your kingdom come to Congo.',pray_count:64,created_at:new Date(Date.now()-50400000).toISOString()},
   {id:'s8',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',country:'South Africa',lon:25,lat:-29,text:'Praying for unity in the body of Christ across Africa. We are one in Him.',pray_count:117,created_at:new Date(Date.now()-57600000).toISOString()},
   {id:'s9',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',country:'Germany',lon:10,lat:51,text:'For my mother who is battling cancer. Lord, you are the healer. We place her in your hands.',pray_count:176,created_at:new Date(Date.now()-64800000).toISOString()},
-  {id:'s10',uid:'seed',name:'Amara Diallo',flag:'🇸🇳',country:'Senegal',lon:-14,lat:14,text:'For the children in our village who have no access to clean water or schooling.',pray_count:94,created_at:new Date(Date.now()-72000000).toISOString()},
+  {id:'s10',uid:'seed',name:'Amara Diallo',flag:'🇸🇳',country:'Senegal',lon:-14,lat:14,text:'For the children in our village with no access to clean water or schooling.',pray_count:94,created_at:new Date(Date.now()-72000000).toISOString()},
   {id:'s11',uid:'seed',name:'Grace Mensah',flag:'🇬🇭',country:'Ghana',lon:-2,lat:8,text:'Praying for my marriage. Lord, restore what has been broken and renew our love.',pray_count:152,created_at:new Date(Date.now()-79200000).toISOString()},
   {id:'s12',uid:'seed',name:'David L.',flag:'🇨🇦',country:'Canada',lon:-80,lat:45,text:'For the unity of the body of Christ across all nations. That we would be one as He is one.',pray_count:891,created_at:new Date(Date.now()-86400000).toISOString()},
 ];
 var SEED_CHAT=[
   {id:'c1',uid:'seed',name:'Abigail Okafor',flag:'🇳🇬',text:"May God's grace be upon you all this morning. Amen 🙏",created_at:new Date(Date.now()-300000).toISOString()},
-  {id:'c2',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',text:'Amazing to be in communion with believers from every nation. God bless you all.',created_at:new Date(Date.now()-240000).toISOString()},
-  {id:'c3',uid:'seed',name:'Lucia Santos',flag:'🇵🇭',text:"Can anyone pray for my family right now? Going through something difficult.",created_at:new Date(Date.now()-180000).toISOString()},
-  {id:'c4',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',text:'With you Lucia 🙏 Lord, we lift up this family to you right now.',created_at:new Date(Date.now()-120000).toISOString()},
-  {id:'c5',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',text:'Praying for everyone here from South Africa. You are not alone.',created_at:new Date(Date.now()-60000).toISOString()},
+  {id:'c2',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',text:'Amazing to be in communion with believers from every nation.',created_at:new Date(Date.now()-240000).toISOString()},
+  {id:'c3',uid:'seed',name:'Lucia Santos',flag:'🇵🇭',text:"Can anyone pray for my family right now?",created_at:new Date(Date.now()-180000).toISOString()},
+  {id:'c4',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',text:'With you Lucia 🙏',created_at:new Date(Date.now()-120000).toISOString()},
+  {id:'c5',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',text:'Praying for everyone here. You are not alone.',created_at:new Date(Date.now()-60000).toISOString()},
 ];
 var CC=[
   {c:'CA',n:'Canada',f:'🇨🇦',lo:-80,la:45},{c:'US',n:'United States',f:'🇺🇸',lo:-97,la:38},
@@ -438,75 +443,60 @@ var CC=[
 
 /* ── STATE ── */
 var cu=null,prof=null,prayers=[],chatMsgs=[],dots=[],privConvos={};
-var pCh=null,cCh=null,prvCh=null,pendAction=null,pendPrayId=null;
-var chatMode='global';
+var pCh=null,cCh=null,prvCh=null,pendAction=null,pendPrayId=null,chatMode='global';
 
-/* ── MUSIC (Web Audio API — gentle spiritual pads) ── */
-var audioCtx=null,musicGain=null,musicPlaying=false,musicTimeout=null;
-
-function startMusic(){
-  if(musicPlaying)return;
-  if(!audioCtx){
-    try{
-      audioCtx=new(window.AudioContext||window.webkitAudioContext)();
-      musicGain=audioCtx.createGain();
-      musicGain.gain.setValueAtTime(0,audioCtx.currentTime);
-      musicGain.connect(audioCtx.destination);
-    }catch(e){return;}
-  }
-  if(audioCtx.state==='suspended')audioCtx.resume();
-  musicPlaying=true;
-  updateMusicBtn();
-  // Fade in
-  musicGain.gain.cancelScheduledValues(audioCtx.currentTime);
-  musicGain.gain.setValueAtTime(musicGain.gain.value,audioCtx.currentTime);
-  musicGain.gain.linearRampToValueAtTime(0.6,audioCtx.currentTime+2);
-  schedulePad();
+/* ── MUSIC ── */
+var audioCtx=null,musicGain=null,musicPlaying=false,musicTimer=null;
+function initAudio(){
+  if(audioCtx)return true;
+  try{
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    musicGain=audioCtx.createGain();
+    musicGain.gain.setValueAtTime(0,audioCtx.currentTime);
+    musicGain.connect(audioCtx.destination);
+    return true;
+  }catch(e){return false;}
 }
-
-function stopMusic(){
-  if(!musicPlaying||!audioCtx)return;
-  musicPlaying=false;
-  updateMusicBtn();
-  if(musicTimeout){clearTimeout(musicTimeout);musicTimeout=null;}
-  musicGain.gain.cancelScheduledValues(audioCtx.currentTime);
-  musicGain.gain.setValueAtTime(musicGain.gain.value,audioCtx.currentTime);
-  musicGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+1.5);
-}
-
-function updateMusicBtn(){
-  var btn=document.querySelector('#music-btn');
-  if(btn)btn.textContent=musicPlaying?'🔇':'🎵';
-}
-
-function schedulePad(){
-  if(!musicPlaying||!audioCtx)return;
-  // Pentatonic scale in G - very peaceful
-  var freqs=[[196,261.6,329.6],[220,293.7,369.9],[261.6,349.2,440],[293.7,392,523.2],[196,261.6,392]];
-  var chord=freqs[Math.floor(Math.random()*freqs.length)];
-  var now=audioCtx.currentTime;
-  var dur=5+Math.random()*3;
+function playPad(){
+  if(!audioCtx||!musicPlaying)return;
+  var freqSets=[[196,261.6,329.6,392],[220,293.7,369.9,440],[174.6,220,261.6,349.2],[196,261.6,349.2,440],[246.9,329.6,392,493.9]];
+  var chord=freqSets[Math.floor(Math.random()*freqSets.length)];
+  var now=audioCtx.currentTime,dur=6+Math.random()*3;
   chord.forEach(function(freq,i){
-    var osc=audioCtx.createOscillator();
-    var g=audioCtx.createGain();
+    var osc=audioCtx.createOscillator(),g=audioCtx.createGain();
     osc.connect(g);g.connect(musicGain);
     osc.type='sine';
-    osc.frequency.setValueAtTime(freq*(i===2?1:1),now);
-    // Slight detune for warmth
-    osc.detune.setValueAtTime((Math.random()-0.5)*8,now);
-    var vol=i===0?0.22:i===1?0.16:0.11;
+    osc.frequency.setValueAtTime(freq,now);
+    osc.detune.setValueAtTime((Math.random()-0.5)*12,now);
+    var vol=[0.2,0.14,0.1,0.07][i]||0.05;
     g.gain.setValueAtTime(0,now);
-    g.gain.linearRampToValueAtTime(vol,now+1.8);
+    g.gain.linearRampToValueAtTime(vol,now+2);
     g.gain.setValueAtTime(vol,now+dur-1.5);
     g.gain.linearRampToValueAtTime(0,now+dur+0.5);
     osc.start(now);osc.stop(now+dur+1);
   });
-  var next=dur*1000-1000+Math.random()*2000;
-  musicTimeout=setTimeout(schedulePad,next);
+  musicTimer=setTimeout(playPad,(dur-1)*1000+Math.random()*2000);
 }
+function startMusic(){
+  if(!initAudio())return;
+  if(audioCtx.state==='suspended')audioCtx.resume();
+  musicPlaying=true;
+  musicGain.gain.cancelScheduledValues(audioCtx.currentTime);
+  musicGain.gain.setValueAtTime(0,audioCtx.currentTime);
+  musicGain.gain.linearRampToValueAtTime(0.65,audioCtx.currentTime+3);
+  playPad();
+  var btn=qs('#music-btn');if(btn)btn.textContent='🔇';
+}
+function stopMusic(){
+  musicPlaying=false;
+  if(musicTimer){clearTimeout(musicTimer);musicTimer=null;}
+  if(musicGain&&audioCtx){musicGain.gain.cancelScheduledValues(audioCtx.currentTime);musicGain.gain.setValueAtTime(musicGain.gain.value,audioCtx.currentTime);musicGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+1.5);}
+  var btn=qs('#music-btn');if(btn)btn.textContent='🎵';
+}
+function toggleMusic(){if(musicPlaying)stopMusic();else startMusic();}
 
 /* ── UTILS ── */
-function toast(m){var t=document.querySelector('#toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
+function toast(m){var t=qs('#toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
 function ago(ts){var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);return dy>0?dy+'d':h>0?h+'h':m>0?m+'m':'now';}
 function qs(s){return document.querySelector(s);}
 function qsa(s){return document.querySelectorAll(s);}
@@ -536,15 +526,9 @@ function renderTopbar(){
 
 /* ── AUTH ── */
 function openAuth(action){
-  pendAction=action;
-  fillSel('su-country');fillSel('ob-country');
-  qs('#auth-onboard').style.display='none';
-  qs('#auth-main').style.display='block';
-  var titles={
-    pray:['Share your prayer','Thousands of Christians worldwide will pray with you — free.'],
-    chat:['Join the conversation','Chat with Christians from 156 nations in real time.'],
-    priv:['Leave a comment','Create a free account to leave a private word of support.']
-  };
+  pendAction=action;fillSel('su-country');fillSel('ob-country');
+  qs('#auth-onboard').style.display='none';qs('#auth-main').style.display='block';
+  var titles={pray:['Share your prayer','Thousands of Christians worldwide will pray with you — free.'],chat:['Join the conversation','Chat with Christians from 156 nations.'],priv:['Leave a comment','Create a free account to comment privately on this prayer.']};
   var t=titles[action]||['Join GlobePray','Free · No ads. Your prayer on the globe.'];
   qs('#auth-title').textContent=t[0];qs('#auth-sub').textContent=t[1];
   qs('#ov-auth').classList.add('open');
@@ -556,11 +540,7 @@ window.switchTab=switchTab;
 
 /* ── SIGN UP ── */
 async function doSignUp(){
-  var name=(qs('#su-name').value||'').trim();
-  var email=(qs('#su-email').value||'').trim();
-  var pass=qs('#su-pass').value||'';
-  var lang=qs('#su-lang').value||'en';
-  var code=qs('#su-country').value||'';
+  var name=(qs('#su-name').value||'').trim(),email=(qs('#su-email').value||'').trim(),pass=qs('#su-pass').value||'',lang=qs('#su-lang').value||'en',code=qs('#su-country').value||'';
   var err=qs('#su-err');err.textContent='';err.style.color='#F87171';
   if(!name){err.textContent='Enter your name.';return;}
   if(!email){err.textContent='Enter your email.';return;}
@@ -569,58 +549,63 @@ async function doSignUp(){
   var btn=qs('#su-btn');btn.textContent='Creating...';btn.disabled=true;
   var res=await sb.auth.signUp({email:email,password:pass});
   if(res.error){err.textContent=res.error.message;btn.textContent='Join GlobePray — Free';btn.disabled=false;return;}
-  if(!res.data||!res.data.user){
-    err.style.color='var(--grn)';
-    err.textContent='Account created! Check your email to confirm, then sign in.';
-    btn.textContent='Join GlobePray — Free';btn.disabled=false;return;
-  }
+  if(!res.data||!res.data.user){err.style.color='var(--grn)';err.textContent='Account created! Check email to confirm, then sign in.';btn.textContent='Join GlobePray — Free';btn.disabled=false;return;}
   var ct=getCC(code);
   var p={id:res.data.user.id,name:name,email:email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:null,anonymous:false};
   await sb.from('profiles').upsert(p);
-  prof=p;cu=res.data.user;
-  btn.textContent='Join GlobePray — Free';btn.disabled=false;
+  prof=p;cu=res.data.user;btn.textContent='Join GlobePray — Free';btn.disabled=false;
   closeAuth();afterLogin();
 }
 
 /* ── SIGN IN ── */
 async function doSignIn(){
-  var email=(qs('#si-email').value||'').trim();
-  var pass=qs('#si-pass').value||'';
+  var email=(qs('#si-email').value||'').trim(),pass=qs('#si-pass').value||'';
   var err=qs('#si-err');err.textContent='';
   if(!email||!pass){err.textContent='Fill all fields.';return;}
   var btn=qs('#si-btn');btn.textContent='Signing in...';btn.disabled=true;
+  // Try sign in
   var res=await sb.auth.signInWithPassword({email:email,password:pass});
-  if(res.error){err.textContent='Invalid email or password.';btn.textContent='Sign In';btn.disabled=false;return;}
+  if(res.error){
+    // If email not confirmed, try to resend confirmation
+    if(res.error.message&&res.error.message.indexOf('Email not confirmed')>-1){
+      err.textContent='Please confirm your email first. Check your inbox.';
+      // Also try to force-confirm via admin (won't work with anon key, just show message)
+    } else {
+      err.textContent='Invalid email or password. Try again.';
+    }
+    btn.textContent='Sign In';btn.disabled=false;return;
+  }
   cu=res.data.user;
   var p=await sb.from('profiles').select('*').eq('id',cu.id).single();
-  prof=p.data;
+  if(p.data){prof=p.data;}
+  else{
+    // Profile missing — create minimal one
+    var meta=cu.user_metadata||{};
+    prof={id:cu.id,name:meta.full_name||email.split('@')[0],email:email,lang:'en',country:'Unknown',country_code:'XX',flag:'🌍',lon:null,lat:null,photo_url:null};
+    await sb.from('profiles').upsert(prof);
+  }
   btn.textContent='Sign In';btn.disabled=false;
   closeAuth();afterLogin();
 }
 
 /* ── GOOGLE ── */
 async function doGoogle(){
-  // redirectTo must match what's in Google Console + Supabase allowed URLs
-  var redirect=window.location.href.replace(/#.*/,'').replace(/\?.*/,'');
-  // If file:// or localhost, redirect to the supabase project URL
-  if(redirect.indexOf('file://')>-1||redirect.indexOf('localhost')>-1||redirect.indexOf('127.0.0.1')>-1){
-    redirect=SURL;
-  }
+  // For Google OAuth, redirectTo must be the EXACT URL registered in Google Console
+  // We use the Supabase project URL since it's always valid
   var res=await sb.auth.signInWithOAuth({
     provider:'google',
     options:{
-      redirectTo:redirect,
-      queryParams:{access_type:'offline',prompt:'consent'}
+      redirectTo:SURL,  // Always redirect to Supabase URL — avoids "invalid path" error
+      queryParams:{access_type:'offline',prompt:'select_account'}
     }
   });
-  if(res.error){toast('Google error: '+res.error.message);}
+  if(res.error)toast('Google error: '+res.error.message);
 }
 
 /* ── AFTER LOGIN ── */
 function afterLogin(){
   renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
-  if(!pCh)loadPrayers();
-  if(!cCh)loadChat();
+  if(!pCh)loadPrayers();if(!cCh)loadChat();
   loadPrivate();
   if(pendAction==='pray')setTimeout(openPrayer,300);
   else if(pendAction==='priv'&&pendPrayId)setTimeout(function(){openPrivReply(pendPrayId);},300);
@@ -631,30 +616,23 @@ function afterLogin(){
 /* ── LOGOUT ── */
 async function doLogout(){
   await sb.auth.signOut();cu=null;prof=null;chatMode='global';
-  if(pCh){sb.removeChannel(pCh);pCh=null;}
-  if(cCh){sb.removeChannel(cCh);cCh=null;}
-  if(prvCh){sb.removeChannel(prvCh);prvCh=null;}
+  if(pCh){sb.removeChannel(pCh);pCh=null;}if(cCh){sb.removeChannel(cCh);cCh=null;}if(prvCh){sb.removeChannel(prvCh);prvCh=null;}
   renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
 }
 
 /* ── GOOGLE ONBOARDING ── */
 function showOnboard(user){
   fillSel('ob-country');
-  qs('#auth-onboard').style.display='block';
-  qs('#auth-main').style.display='none';
+  qs('#auth-onboard').style.display='block';qs('#auth-main').style.display='none';
   var gn=(user.user_metadata||{}).full_name||user.email.split('@')[0];
-  qs('#ob-av').textContent=gn[0].toUpperCase();
-  qs('#ob-uname').textContent=gn;qs('#ob-uemail').textContent=user.email;
+  qs('#ob-av').textContent=gn[0].toUpperCase();qs('#ob-uname').textContent=gn;qs('#ob-uemail').textContent=user.email;
   qs('#ov-auth').classList.add('open');
 }
 async function doFinishOnboard(){
-  var lang=qs('#ob-lang').value||'en';
-  var code=qs('#ob-country').value||'';
-  var err=qs('#ob-err');
+  var lang=qs('#ob-lang').value||'en',code=qs('#ob-country').value||'',err=qs('#ob-err');
   if(!code){err.textContent='Please select your country.';return;}
   err.textContent='';
-  var ct=getCC(code);
-  var gn=(cu.user_metadata||{}).full_name||cu.email.split('@')[0];
+  var ct=getCC(code),gn=(cu.user_metadata||{}).full_name||cu.email.split('@')[0];
   var p={id:cu.id,name:gn,email:cu.email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:null,anonymous:false};
   await sb.from('profiles').upsert(p);
   prof=p;closeAuth();afterLogin();
@@ -671,49 +649,35 @@ function renderMyPrayer(){
     var btn=document.createElement('button');btn.className='mp-teaser-btn';btn.textContent='Pray →';
     btn.onclick=function(){openAuth('pray');};d.appendChild(txt);d.appendChild(btn);box.appendChild(d);return;
   }
-  var myText=localStorage.getItem('gp_p_'+cu.id);
-  var myTime=parseInt(localStorage.getItem('gp_pt_'+cu.id)||'0');
-  var elapsed=Date.now()-myTime;
+  var myText=localStorage.getItem('gp_p_'+cu.id),myTime=parseInt(localStorage.getItem('gp_pt_'+cu.id)||'0'),elapsed=Date.now()-myTime;
   if(!myText||elapsed>86400000){
     box.innerHTML='<div class="mp-empty"><div class="mp-icon">🙏</div><div class="mp-txt">Share your prayer request with thousands of Christians worldwide.</div></div>';
     var btn=document.createElement('button');btn.className='mp-btn';btn.textContent='Share my prayer';
     btn.onclick=openPrayer;box.querySelector('.mp-empty').appendChild(btn);
   }else{
-    var rem=86400000-elapsed,h=Math.floor(rem/3600000),m=Math.floor((rem%3600000)/60000);
-    var pc=parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0');
+    var rem=86400000-elapsed,h=Math.floor(rem/3600000),m=Math.floor((rem%3600000)/60000),pc=parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0');
     box.innerHTML='<div class="mp-live"><div class="mp-top"><div class="mp-badge">My Prayer · Active</div><div class="mp-timer">New in '+h+'h '+m+'m</div></div><div class="mp-content">'+myText+'</div><div class="mp-pc"><strong>'+(pc+12)+'</strong> people praying with you</div></div>';
   }
 }
 function openPrayer(){qs('#ov-prayer').classList.add('open');}
 function closePrayer(){qs('#ov-prayer').classList.remove('open');}
 
-/* ── SUBMIT PRAYER ── */
 async function doSubmitPrayer(){
   var txt=(qs('#prayIn').value||'').trim();if(!txt||!cu||!prof)return;
-  var locChoice=qs('input[name="prayLoc"]:checked');
-  var locVal=locChoice?locChoice.value:'precise';
+  var locChoice=qs('input[name="prayLoc"]:checked'),locVal=locChoice?locChoice.value:'precise';
   var btn=qs('#submit-pray');btn.disabled=true;btn.textContent='Sharing...';
   var lon=null,lat=null,showOnGlobe=true;
-  if(locVal==='none'){
-    showOnGlobe=false;
-  }else if(locVal==='precise'){
-    try{
-      var pos=await new Promise(function(res,rej){navigator.geolocation.getCurrentPosition(res,rej,{timeout:8000});});
-      lon=parseFloat(pos.coords.longitude.toFixed(3));
-      lat=parseFloat(pos.coords.latitude.toFixed(3));
-    }catch(e){lon=prof.lon||null;lat=prof.lat||null;}
-  }else{
-    lon=prof.lon||null;lat=prof.lat||null;
-  }
+  if(locVal==='none'){showOnGlobe=false;}
+  else if(locVal==='precise'){
+    try{var pos=await new Promise(function(res,rej){navigator.geolocation.getCurrentPosition(res,rej,{timeout:8000});});lon=parseFloat(pos.coords.longitude.toFixed(3));lat=parseFloat(pos.coords.latitude.toFixed(3));}
+    catch(e){lon=prof.lon||null;lat=prof.lat||null;}
+  }else{lon=prof.lon||null;lat=prof.lat||null;}
   var p={user_id:cu.id,name:prof.name,flag:prof.flag,country:prof.country,country_code:prof.country_code,lon:lon,lat:lat,photo_url:null,text:txt,pray_count:0,lang:prof.lang||'en',show_on_globe:showOnGlobe};
   var res=await sb.from('prayers').insert(p);
   if(res.error){toast('Error: '+res.error.message);btn.disabled=false;btn.textContent='Share with the world';return;}
-  localStorage.setItem('gp_p_'+cu.id,txt);
-  localStorage.setItem('gp_pt_'+cu.id,String(Date.now()));
-  localStorage.setItem('gp_pc_'+cu.id,'0');
+  localStorage.setItem('gp_p_'+cu.id,txt);localStorage.setItem('gp_pt_'+cu.id,String(Date.now()));localStorage.setItem('gp_pc_'+cu.id,'0');
   qs('#prayIn').value='';closePrayer();renderMyPrayer();
-  btn.disabled=false;btn.textContent='Share with the world';
-  toast('Prayer shared with the world 🙏');
+  btn.disabled=false;btn.textContent='Share with the world';toast('Prayer shared with the world 🙏');
 }
 
 /* ── FEED ── */
@@ -736,7 +700,7 @@ function renderFeed(){
     var div=document.createElement('div');div.className='fi';
     div.innerHTML='<div class="fi-head"><div class="fi-av-txt" style="'+avStyle(p.name)+'">'+(p.name||'?')[0].toUpperCase()+'</div><div class="fi-info"><div class="fi-name">'+(p.name||'Anonymous')+' <span class="fi-flag">'+(p.flag||'')+'</span></div><div class="fi-sub">'+(p.country||'')+'</div></div><div class="fi-time">'+ago(p.created_at)+'</div></div><div class="fi-body">'+(p.text||'')+'</div><div class="fi-foot"></div>';
     var foot=div.querySelector('.fi-foot');
-    // Pray button
+    // 🙏 Pray button
     var pBtn=document.createElement('button');pBtn.className='fi-pbtn'+(p._prayed?' done':'');
     pBtn.textContent=p._prayed?'✓ Praying':'🙏 Praying with you';
     pBtn.addEventListener('click',(function(pr,b){return function(){
@@ -748,9 +712,9 @@ function renderFeed(){
     };})(p,pBtn));
     foot.appendChild(pBtn);
     foot.appendChild((function(){var c=document.createElement('div');c.className='fi-cnt';c.textContent=(p.pray_count||0)+' praying';return c;})());
-    // Comment button — for all non-seed prayers (guests see it too, then get auth modal)
+    // 💬 Comment — visible on ALL non-seed prayers, prominent
     if(!isSeed){
-      var rBtn=document.createElement('button');rBtn.className='fi-reply-btn';rBtn.textContent='💬 Comment';
+      var rBtn=document.createElement('button');rBtn.className='fi-comment-btn';rBtn.textContent='💬 Comment';
       rBtn.addEventListener('click',(function(pr){return function(){
         if(!cu){pendPrayId=pr.id;openAuth('priv');return;}
         if(pr.user_id===cu.id){toast("You can't comment on your own prayer.");return;}
@@ -775,20 +739,17 @@ function loadPrivate(){
   sb.from('private_messages').select('*').or('sender_id.eq.'+cu.id+',recipient_id.eq.'+cu.id)
     .order('created_at',{ascending:true}).limit(200)
     .then(function(res){
-      if(!res.data)return;
-      privConvos={};
+      if(!res.data)return;privConvos={};
       res.data.forEach(function(m){
         if(!privConvos[m.convo_id])privConvos[m.convo_id]={msgs:[],other_name:m.sender_id===cu.id?m.recipient_name:m.sender_name,prayer_text:m.prayer_text,id:m.convo_id,recipient_id:m.sender_id===cu.id?m.recipient_id:m.sender_id};
         privConvos[m.convo_id].msgs.push(m);
-      });
-      renderChatTabs();
+      });renderChatTabs();
     });
   prvCh=sb.channel('gp-prv-'+cu.id)
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'private_messages'},function(p){
       if(p.new.sender_id!==cu.id&&p.new.recipient_id!==cu.id)return;
       if(!privConvos[p.new.convo_id])privConvos[p.new.convo_id]={msgs:[],other_name:p.new.sender_id===cu.id?p.new.recipient_name:p.new.sender_name,prayer_text:p.new.prayer_text,id:p.new.convo_id,recipient_id:p.new.sender_id===cu.id?p.new.recipient_id:p.new.sender_id};
-      privConvos[p.new.convo_id].msgs.push(p.new);
-      renderChatTabs();if(chatMode===p.new.convo_id)renderChatContent();
+      privConvos[p.new.convo_id].msgs.push(p.new);renderChatTabs();if(chatMode===p.new.convo_id)renderChatContent();
     }).subscribe();
 }
 function openPrivReply(prayId,prayerName,prayerUserId,prayerText){
@@ -811,10 +772,7 @@ function renderChatTabs(){
     el.appendChild(b);
   });}
 }
-function renderChatContent(){
-  if(chatMode==='global'){renderGlobalChat();renderChatBar(false);}
-  else{renderPrivChat(chatMode);renderChatBar(true);}
-}
+function renderChatContent(){if(chatMode==='global'){renderGlobalChat();renderChatBar(false);}else{renderPrivChat(chatMode);renderChatBar(true);}}
 function renderGlobalChat(){
   var el=qs('#chatEl');if(!el)return;
   var all=[].concat(SEED_CHAT).concat(chatMsgs);el.innerHTML='';
@@ -850,8 +808,7 @@ function renderChatBar(isPriv){
     b.onclick=function(){openAuth('chat');};d.appendChild(b);el.appendChild(d);return;
   }
   var bar=document.createElement('div');bar.className='chat-bar-inner';
-  var inp=document.createElement('input');inp.className='chat-in';inp.id='chatIn';
-  inp.placeholder=isPriv?'Send a private message...':'A word, a prayer...';
+  var inp=document.createElement('input');inp.className='chat-in';inp.id='chatIn';inp.placeholder=isPriv?'Send a private message...':'A word, a prayer...';
   inp.addEventListener('keydown',function(e){if(e.key==='Enter'){isPriv?doSendPriv():doSendChat();}});
   var sb2=document.createElement('button');sb2.className='chat-send';
   sb2.innerHTML='<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
@@ -862,20 +819,14 @@ function loadChat(){
   sb.from('chat').select('*').order('created_at',{ascending:true}).limit(60).then(function(res){chatMsgs=res.data||[];if(chatMode==='global')renderChatContent();});
   cCh=sb.channel('gp-chat').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat'},function(p){chatMsgs.push(p.new);if(chatMode==='global')renderChatContent();}).subscribe();
 }
-async function doSendChat(){
-  var inp=qs('#chatIn');if(!inp||!cu||!prof)return;
-  var txt=(inp.value||'').trim();if(!txt)return;inp.value='';
-  await sb.from('chat').insert({user_id:cu.id,name:prof.name,flag:prof.flag,photo_url:null,text:txt});
-}
+async function doSendChat(){var inp=qs('#chatIn');if(!inp||!cu||!prof)return;var txt=(inp.value||'').trim();if(!txt)return;inp.value='';await sb.from('chat').insert({user_id:cu.id,name:prof.name,flag:prof.flag,photo_url:null,text:txt});}
 async function doSendPriv(){
-  var inp=qs('#chatIn');if(!inp||!cu||!prof)return;
-  var txt=(inp.value||'').trim();if(!txt)return;inp.value='';
+  var inp=qs('#chatIn');if(!inp||!cu||!prof)return;var txt=(inp.value||'').trim();if(!txt)return;inp.value='';
   var conv=privConvos[chatMode];if(!conv)return;
   var msg={convo_id:chatMode,sender_id:cu.id,sender_name:prof.name,recipient_id:conv.recipient_id||'',recipient_name:conv.other_name||'',prayer_text:conv.prayer_text||'',text:txt};
   var res=await sb.from('private_messages').insert(msg);
   if(res.error){toast('Error: '+res.error.message);return;}
-  privConvos[chatMode].msgs.push(Object.assign({},msg,{created_at:new Date().toISOString()}));
-  renderChatContent();
+  privConvos[chatMode].msgs.push(Object.assign({},msg,{created_at:new Date().toISOString()}));renderChatContent();
 }
 
 /* ── PROFILE ── */
@@ -888,23 +839,15 @@ function renderProfile(){
     var b2=document.createElement('button');b2.className='gp-sub-btn';b2.textContent='Already have an account? Sign in';b2.onclick=function(){openAuth(null);setTimeout(function(){switchTab('signin');},100);};
     d.appendChild(b1);d.appendChild(b2);el.appendChild(d);return;
   }
-  var init=(prof.name||'U')[0].toUpperCase();
-  var langs={en:'English',fr:'Français',es:'Español',pt:'Português'};
-  var convCount=Object.keys(privConvos).length;
+  var init=(prof.name||'U')[0].toUpperCase(),langs={en:'English',fr:'Français',es:'Español',pt:'Português'},convCount=Object.keys(privConvos).length;
   el.innerHTML='<div class="prof-wrap"><div class="pav-wrap"><div class="pav" style="'+avStyle(prof.name)+'">'+init+'</div></div><div class="pname">'+(prof.name||'')+'</div><div class="pemail">'+(prof.email||cu.email||'')+'</div><div class="prow"><div class="prow-ic">🌍</div><div><div class="prow-lbl">Country</div><div class="prow-sub">'+(prof.flag||'')+' '+(prof.country||'')+'</div></div><div class="prow-arr">›</div></div><div class="prow"><div class="prow-ic">🔤</div><div><div class="prow-lbl">Language</div><div class="prow-sub">'+(langs[prof.lang||'en'])+'</div></div><div class="prow-arr">›</div></div><div class="prow" id="priv-row"><div class="prow-ic">💬</div><div><div class="prow-lbl">Private Messages</div><div class="prow-sub">'+convCount+' conversation'+(convCount!==1?'s':'')+'</div></div><div class="prow-arr">›</div></div></div>';
   el.querySelector('#priv-row').onclick=function(){navTo('chat');};
   var lb=document.createElement('button');lb.className='p-logout';lb.textContent='Sign Out';lb.onclick=doLogout;
   el.querySelector('.prof-wrap').appendChild(lb);
 }
 
-/* ── FORGOT ── */
-async function doReset(){
-  var email=(qs('#forgot-email').value||'').trim();if(!email){toast('Enter your email.');return;}
-  await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.href});
-  qs('#ov-forgot').classList.remove('open');toast('Reset link sent! Check your inbox.');
-}
+async function doReset(){var email=(qs('#forgot-email').value||'').trim();if(!email){toast('Enter your email.');return;}await sb.auth.resetPasswordForEmail(email,{redirectTo:SURL});qs('#ov-forgot').classList.remove('open');toast('Reset link sent! Check your inbox.');}
 
-/* ── LIVE COUNT ── */
 function startCount(){
   var base=3241+Math.floor(Math.random()*200);
   function u(){base+=Math.floor(Math.random()*7)-3;base=Math.max(3100,base);var s=base.toLocaleString();qs('#liveN').textContent=s;qs('#sConn').textContent=s;}
@@ -914,45 +857,97 @@ function startCount(){
 /* ── GLOBE ── */
 function initGlobe(){
   var cv=qs('#globe');if(!cv)return;
-  var G=cv.getContext('2d'),SZ=320,CX=160,CY=160,R=148;
-  var lon0=-10,lat0=20,vLon=.3,vLat=0,drag=false,px=0,py=0;
-  var zoom=1,minZoom=0.5,maxZoom=3.5,pinchDist=0;
-  function getR(){return Math.min(R*zoom,CX-2);}
+  var G=cv.getContext('2d'),SZ=320,CX=160,CY=160,R=145;
+  var lon0=-10,lat0=20,vLon=.25,vLat=0,dragging=false,px=0,py=0;
+  var zoom=1,minZ=0.4,maxZ=5,pinchD0=0;
+
+  function getR(){return Math.max(20,Math.min(R*zoom,CX-2));}
   function proj(lon,lat){
     var r=getR(),D=Math.PI/180,dL=(lon-lon0)*D,lR=lat*D,l0R=lat0*D;
     var cL=Math.cos(lR),sL=Math.sin(lR),cL0=Math.cos(l0R),sL0=Math.sin(l0R),cdL=Math.cos(dL),sdL=Math.sin(dL);
     return{sx:CX+r*cL*sdL,sy:CY-r*(cL0*sL-sL0*cL*cdL),vis:sL0*sL+cL0*cL*cdL>=0};
   }
-  function pDist(e){var dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
-  cv.addEventListener('mousedown',function(e){drag=true;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
-  window.addEventListener('mousemove',function(e){if(!drag)return;var dx=e.clientX-px,dy=e.clientY-py;lon0-=dx*.4/zoom;lat0+=dy*.3/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.4/zoom;vLat=dy*.3/zoom;px=e.clientX;py=e.clientY;});
-  window.addEventListener('mouseup',function(){drag=false;});
-  cv.addEventListener('wheel',function(e){e.preventDefault();zoom=Math.max(minZoom,Math.min(maxZoom,zoom*(e.deltaY<0?1.12:0.9)));},{passive:false});
-  cv.addEventListener('touchstart',function(e){if(e.touches.length===2){pinchDist=pDist(e);drag=false;}else{drag=true;px=e.touches[0].clientX;py=e.touches[0].clientY;vLon=0;vLat=0;}e.preventDefault();},{passive:false});
-  cv.addEventListener('touchmove',function(e){if(e.touches.length===2){var d=pDist(e);zoom=Math.max(minZoom,Math.min(maxZoom,zoom*(d/pinchDist)));pinchDist=d;}else if(drag){var dx=e.touches[0].clientX-px,dy=e.touches[0].clientY-py;lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.touches[0].clientX;py=e.touches[0].clientY;}e.preventDefault();},{passive:false});
-  cv.addEventListener('touchend',function(e){drag=false;e.preventDefault();},{passive:false});
+  function pd(e){var dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
+
+  // Mouse
+  cv.addEventListener('mousedown',function(e){dragging=true;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
+  window.addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-px,dy=e.clientY-py;lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.clientX;py=e.clientY;});
+  window.addEventListener('mouseup',function(){dragging=false;});
+  cv.addEventListener('wheel',function(e){e.preventDefault();var factor=e.deltaY<0?1.15:0.87;zoom=Math.max(minZ,Math.min(maxZ,zoom*factor));},{passive:false});
+
+  // Touch
+  cv.addEventListener('touchstart',function(e){
+    e.preventDefault();
+    if(e.touches.length===2){pinchD0=pd(e);dragging=false;}
+    else if(e.touches.length===1){dragging=true;px=e.touches[0].clientX;py=e.touches[0].clientY;vLon=0;vLat=0;}
+  },{passive:false});
+  cv.addEventListener('touchmove',function(e){
+    e.preventDefault();
+    if(e.touches.length===2){
+      var d=pd(e);
+      if(pinchD0>0){zoom=Math.max(minZ,Math.min(maxZ,zoom*(d/pinchD0)));}
+      pinchD0=d;
+    }else if(e.touches.length===1&&dragging){
+      var dx=e.touches[0].clientX-px,dy=e.touches[0].clientY-py;
+      lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));
+      vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.touches[0].clientX;py=e.touches[0].clientY;
+    }
+  },{passive:false});
+  cv.addEventListener('touchend',function(e){e.preventDefault();if(e.touches.length===0){dragging=false;pinchD0=0;}},{passive:false});
+
+  // Click on dots — with generous hit radius
+  var lastTouch=0;
   cv.addEventListener('click',function(e){
+    // Debounce — don't fire immediately after touchend
+    if(Date.now()-lastTouch<300)return;
     var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
-    var mx=(e.clientX-rect.left)*scx,my=(e.clientY-rect.top)*scy,closest=null,minD=30;
-    dots.forEach(function(d){var p=proj(d.lon,d.lat);if(!p.vis)return;var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}});
-    if(closest){
-      var pop=qs('#dotpop');
-      qs('#dp-flag').textContent=closest.d.flag||'';
-      qs('#dp-name').textContent=(closest.d.name||'Anonymous')+(closest.d.flag?' · ':'');
-      qs('#dp-txt').textContent=closest.d.txt||'';
-      var rb=qs('#dp-reply');
-      if(rb){
-        var isSeedDot=closest.d.uid==='seed',isOwnDot=cu&&closest.d.uid===cu.id;
-        if(isSeedDot||isOwnDot){rb.style.display='none';}
-        else{rb.style.display='block';rb.onclick=(function(d){return function(){qs('#dotpop').classList.remove('show');openPrivReply(d.id,d.name,d.uid,d.txt);};})(closest.d);}
-      }
-      var x=Math.min(closest.cx,window.innerWidth-250);
-      pop.style.left=x+'px';pop.style.top=Math.max(70,closest.cy-195)+'px';
-      pop.classList.add('show');
-    }else qs('#dotpop').classList.remove('show');
+    var mx=(e.clientX-rect.left)*scx,my=(e.clientY-rect.top)*scy;
+    var closest=null,minD=35; // generous 35px hit radius
+    dots.forEach(function(d){
+      var p=proj(d.lon,d.lat);if(!p.vis)return;
+      var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));
+      if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}
+    });
+    if(closest){showDotPop(closest);} else {qs('#dotpop').classList.remove('show');}
   });
+  cv.addEventListener('touchend',function(e){
+    lastTouch=Date.now();
+    if(e.changedTouches.length!==1)return;
+    var t=e.changedTouches[0];
+    var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
+    var mx=(t.clientX-rect.left)*scx,my=(t.clientY-rect.top)*scy;
+    var closest=null,minD=40; // even more generous on touch
+    dots.forEach(function(d){
+      var p=proj(d.lon,d.lat);if(!p.vis)return;
+      var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));
+      if(dist<minD){minD=dist;closest={d:d,cx:t.clientX,cy:t.clientY};}
+    });
+    if(closest)showDotPop(closest);
+  },{passive:false});
+
+  function showDotPop(closest){
+    var pop=qs('#dotpop');
+    qs('#dp-flag').textContent=closest.d.flag||'';
+    qs('#dp-name').textContent=(closest.d.name||'Anonymous')+(closest.d.flag?' · ':'');
+    qs('#dp-txt').textContent=closest.d.txt||'';
+    var rb=qs('#dp-reply');
+    if(rb){
+      var isSeedDot=closest.d.uid==='seed',isOwnDot=cu&&closest.d.uid===cu.id;
+      if(isSeedDot||isOwnDot){rb.style.display='none';}
+      else{rb.style.display='block';rb.onclick=(function(d){return function(){pop.classList.remove('show');openPrivReply(d.id,d.name,d.uid,d.txt);};})(closest.d);}
+    }
+    // Position popup
+    var popW=240,popH=160;
+    var x=closest.cx-popW/2;
+    x=Math.max(8,Math.min(x,window.innerWidth-popW-8));
+    var y=closest.cy-popH-16;
+    if(y<70)y=closest.cy+20;
+    pop.style.left=x+'px';pop.style.top=y+'px';
+    pop.classList.add('show');
+  }
+
   function draw(){
-    if(!drag){lon0-=vLon;vLon*=.92;lat0+=vLat;vLat*=.92;lat0=Math.max(-80,Math.min(80,lat0));if(Math.abs(vLon)<.04&&Math.abs(vLat)<.04)vLon=.25;}
+    if(!dragging){lon0-=vLon;vLon*=.92;lat0+=vLat;vLat*=.92;lat0=Math.max(-80,Math.min(80,lat0));if(Math.abs(vLon)<.03&&Math.abs(vLat)<.03)vLon=.22;}
     var r=getR();
     G.clearRect(0,0,SZ,SZ);
     G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.fillStyle='#14161B';G.fill();
@@ -975,9 +970,9 @@ function initGlobe(){
     var t=Date.now()/1000;
     dots.forEach(function(d,i){
       var p=proj(d.lon,d.lat);if(!p.vis)return;
-      var fl=.55+.45*Math.sin(t*1.3+i*.9),dotR=Math.max(2,2.8*Math.min(zoom,1.5));
-      G.beginPath();G.arc(p.sx,p.sy,dotR*3.5,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.09+')';G.fill();
-      G.beginPath();G.arc(p.sx,p.sy,dotR,0,Math.PI*2);G.fillStyle='rgba(236,238,242,'+fl*.97+')';G.fill();
+      var fl=.55+.45*Math.sin(t*1.3+i*.9),dotR=Math.max(2.5,3.2*Math.min(zoom,1.8));
+      G.beginPath();G.arc(p.sx,p.sy,dotR*4,0,Math.PI*2);G.fillStyle='rgba(255,220,80,'+fl*.12+')';G.fill();
+      G.beginPath();G.arc(p.sx,p.sy,dotR,0,Math.PI*2);G.fillStyle='rgba(255,230,120,'+fl+')';G.fill();
     });
     requestAnimationFrame(draw);
   }
@@ -1004,27 +999,28 @@ function wireEvents(){
   qs('#send-reset').onclick=doReset;
   qs('#ob-btn').onclick=doFinishOnboard;
   qs('#dp-close').onclick=function(){qs('#dotpop').classList.remove('show');};
-  // Music — 🎵 = music OFF (click to start), 🔇 = music ON (click to stop)
-  var mb=qs('#music-btn');
-  if(mb)mb.onclick=function(){
-    if(musicPlaying){stopMusic();}
-    else{startMusic();}
-  };
+  var mb=qs('#music-btn');if(mb)mb.onclick=toggleMusic;
 }
 
 /* ── INIT ── */
 wireEvents();
 renderTopbar();renderMyPrayer();renderProfile();
 renderChatTabs();renderChatContent();
-renderFeed();
-loadChat();startCount();initGlobe();
-updateDots();
+renderFeed();loadChat();startCount();initGlobe();updateDots();
 
-// Start music on first user interaction (browser policy)
-document.addEventListener('click',function onFirstClick(){
-  startMusic();
-  document.removeEventListener('click',onFirstClick);
-},{once:true,capture:true});
+// Auto-start music — try immediately, fallback to first interaction
+(function tryAutoMusic(){
+  if(initAudio()){
+    if(audioCtx.state==='running'){startMusic();}
+    else{
+      audioCtx.resume().then(function(){startMusic();}).catch(function(){
+        // Browser blocked — wait for first touch
+        document.addEventListener('touchstart',function go(){startMusic();document.removeEventListener('touchstart',go);},{once:true});
+        document.addEventListener('click',function go(){startMusic();document.removeEventListener('click',go);},{once:true});
+      });
+    }
+  }
+})();
 
 // Session check
 sb.auth.getSession().then(function(res){
@@ -1033,17 +1029,18 @@ sb.auth.getSession().then(function(res){
     cu=session.user;
     sb.from('profiles').select('*').eq('id',cu.id).single().then(function(p){
       if(p.data&&p.data.country_code){prof=p.data;afterLogin();}
+      else if(p.data){prof=p.data;afterLogin();}
       else loadPrayers();
     });
   }else loadPrayers();
 });
 
-// Google OAuth redirect
+// Google OAuth redirect handler
 sb.auth.onAuthStateChange(function(event,session){
   if(event==='SIGNED_IN'&&session&&!cu){
     cu=session.user;
     sb.from('profiles').select('*').eq('id',cu.id).single().then(function(p){
-      if(p.data&&p.data.country_code){prof=p.data;closeAuth();afterLogin();}
+      if(p.data){prof=p.data;closeAuth();afterLogin();}
       else showOnboard(session.user);
     });
   }
