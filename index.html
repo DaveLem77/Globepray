@@ -31,10 +31,10 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 @keyframes introFade{to{opacity:0;pointer-events:none}}
 #intro-canvas{border-radius:50%;display:block;margin-bottom:28px;animation:introGlobeIn .8s cubic-bezier(.2,1,.3,1) forwards;opacity:0;transform:scale(.85)}
 @keyframes introGlobeIn{to{opacity:1;transform:scale(1)}}
-.intro-logo-row{display:flex;align-items:center;gap:12px;animation:introTextIn .7s ease .5s forwards;opacity:0;transform:translateY(10px)}
+.intro-logo-row{display:flex;align-items:center;gap:14px;animation:introTextIn .7s ease .5s forwards;opacity:0;transform:translateY(10px)}
 @keyframes introTextIn{to{opacity:1;transform:translateY(0)}}
-.intro-logo-img{width:40px;height:40px;object-fit:contain;border-radius:10px}
-.intro-title{font-family:'Outfit',sans-serif;font-size:38px;font-weight:800;color:var(--txt);letter-spacing:.5px}
+.intro-logo-img{width:64px;height:64px;object-fit:contain;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+.intro-title{font-family:'Outfit',sans-serif;font-size:38px;font-weight:600;color:var(--txt);letter-spacing:1.5px}
 .intro-sub{font-size:12px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-top:12px;animation:introTextIn .7s ease .75s forwards;opacity:0;transform:translateY(8px)}
 .intro-dots-row{display:flex;gap:6px;margin-top:20px;animation:introTextIn .6s ease 1s forwards;opacity:0}
 .intro-dot-p{width:5px;height:5px;border-radius:50%;background:var(--txt3);animation:dotBounce 1.4s ease infinite}
@@ -46,7 +46,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .topbar{position:sticky;top:0;z-index:100;height:54px;display:flex;align-items:center;padding:0 14px;background:rgba(8,10,12,.97);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd)}
 .tb-left{display:flex;align-items:center;gap:8px}
 .tb-logo-img{width:34px;height:34px;object-fit:contain;border-radius:8px}
-.tb-logo{font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;color:var(--txt);letter-spacing:.6px}
+.tb-logo{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:var(--txt);letter-spacing:.8px}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .lpill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.07);border:.5px solid rgba(34,197,94,.15);border-radius:20px;padding:4px 9px}
 .ldot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pk 2.5s infinite}
@@ -275,6 +275,56 @@ select.field{-webkit-appearance:none;appearance:none}
 /* ── TOAST ── */
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--s1);border:.5px solid var(--brd2);border-radius:12px;padding:10px 18px;font-size:13px;color:var(--txt);z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
+
+/* ── DESKTOP LAYOUT (>= 768px) ── */
+@media (min-width: 768px) {
+  body{display:flex;flex-direction:column;min-height:100vh}
+  #s-app{display:flex;flex-direction:column;flex:1}
+  .topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;padding:0 32px}
+  .tb-logo{font-size:24px}
+  .tb-logo-img{width:38px;height:38px}
+  /* Main desktop split layout */
+  .desktop-body{display:flex;flex:1;padding-top:58px;min-height:calc(100vh - 58px)}
+  /* Left panel - Globe fixed */
+  .globe-panel{width:440px;min-width:400px;position:sticky;top:58px;height:calc(100vh - 58px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:28px 20px;border-right:.5px solid var(--brd);background:var(--s1);overflow-y:auto}
+  #globe{width:340px!important;height:340px!important}
+  .music-btn-wrap{right:calc(50% - 184px)!important;bottom:28px!important}
+  .globe-hint{margin-top:12px}
+  .globe-stats{margin:16px 0 0;width:100%}
+  .verse-bar{margin:12px 0 0;width:100%}
+  /* Right panel - scrollable content */
+  .content-panel{flex:1;overflow-y:auto;padding:24px 28px;max-width:640px}
+  /* Sections in desktop mode */
+  .section{display:none;padding-bottom:0}
+  .section.active{display:block}
+  /* Globe section splits into panels */
+  #sec-globe{display:none}
+  #sec-globe.active{display:flex;flex:1;min-height:0}
+  /* Chat desktop */
+  #sec-chat{width:100%}
+  #sec-chat.active{display:flex;height:calc(100vh - 58px)}
+  .chat-wrap{height:100%;flex:1}
+  /* Profile desktop */
+  #sec-profile.active{display:block;padding:32px;max-width:600px;margin:0 auto}
+  /* Hide mobile bottom nav */
+  .bnav{display:none}
+  /* Desktop top nav */
+  .desktop-nav{display:flex;gap:4px;margin-left:20px}
+  .desktop-nav-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:22px;border:none;background:none;font-size:13px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s}
+  .desktop-nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .desktop-nav-btn:hover{background:var(--s2);color:var(--txt)}
+  .desktop-nav-btn.active{background:var(--s2);color:var(--txt)}
+  /* Feed in desktop */
+  .feed{padding:0}
+  .mypray-wrap{padding:0}
+  .sch{padding:0;margin:20px 0 10px}
+  /* Right panel scroll sections */
+  .right-globe-content{padding:0}
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .globe-panel{width:380px;min-width:360px}
+  #globe{width:300px!important;height:300px!important}
+}
 </style>
 </head>
 <body>
@@ -306,41 +356,62 @@ select.field{-webkit-appearance:none;appearance:none}
       <button class="tb-share-btn" id="topbar-share" title="Share GlobePray">
         <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       </button>
+      <nav class="desktop-nav" id="desktop-nav">
+        <button class="desktop-nav-btn active" id="dnb-globe" onclick="navTo('globe')">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span id="dnb-globe-lbl">Globe</span>
+        </button>
+        <button class="desktop-nav-btn" id="dnb-chat" onclick="navTo('chat')">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span id="dnb-chat-lbl">Chat</span>
+        </button>
+        <button class="desktop-nav-btn" id="dnb-profile" onclick="navTo('profile')">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span id="dnb-profile-lbl">Profile</span>
+        </button>
+      </nav>
       <div id="tb-auth"></div>
     </div>
   </div>
 
+  <div class="desktop-body" id="desktop-body">
   <!-- GLOBE SECTION -->
   <div class="section active" id="sec-globe">
-    <div class="globe-wrap">
-      <canvas id="globe" width="320" height="320"></canvas>
-      <div class="music-btn-wrap">
-        <div class="music-btn-inner muted" id="music-btn">
-          <svg class="music-icon" viewBox="0 0 24 24">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/>
-            <circle cx="18" cy="16" r="3"/>
-            <line class="mute-line" x1="2" y1="22" x2="22" y2="2"/>
-          </svg>
+    <!-- LEFT: Globe panel (desktop) -->
+    <div class="globe-panel" id="globe-panel">
+      <div class="globe-wrap" style="width:100%">
+        <canvas id="globe" width="320" height="320"></canvas>
+        <div class="music-btn-wrap">
+          <div class="music-btn-inner muted" id="music-btn">
+            <svg class="music-icon" viewBox="0 0 24 24">
+              <path d="M9 18V5l12-2v13"/>
+              <circle cx="6" cy="18" r="3"/>
+              <circle cx="18" cy="16" r="3"/>
+              <line class="mute-line" x1="2" y1="22" x2="22" y2="2"/>
+            </svg>
+          </div>
         </div>
+        <div class="globe-hint" id="globe-hint">Tap a light to read their prayer</div>
       </div>
-      <div class="globe-hint" id="globe-hint">Tap a light to read their prayer</div>
+      <div class="globe-stats">
+        <div class="gs"><div class="gsn" id="sConn">0</div><div class="gsl" id="gsl-conn">Connected</div></div>
+        <div class="gs"><div class="gsn">156</div><div class="gsl">Nations</div></div>
+        <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl" id="gsl-pray">Prayers</div></div>
+      </div>
+      <div class="verse-bar">
+        <div class="verse-q" id="verse-q">"Where two or three gather in my name, I am there among them."</div>
+        <div class="verse-r" id="verse-r">Matthew 18 · 20</div>
+      </div>
     </div>
-    <div class="globe-stats">
-      <div class="gs"><div class="gsn" id="sConn">0</div><div class="gsl" id="gsl-conn">Connected</div></div>
-      <div class="gs"><div class="gsn">156</div><div class="gsl">Nations</div></div>
-      <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl" id="gsl-pray">Prayers</div></div>
+    <!-- RIGHT: Content panel (desktop) / full width (mobile) -->
+    <div class="content-panel" id="content-panel">
+      <div class="right-globe-content">
+        <div class="sch"><div class="sct" id="sct-mypray">My Prayer</div></div>
+        <div class="mypray-wrap"><div id="myBox"></div></div>
+        <div class="sch"><div class="sct" id="sct-community">Community</div></div>
+        <div class="feed" id="feedEl"></div>
+      </div>
     </div>
-    <div class="verse-bar">
-      <div class="verse-q" id="verse-q">"Where two or three gather in my name, I am there among them."</div>
-      <div class="verse-r" id="verse-r">Matthew 18 · 20</div>
-    </div>
-    <div class="sch"><div class="sct" id="sct-mypray">My Prayer</div></div>
-    <div class="mypray-wrap"><div id="myBox"></div></div>
-    <div class="sch">
-      <div class="sct" id="sct-community">Community</div>
-    </div>
-    <div class="feed" id="feedEl"></div>
   </div>
 
   <!-- CHAT -->
@@ -359,6 +430,7 @@ select.field{-webkit-appearance:none;appearance:none}
     <div id="profile-content"></div>
   </div>
 
+  </div><!-- /desktop-body -->
   <nav class="bnav">
     <button class="nb active" id="nb-globe">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
@@ -731,6 +803,27 @@ var SEED_CHAT=[
   {id:'c4',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',text:'With you Lucia. Lord, we lift them up right now.',created_at:new Date(Date.now()-120000).toISOString()},
   {id:'c5',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',text:'Praying for everyone here. You are not alone.',created_at:new Date(Date.now()-60000).toISOString()},
 ];
+/* ── TRANSLATION via Anthropic API ── */
+var _trCache={};
+function translateText(text, targetLang, callback){
+  if(!text||targetLang==='en'){callback(text);return;}
+  var key=targetLang+'|'+text.substring(0,60);
+  if(_trCache[key]){callback(_trCache[key]);return;}
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01'},
+    body:JSON.stringify({
+      model:'claude-haiku-4-5-20251001',
+      max_tokens:300,
+      system:'You are a translation assistant. Translate the given text to the target language. Respond ONLY with the translated text, nothing else.',
+      messages:[{role:'user',content:'Translate to '+targetLang+': '+text}]
+    })
+  }).then(function(r){return r.json();}).then(function(d){
+    var tr=(d.content&&d.content[0]&&d.content[0].text)||text;
+    _trCache[key]=tr;callback(tr);
+  }).catch(function(){callback(text);});
+}
+
 var CC=[
   {c:'CA',n:'Canada',f:'🇨🇦',lo:-80,la:45},{c:'US',n:'United States',f:'🇺🇸',lo:-97,la:38},
   {c:'BR',n:'Brazil',f:'🇧🇷',lo:-47,la:-15},{c:'FR',n:'France',f:'🇫🇷',lo:2,la:47},
@@ -891,8 +984,10 @@ var pCh=null,cCh=null,prvCh=null,pendAction=null,pendPrayId=null,chatMode='globa
 function navTo(id){
   qsa('.section').forEach(function(s){s.classList.remove('active');});
   qsa('.nb').forEach(function(b){b.classList.remove('active');});
+  qsa('.desktop-nav-btn').forEach(function(b){b.classList.remove('active');});
   var sec=qs('#sec-'+id);if(sec)sec.classList.add('active');
   var nb=qs('#nb-'+id);if(nb)nb.classList.add('active');
+  var dnb=qs('#dnb-'+id);if(dnb)dnb.classList.add('active');
   if(id==='profile')renderProfile();
   if(id==='chat'){renderChatTabs();renderChatContent();setTimeout(function(){var e=qs('#chatEl');if(e)e.scrollTop=e.scrollHeight;},150);}
 }
@@ -1046,7 +1141,9 @@ function renderFeed(){
     var isSeed=p.uid==='seed';
     var div=document.createElement('div');div.className='fi';
     div.innerHTML='<div class="fi-head"><div class="fi-av-txt" style="'+avStyle(p.name)+'">'+(p.name||'?')[0].toUpperCase()+'</div><div class="fi-info"><div class="fi-name">'+(p.name||'Anonymous')+' <span class="fi-flag">'+(p.flag||'')+'</span></div><div class="fi-sub">'+(p.country||'')+'</div></div><div class="fi-time">'+ago(p.created_at)+'</div></div><div class="fi-body">'+(p.text||'')+'</div><div class="fi-foot"></div>';
-    var foot=div.querySelector('.fi-foot');
+        // Translate prayer
+    if(userLang!=='en'&&p.text&&(p.lang||'en')!==userLang){var _bEl=div.querySelector('.fi-body');if(_bEl)translateText(p.text,userLang,function(tr){if(tr&&tr!==p.text&&_bEl)_bEl.textContent=tr;});}
+var foot=div.querySelector('.fi-foot');
     // Pray button
     var pBtn=document.createElement('button');pBtn.className='fi-pbtn'+(p._prayed?' done':'');
     pBtn.innerHTML=SVGpray+'<span>'+(p._prayed?'✓ '+t('prayingWith'):t('prayingWith'))+'</span>';
@@ -1107,27 +1204,71 @@ function openPrivReply(prayId,prayerName,prayerUserId,prayerText){
 /* ── CHAT ── */
 function renderChatTabs(){
   var el=qs('#chat-tabs');if(!el)return;el.innerHTML='';
+  // Global tab
   var g=document.createElement('button');g.className='chat-tab'+(chatMode==='global'?' active':'');
   g.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>'+t('globalChat')+'</span>';
   g.onclick=function(){chatMode='global';renderChatTabs();renderChatContent();};el.appendChild(g);
-  if(cu){Object.values(privConvos).forEach(function(conv){
-    var b=document.createElement('button');b.className='chat-tab'+(chatMode===conv.id?' active':'');
-    b.innerHTML=SVGcmt+'<span>'+(conv.other_name||'Prayer')+'</span>';
-    b.onclick=(function(cid){return function(){chatMode=cid;renderChatTabs();renderChatContent();};})(conv.id);
-    el.appendChild(b);
-  });}
+  // Private tab (single button, shows list or active convo)
+  if(cu){
+    var convList=Object.values(privConvos);
+    var totalUnread=convList.reduce(function(n,c){return n+c.msgs.filter(function(m){return m.sender_id!==cu.id&&!m.read;}).length;},0);
+    var isInPriv=chatMode!=='global';
+    var pb=document.createElement('button');pb.className='chat-tab'+(isInPriv?' active':'');
+    pb.innerHTML=SVGcmt+'<span>Private</span>'+(totalUnread>0?'<span class="chat-badge">'+totalUnread+'</span>':'');
+    pb.onclick=function(){
+      if(chatMode!=='global'){chatMode='global';renderChatTabs();renderChatContent();}
+      else{renderChatTabs();showPrivList();}
+    };
+    el.appendChild(pb);
+  }
+}
+function showPrivList(){
+  var el=qs('#chatEl');if(!el)return;
+  var convList=Object.values(privConvos);
+  var chatBar=qs('#chat-bar');if(chatBar)chatBar.innerHTML='';
+  el.innerHTML='';
+  if(!convList.length){
+    el.innerHTML='<div style="padding:40px 20px;text-align:center;color:var(--txt3);font-size:14px">No private conversations yet.<br>Comment on a prayer to start one.</div>';
+    return;
+  }
+  var title=document.createElement('div');title.style.cssText='padding:12px 16px 8px;font-size:11px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.08em';title.textContent='Private Conversations';
+  el.appendChild(title);
+  convList.forEach(function(conv){
+    var lastMsg=conv.msgs[conv.msgs.length-1];
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:.5px solid var(--brd);cursor:pointer;transition:background .15s';
+    row.onmouseover=function(){this.style.background='var(--s2)';}; row.onmouseout=function(){this.style.background='';};
+    var avDiv=document.createElement('div');avDiv.style.cssText='width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;'+avStyle(conv.other_name);
+    avDiv.textContent=(conv.other_name||'?')[0].toUpperCase();
+    var info=document.createElement('div');info.style.cssText='flex:1;min-width:0';
+    info.innerHTML='<div style="font-size:14px;font-weight:600;color:var(--txt)">'+(conv.other_name||'Prayer')+'</div><div style="font-size:12px;color:var(--txt3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(conv.prayer_text?'"'+conv.prayer_text.substring(0,40)+'..."':'')+'</div>'+(lastMsg?'<div style="font-size:12px;color:var(--txt3);margin-top:2px">'+lastMsg.text.substring(0,35)+'…</div>':'');
+    var arr=document.createElement('div');arr.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;stroke:var(--txt3)"><polyline points="9 18 15 12 9 6"/></svg>';
+    row.appendChild(avDiv);row.appendChild(info);row.appendChild(arr);
+    row.onclick=(function(cid){return function(){chatMode=cid;renderChatTabs();renderChatContent();};})(conv.id);
+    el.appendChild(row);
+  });
 }
 function renderChatContent(){if(chatMode==='global'){renderGlobalChat();renderChatBar(false);}else{renderPrivChat(chatMode);renderChatBar(true);}}
 function renderGlobalChat(){
   var el=qs('#chatEl');if(!el)return;
   var all=[].concat(SEED_CHAT).concat(chatMsgs);el.innerHTML='';
-  all.forEach(function(m,idx){
+  all.forEach(function(m,idx2){
     var isMe=cu&&(m.uid===cu.id||m.user_id===cu.id);
     var div=document.createElement('div');div.className='cm'+(isMe?' cm-me':'');
     var av='<div class="cm-av-txt" style="'+avStyle(m.name)+'">'+((m.name||'?')[0].toUpperCase())+'</div>';
     var meta='<div class="cm-meta"><span class="cm-name">'+(m.name||'?')+'</span><span class="cm-flag"> '+(m.flag||'')+'</span><span class="cm-time"> '+ago(m.created_at)+'</span></div>';
-    div.innerHTML=(!isMe?av:'')+'<div class="cm-bwrap">'+(!isMe?meta:'')+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'">'+(m.text||'')+'</div></div>';
+    var msgId='bubble-'+idx2+'-'+Date.now();
+    div.innerHTML=(!isMe?av:'')+'<div class="cm-bwrap">'+(!isMe?meta:'')+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'" id="'+msgId+'">'+(m.text||'')+'</div></div>';
     el.appendChild(div);
+    // Translate if not in user's language
+    if(!isMe&&userLang!=='en'&&m.text){
+      (function(id,txt,sender_lang){
+        if(sender_lang&&sender_lang===userLang)return; // same lang, skip
+        translateText(txt,userLang,function(tr){
+          if(tr&&tr!==txt){var bEl=document.getElementById(id);if(bEl)bEl.textContent=tr;}
+        });
+      })(msgId,m.text,m.lang||m.user_lang);
+    }
   });el.scrollTop=el.scrollHeight;
 }
 function renderPrivChat(convoId){
@@ -1364,8 +1505,10 @@ function initGlobe(){
     var dpCmt=qs('#dp-reply'),dpCmtLbl=qs('#dp-comment-lbl');
     if(dpCmtLbl)dpCmtLbl.textContent=t('comment');
     var isSeed=closest.d.uid==='seed',isOwn=cu&&closest.d.uid===cu.id;
-    dpCmt.style.display=(isSeed)?'none':'flex';
-    if(!isSeed){
+    dpCmt.style.display='flex'; // always show
+    if(isSeed){
+      dpCmt.onclick=function(){qs('#dotpop').classList.remove('show');openAuth('priv');};
+    } else if(!isSeed){
       dpCmt.onclick=(function(d){return function(){
         pop.classList.remove('show');
         if(!cu){pendPrayId=d.id;openAuth('priv');return;}
@@ -1475,7 +1618,6 @@ sb.auth.onAuthStateChange(function(event,session){
 });
 
 })();
-
 </script>
 </body>
 </html>
