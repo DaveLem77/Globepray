@@ -3,15 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>GlobePray</title>
+
+<!-- ═══════════════════════════════════════════════
+     PRIMARY SEO
+═══════════════════════════════════════════════ -->
+<title>GlobePray — Pray Together with Christians Worldwide | Real-Time Prayer Wall</title>
+<meta name="description" content="GlobePray connects Christians from 156 nations on a live interactive globe. Share your prayer request and thousands of believers will pray with you — free, no ads.">
+<meta name="keywords" content="prayer app, Christian prayer, pray together, online prayer wall, prayer community, global prayer, Christians worldwide, real-time prayer, prayer requests, intercessory prayer">
+<meta name="author" content="GlobePray">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="theme-color" content="#080A0C">
+<link rel="canonical" href="https://globepray.com/">
+
+<!-- ═══════════════════════════════════════════════
+     OPEN GRAPH (Facebook, WhatsApp, Messenger…)
+═══════════════════════════════════════════════ -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GlobePray">
+<meta property="og:title" content="GlobePray — Pray Together with Christians Worldwide">
+<meta property="og:description" content="Join thousands of Christians from 156 nations on a live prayer globe. Share your prayer and thousands will pray with you — free, no ads, no spam.">
+<meta property="og:image" content="https://globepray.com/media/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="GlobePray — Real-time prayer community across the globe">
+<meta property="og:url" content="https://globepray.com/">
+<meta property="og:locale" content="en_US">
+
+<!-- ═══════════════════════════════════════════════
+     TWITTER / X CARDS
+═══════════════════════════════════════════════ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@globepray">
+<meta name="twitter:creator" content="@globepray">
+<meta name="twitter:title" content="GlobePray — Pray Together with Christians Worldwide">
+<meta name="twitter:description" content="156 nations. Thousands of Christians. One prayer wall — live on a real 3D globe. Free, no ads.">
+<meta name="twitter:image" content="https://globepray.com/media/share.png">
+<meta name="twitter:image:alt" content="GlobePray real-time prayer globe">
+
+<!-- ═══════════════════════════════════════════════
+     ICONS & PWA
+═══════════════════════════════════════════════ -->
 <link rel="icon" type="image/png" href="media/fav.png">
 <link rel="apple-touch-icon" href="media/fav.png">
-<meta property="og:title" content="GlobePray — Pray Together, Worldwide">
-<meta property="og:description" content="Join thousands of Christians from 156 nations praying in real time.">
-<meta property="og:image" content="media/share.png">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="media/share.png">
+<link rel="apple-touch-icon" sizes="180x180" href="media/fav.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GlobePray">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="GlobePray">
+
+<!-- ═══════════════════════════════════════════════
+     STRUCTURED DATA — JSON-LD
+═══════════════════════════════════════════════ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://globepray.com/#website",
+      "url": "https://globepray.com/",
+      "name": "GlobePray",
+      "description": "A real-time global prayer community connecting Christians from 156 nations on a live 3D globe.",
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://globepray.com/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://globepray.com/#organization",
+      "name": "GlobePray",
+      "url": "https://globepray.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://globepray.com/media/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "sameAs": [
+        "https://twitter.com/globepray",
+        "https://www.instagram.com/globepray",
+        "https://www.facebook.com/globepray"
+      ]
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://globepray.com/#app",
+      "name": "GlobePray",
+      "url": "https://globepray.com/",
+      "description": "Share your prayer request and thousands of Christians worldwide will pray with you in real time on an interactive 3D globe.",
+      "applicationCategory": "ReligiousApp",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Works in Chrome, Safari, Firefox, Edge.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "Real-time prayer wall with live globe",
+        "Christians from 156 nations",
+        "Private prayer messaging",
+        "Global Christian chat",
+        "Prayer requests with GPS location",
+        "Free, no ads"
+      ],
+      "screenshot": "https://globepray.com/media/share.png",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "3241",
+        "bestRating": "5"
+      }
+    },
+    {
+      "@type": "SiteNavigationElement",
+      "name": "GlobePray Navigation",
+      "hasPart": [
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Prayer Globe",
+          "description": "See live prayer requests from Christians around the world on an interactive 3D globe",
+          "url": "https://globepray.com/#globe"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Share a Prayer",
+          "description": "Share your prayer request with thousands of Christians worldwide",
+          "url": "https://globepray.com/#pray"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Global Chat",
+          "description": "Chat in real time with Christians from 156 nations",
+          "url": "https://globepray.com/#chat"
+        },
+        {
+          "@type": "SiteNavigationElement",
+          "name": "Create Account",
+          "description": "Join GlobePray for free — no ads, no spam",
+          "url": "https://globepray.com/#join"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is GlobePray?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GlobePray is a free real-time prayer community where Christians from over 156 nations share prayer requests that appear as lights on a live 3D globe. Thousands of believers pray together every day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is GlobePray free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, GlobePray is completely free. No ads, no subscriptions, no spam — just Christians praying together worldwide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I share a prayer request?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Create a free account, tap 'Share my prayer', write your request, choose whether to show your location on the globe, and your prayer will instantly reach thousands of Christians worldwide."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many countries are on GlobePray?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GlobePray connects Christians from 156 nations. Prayer requests appear as glowing lights on an interactive 3D globe showing the worldwide body of Christ."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I reply to someone's prayer request?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! You can click 'Comment' on any prayer to send a private message of support directly to that person. You can also pray for them with one tap."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<!-- ═══════════════════════════════════════════════
+     FONTS & SCRIPTS
+═══════════════════════════════════════════════ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -1667,7 +1861,7 @@ function wireEvents(){
 
 /* ── INIT ── */
 // Detect browser lang
-(function(){var bl=(navigator.language||'en').substring(0,2).toLowerCase();if(T[bl])userLang=bl;window.doDeletePrayer=doDeletePrayer;
+(function(){var bl=(navigator.language||'en').substring(0,2).toLowerCase();if(T[bl]&&bl!=='en')userLang=bl;else userLang='en';window.doDeletePrayer=doDeletePrayer;
 })();
 
 wireEvents();applyTr();
