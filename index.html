@@ -1054,31 +1054,41 @@ var CC=[
 var LANG_LIST=[{c:'en',n:'English'},{c:'fr',n:'Français'},{c:'es',n:'Español'},{c:'pt',n:'Português'}];
 
 /* ── MUSIC ── */
-var audioCtx=null,musicGain=null,musicPlaying=false,musicTimer=null,musicAudio=null;
+var audioCtx=null,musicGain=null,musicPlaying=false,musicTimer=null;
+var _musicAudio=null,_useFileAudio=null; // null=unknown, true=file, false=webaudio
+
 function initAudio(){
   if(audioCtx)return true;
   try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();musicGain=audioCtx.createGain();musicGain.gain.setValueAtTime(0,audioCtx.currentTime);musicGain.connect(audioCtx.destination);return true;}
   catch(e){return false;}
 }
+
 function startMusic(){
+  if(musicPlaying)return;
   if(!initAudio())return;
-  // Try file-based audio first
-  if(!musicAudio){
-    musicAudio=new Audio('audio/music.mp3');
-    musicAudio.loop=true;musicAudio.volume=0;
-    musicAudio.play().then(function(){
-      musicPlaying=true;
-      var vol=0,target=0.55;
-      var fade=setInterval(function(){vol=Math.min(target,vol+0.02);musicAudio.volume=vol;if(vol>=target)clearInterval(fade);},80);
-      updateMusicBtn(true);
-    }).catch(function(){
-      // Fallback to Web Audio pads
-      musicAudio=null;
-      startWebAudio();
-    });
-  }else{
-    musicAudio.play();musicPlaying=true;updateMusicBtn(true);
+  if(audioCtx.state==='suspended')audioCtx.resume();
+
+  if(_useFileAudio===false){
+    // Already know file doesn't work — go straight to Web Audio
+    startWebAudio();return;
   }
+  if(_useFileAudio===true&&_musicAudio){
+    // File audio confirmed working — resume it
+    _musicAudio.play().catch(function(){});
+    musicPlaying=true;updateMusicBtn(true);return;
+  }
+  // First attempt — try the MP3 file
+  var testAudio=new Audio();
+  testAudio.src='audio/music.mp3';
+  testAudio.loop=true;testAudio.volume=0.55;
+  testAudio.play().then(function(){
+    _useFileAudio=true;_musicAudio=testAudio;
+    musicPlaying=true;updateMusicBtn(true);
+  }).catch(function(){
+    // File not found or blocked — use Web Audio pads
+    testAudio.src='';_useFileAudio=false;_musicAudio=null;
+    startWebAudio();
+  });
 }
 function startWebAudio(){
   if(audioCtx.state==='suspended')audioCtx.resume();
@@ -1106,7 +1116,7 @@ function playPad(){
 }
 function stopMusic(){
   musicPlaying=false;
-  if(musicAudio){musicAudio.pause();}
+  if(_musicAudio){_musicAudio.pause();}
   if(musicTimer){clearTimeout(musicTimer);musicTimer=null;}
   if(musicGain&&audioCtx){musicGain.gain.cancelScheduledValues(audioCtx.currentTime);musicGain.gain.setValueAtTime(musicGain.gain.value,audioCtx.currentTime);musicGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+2);}
   updateMusicBtn(false);
@@ -1116,7 +1126,7 @@ function updateMusicBtn(on){var b=document.getElementById('music-btn');if(b){if(
 
 /* ── UTILS ── */
 function toast(m){var t=qs('#toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
-function ago(ts){var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);return dy>0?dy+'d':h>0?h+'h':m>0?m+'m':'now';}
+function ago(ts){var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);if(dy>0)return dy+'d';if(h>0)return h+'h';if(m>1)return m+'m';return 'just now';}
 function qs(s){return document.querySelector(s);}
 function qsa(s){return document.querySelectorAll(s);}
 function getCC(code){return CC.find(function(c){return c.c===code;})||{c:'XX',n:'Unknown',f:'🌍',lo:0,la:0};}
@@ -1633,23 +1643,16 @@ function getNextSeed(){
 }
 
 function checkExpiredPrayers(){
-  var now=Date.now();
   var changed=false;
-  // Remove real prayers older than 24h from display
+  // Remove real prayers older than 24h
+  var before=prayers.length;
   prayers=prayers.filter(function(p){
-    if(Date.now()-new Date(p.created_at).getTime()>86400000){changed=true;return false;}
-    return true;
+    return Date.now()-new Date(p.created_at).getTime()<=86400000;
   });
-  // Remove seed prayers older than 24h, replace with fresh ones
-  _seedPool=_seedPool.filter(function(p){
-    if(p.uid==='seed'&&p.created_at&&Date.now()-new Date(p.created_at).getTime()>86400000){
-      changed=true;return false;
-    }
-    return true;
-  });
-  // Maintain 12 seed prayers at all times
+  if(prayers.length!==before)changed=true;
+  // Seeds never expire — always keep 12
   while(_seedPool.length<12){_seedPool.push(getNextSeed());changed=true;}
-  if(changed){renderFeed();updateDots();qs('#sPray').textContent=_seedPool.length+prayers.length;}
+  if(changed){renderFeed();updateDots();var sp=qs('#sPray');if(sp)sp.textContent=_seedPool.length+prayers.length;}
 }
 
 function startCount(){
@@ -1861,7 +1864,7 @@ function wireEvents(){
 
 /* ── INIT ── */
 // Detect browser lang
-(function(){var bl=(navigator.language||'en').substring(0,2).toLowerCase();if(T[bl]&&bl!=='en')userLang=bl;else userLang='en';window.doDeletePrayer=doDeletePrayer;
+(function(){userLang='en';// Always English by default — language changes via profile setting onlywindow.doDeletePrayer=doDeletePrayer;
 })();
 
 wireEvents();applyTr();
