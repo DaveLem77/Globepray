@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GlobePray</title>
 <link rel="icon" type="image/png" href="media/fav.png">
 <link rel="apple-touch-icon" href="media/fav.png">
 <meta property="og:title" content="GlobePray — Pray Together, Worldwide">
@@ -11,51 +12,81 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="media/share.png">
-<title>GlobePray</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--bg:#0A0B0D;--s1:#0F1012;--s2:#16171A;--s3:#1E2024;--brd:rgba(255,255,255,0.07);--brd2:rgba(255,255,255,0.13);--txt:#F0F2F5;--txt2:#9299AA;--txt3:#3A404F;--grn:#22C55E;--grn-dim:rgba(34,197,94,0.1);}
+:root{
+  --bg:#080A0C;--s1:#0D0F12;--s2:#141618;--s3:#1C1F23;
+  --brd:rgba(255,255,255,0.06);--brd2:rgba(255,255,255,0.12);
+  --txt:#ECEEF2;--txt2:#8B93A7;--txt3:#353D4F;
+  --grn:#22C55E;--grn-dim:rgba(34,197,94,0.1);
+  --pur:#8B5CF6;--pur-dim:rgba(139,92,246,0.12);
+}
 html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;overscroll-behavior:none}
-/* TOPBAR */
-.topbar{position:sticky;top:0;z-index:100;height:56px;display:flex;align-items:center;padding:0 16px;background:rgba(10,11,13,.97);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd)}
-.tb-left{display:flex;align-items:center;gap:10px}
-.tb-logo-img{width:36px;height:36px;object-fit:contain}
-.tb-logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:800;color:var(--txt);letter-spacing:-.6px}
-.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.lpill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.08);border:.5px solid rgba(34,197,94,.15);border-radius:20px;padding:5px 10px}
+
+/* ── INTRO ANIMATION ── */
+#intro{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+#intro.hidden{display:none}
+.intro-globe{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#1C2A4A,#080A0C);border:.5px solid rgba(255,255,255,.08);position:relative;animation:globeSpin 8s linear infinite}
+@keyframes globeSpin{from{box-shadow:0 0 0 0 rgba(139,92,246,0),0 0 60px rgba(34,197,94,0.15);} 50%{box-shadow:0 0 80px 20px rgba(139,92,246,0.08),0 0 60px rgba(34,197,94,0.2);} to{box-shadow:0 0 0 0 rgba(139,92,246,0),0 0 60px rgba(34,197,94,0.15);}}
+.intro-dots-wrap{position:absolute;inset:0;border-radius:50%;overflow:hidden}
+.intro-dot{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff;opacity:0;animation:dotPulse 2s ease-in-out infinite}
+@keyframes dotPulse{0%,100%{opacity:0;transform:scale(.8)}50%{opacity:.9;transform:scale(1)}}
+.intro-ring{position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(255,255,255,.05);animation:ringPulse 2s ease-in-out infinite}
+@keyframes ringPulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.04);opacity:1}}
+.intro-ring2{position:absolute;inset:-20px;border-radius:50%;border:1px solid rgba(255,255,255,.03);animation:ringPulse 2s ease-in-out infinite .4s}
+.intro-title{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--txt);letter-spacing:-.5px;margin-top:28px;opacity:0;animation:fadeUp .8s ease forwards .6s}
+.intro-sub{font-size:13px;color:var(--txt3);margin-top:8px;letter-spacing:.08em;text-transform:uppercase;opacity:0;animation:fadeUp .8s ease forwards .9s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TOPBAR ── */
+.topbar{position:sticky;top:0;z-index:100;height:54px;display:flex;align-items:center;padding:0 16px;background:rgba(8,10,12,.97);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd)}
+.tb-left{display:flex;align-items:center;gap:9px}
+.tb-logo-img{width:28px;height:28px;object-fit:contain;opacity:.9}
+.tb-logo{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--txt);letter-spacing:-.3px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.lpill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.07);border:.5px solid rgba(34,197,94,.15);border-radius:20px;padding:5px 10px}
 .ldot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pk 2.5s infinite}
 @keyframes pk{0%,100%{opacity:1}50%{opacity:.3}}
 .lnum{font-size:11px;font-weight:700;color:var(--grn)}
-.tb-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;cursor:pointer;border:none;overflow:hidden;background-size:cover;background-position:center;flex-shrink:0}
+.tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;cursor:pointer;border:none;flex-shrink:0}
 .tb-signin-btn{font-size:12px;font-weight:600;color:var(--txt);background:var(--s2);border:.5px solid var(--brd2);border-radius:20px;padding:6px 14px;font-family:'Inter',sans-serif;cursor:pointer}
-/* SECTIONS */
+
+/* ── SECTIONS ── */
 .section{display:none;padding-bottom:80px}
 .section.active{display:block}
-/* GLOBE */
-.globe-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 0 0;position:relative}
-#globe{display:block;border-radius:50%;touch-action:none;cursor:grab;user-select:none;box-shadow:0 0 60px rgba(100,140,255,0.08)}
+
+/* ── GLOBE SECTION ── */
+.globe-wrap{display:flex;flex-direction:column;align-items:center;padding:18px 0 0;position:relative}
+#globe{display:block;border-radius:50%;touch-action:none;cursor:grab;user-select:none}
 #globe:active{cursor:grabbing}
-.globe-hint{font-size:11px;color:var(--txt3);margin-top:10px;text-align:center}
+/* Music button — bottom-right corner of globe */
+.music-btn-wrap{position:absolute;bottom:32px;right:calc(50% - 160px + 8px);z-index:10}
+.music-btn-inner{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;backdrop-filter:blur(8px)}
+.music-btn-inner:hover{background:rgba(255,255,255,.12)}
+.music-btn-inner svg{width:14px;height:14px;stroke:rgba(255,255,255,.6);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:opacity .2s}
+.music-btn-inner.muted .mute-line{display:block}
+.music-btn-inner .mute-line{display:none}
+.globe-hint{font-size:11px;color:var(--txt3);margin-top:10px;text-align:center;letter-spacing:.02em}
 .globe-stats{display:flex;gap:1px;margin:14px 16px 0;background:var(--brd);border-radius:14px;overflow:hidden}
 .gs{flex:1;background:var(--s1);padding:12px 8px;text-align:center}
-.gsn{font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.8px;font-family:'Space Grotesk',sans-serif}
+.gsn{font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.8px;font-family:'Syne',sans-serif}
 .gsl{font-size:10px;color:var(--txt3);margin-top:2px;text-transform:uppercase;letter-spacing:.07em;font-weight:500}
 .verse-bar{margin:12px 16px 0;padding:12px 14px;background:var(--s1);border-radius:12px;border:.5px solid var(--brd)}
-.verse-q{font-size:12px;color:var(--txt2);line-height:1.65;font-style:italic}
-.verse-r{font-size:10px;color:var(--txt3);margin-top:3px}
+.verse-q{font-size:12px;color:var(--txt2);line-height:1.7;font-style:italic}
+.verse-r{font-size:10px;color:var(--txt3);margin-top:4px}
 .sch{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin:22px 0 12px}
-.sct{font-size:17px;font-weight:700;color:var(--txt);letter-spacing:-.3px;font-family:'Space Grotesk',sans-serif}
-/* MY PRAYER */
+.sct{font-size:16px;font-weight:600;color:var(--txt);letter-spacing:-.2px}
+/* My prayer */
 .mypray-wrap{padding:0 16px}
 .mp-teaser{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:18px;display:flex;align-items:center;gap:14px}
 .mp-teaser-txt{flex:1}
 .mp-teaser-title{font-size:14px;font-weight:600;color:var(--txt);margin-bottom:3px}
 .mp-teaser-sub{font-size:12px;color:var(--txt3);line-height:1.5}
-.mp-teaser-btn{background:var(--txt);color:var(--bg);border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.mp-teaser-btn{background:var(--txt);color:var(--bg);border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0}
 .mp-empty{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:22px 18px;text-align:center}
-.mp-icon{font-size:28px;margin-bottom:8px}
+.mp-icon{font-size:26px;margin-bottom:8px}
 .mp-txt{font-size:13px;color:var(--txt3);line-height:1.6;margin-bottom:14px}
 .mp-btn{background:var(--txt);color:var(--bg);border:none;border-radius:22px;padding:10px 22px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer}
 .mp-live{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:16px}
@@ -65,83 +96,118 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .mp-content{font-size:14px;color:var(--txt);line-height:1.6}
 .mp-pc{font-size:12px;color:var(--txt3);margin-top:8px}
 .mp-pc strong{color:var(--grn)}
-/* FEED */
+/* Feed */
 .feed{padding:0 16px;display:flex;flex-direction:column;gap:8px}
-.fi{background:var(--s1);border-radius:14px;border:.5px solid var(--brd);padding:14px}
+.fi{background:var(--s1);border-radius:14px;border:.5px solid var(--brd);padding:14px;transition:border-color .15s}
+.fi:hover{border-color:var(--brd2)}
 .fi-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.fi-av{width:34px;height:34px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.fi-av-txt{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:#fff;flex-shrink:0}
+.fi-av-txt{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
 .fi-info{flex:1;min-width:0}
 .fi-name{font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fi-flag{font-size:12px}
 .fi-sub{font-size:11px;color:var(--txt3);margin-top:1px}
 .fi-time{font-size:11px;color:var(--txt3);flex-shrink:0}
 .fi-body{font-size:14px;color:var(--txt2);line-height:1.65;font-weight:300}
-.fi-foot{display:flex;align-items:center;gap:10px;margin-top:10px}
-.fi-pbtn{background:none;border:.5px solid var(--brd);border-radius:18px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s}
-.fi-pbtn.done,.fi-pbtn:hover{color:var(--grn);border-color:rgba(34,197,94,.3);background:var(--grn-dim)}
+.fi-orig{font-size:11px;color:var(--txt3);margin-top:4px;font-style:italic}
+.fi-foot{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.fi-pbtn{background:none;border:.5px solid var(--brd);border-radius:18px;padding:6px 13px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+.fi-pbtn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.fi-pbtn:hover,.fi-pbtn.done{color:var(--grn);border-color:rgba(34,197,94,.3);background:var(--grn-dim)}
 .fi-cnt{font-size:12px;color:var(--txt3)}
+.fi-comment-btn{background:var(--pur-dim);border:.5px solid rgba(139,92,246,.3);border-radius:18px;padding:6px 13px;font-size:12px;font-weight:600;color:var(--pur);font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
+.fi-comment-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.fi-comment-btn:hover{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.5)}
 .empty-state{text-align:center;color:var(--txt3);padding:30px;font-size:14px}
-/* CHAT */
-.chat-wrap{display:flex;flex-direction:column;height:calc(100dvh - 56px - 56px)}
-.chatmsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px}
-.cm{display:flex;gap:8px;align-items:flex-end}
+
+/* ── CHAT SECTION ── */
+.chat-wrap{display:flex;flex-direction:column;height:calc(100dvh - 54px - 56px)}
+/* Tabs */
+.chat-header{background:var(--s1);border-bottom:.5px solid var(--brd)}
+.chat-tabs-scroll{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;padding:0 4px}
+.chat-tabs-scroll::-webkit-scrollbar{display:none}
+.chat-tab{background:none;border:none;border-bottom:2px solid transparent;padding:14px 16px;font-size:13px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:6px;transition:color .15s}
+.chat-tab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.chat-tab.active{color:var(--txt);border-bottom-color:var(--txt)}
+.chat-badge{background:#EF4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 5px}
+/* Messages */
+.chatmsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.cm{display:flex;gap:9px;align-items:flex-end}
 .cm-me{flex-direction:row-reverse}
-.cm-av{width:28px;height:28px;border-radius:50%;object-fit:cover;flex-shrink:0}
-.cm-av-txt{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;flex-shrink:0}
-.cm-bwrap{max-width:75%;display:flex;flex-direction:column}
-.cm-meta{display:flex;align-items:baseline;gap:4px;margin-bottom:3px;padding-left:2px}
+.cm-av-txt{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.cm-bwrap{max-width:72%;display:flex;flex-direction:column}
+.cm-meta{display:flex;align-items:baseline;gap:5px;margin-bottom:4px;padding-left:2px}
 .cm-name{font-size:11px;font-weight:600;color:var(--txt3)}
 .cm-flag{font-size:11px}
 .cm-time{font-size:10px;color:var(--txt3)}
-.cm-bubble{background:var(--s1);border:.5px solid var(--brd);border-radius:14px 14px 14px 4px;padding:9px 13px;font-size:14px;color:var(--txt2);line-height:1.5}
-.cm-bubble-me{background:var(--s2);border-radius:14px 14px 4px 14px;border-color:var(--brd2);color:var(--txt)}
+.cm-bubble{background:var(--s2);border:.5px solid var(--brd);border-radius:14px 14px 14px 3px;padding:10px 13px;font-size:14px;color:var(--txt2);line-height:1.55}
+.cm-bubble-me{background:var(--s3);border-radius:14px 14px 3px 14px;border-color:var(--brd2);color:var(--txt)}
+.cm-translated{font-size:10px;color:var(--txt3);margin-top:3px;font-style:italic;padding-left:2px}
+/* Chat input */
 .chat-locked{padding:14px 16px;border-top:.5px solid var(--brd);background:var(--bg);display:flex;align-items:center;gap:12px}
 .chat-locked-txt{flex:1;font-size:13px;color:var(--txt3)}
-.chat-locked-btn{background:var(--txt);color:var(--bg);border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap}
+.chat-locked-btn{background:var(--txt);color:var(--bg);border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer}
 .chat-bar-inner{padding:10px 14px 14px;border-top:.5px solid var(--brd);display:flex;gap:8px;align-items:center;background:var(--bg)}
-.chat-in{flex:1;background:var(--s1);border:.5px solid var(--brd);border-radius:22px;padding:10px 16px;font-size:14px;color:var(--txt);font-family:'Inter',sans-serif;outline:none}
+.chat-in{flex:1;background:var(--s1);border:.5px solid var(--brd);border-radius:22px;padding:10px 16px;font-size:14px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;transition:border-color .15s}
+.chat-in:focus{border-color:var(--brd2)}
 .chat-in::placeholder{color:var(--txt3)}
 .chat-send{width:38px;height:38px;border-radius:50%;background:var(--txt);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .chat-send svg{width:14px;height:14px;stroke:var(--bg);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-/* PROFILE */
+/* Private context */
+.priv-context{background:var(--s2);border-left:3px solid var(--pur);border-radius:0 10px 10px 0;padding:10px 14px;margin:0 14px 10px;font-size:12px}
+.priv-context-lbl{font-size:10px;color:var(--pur);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.priv-context-txt{color:var(--txt2);line-height:1.5;font-style:italic}
+
+/* ── PROFILE SECTION ── */
 .prof-wrap{padding:20px 16px}
 .pav-wrap{display:flex;justify-content:center;margin-bottom:12px}
-.pav{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;overflow:hidden}
-.pav img{width:100%;height:100%;object-fit:cover}
-.pname{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--txt);text-align:center;letter-spacing:-.4px}
+.pav{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;overflow:hidden}
+.pname{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--txt);text-align:center;letter-spacing:-.3px}
 .pemail{font-size:13px;color:var(--txt3);text-align:center;margin-bottom:22px}
-.prow{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:.5px solid var(--brd)}
+.prow{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:.5px solid var(--brd);cursor:pointer}
 .prow:last-of-type{border-bottom:none}
-.prow-ic{width:32px;height:32px;border-radius:10px;background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.prow-ic{width:34px;height:34px;border-radius:10px;background:var(--s2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.prow-ic svg{width:16px;height:16px;stroke:var(--txt2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .prow-lbl{font-size:14px;color:var(--txt);font-weight:500}
 .prow-sub{font-size:12px;color:var(--txt3);margin-top:1px}
-.prow-arr{margin-left:auto;color:var(--txt3);font-size:18px}
-.p-logout{width:100%;background:rgba(239,68,68,.08);border:.5px solid rgba(239,68,68,.2);color:#F87171;border-radius:12px;padding:13px;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;margin-top:20px}
+.prow-arr{margin-left:auto;color:var(--txt3)}
+.prow-arr svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.p-logout{width:100%;background:rgba(239,68,68,.08);border:.5px solid rgba(239,68,68,.2);color:#F87171;border-radius:12px;padding:13px;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;margin-top:20px;display:flex;align-items:center;justify-content:center;gap:8px}
+.p-logout svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* Guest profile */
 .guest-profile{padding:40px 20px;text-align:center}
-.gp-icon{font-size:48px;margin-bottom:16px}
-.gp-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--txt);margin-bottom:8px}
+.gp-icon-wrap{width:64px;height:64px;border-radius:50%;background:var(--s2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.gp-icon-wrap svg{width:28px;height:28px;stroke:var(--txt3);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.gp-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--txt);margin-bottom:8px}
 .gp-sub{font-size:14px;color:var(--txt3);line-height:1.65;margin-bottom:24px}
 .gp-btn{display:block;width:100%;background:var(--txt);color:var(--bg);border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-bottom:10px}
 .gp-sub-btn{display:block;width:100%;background:none;color:var(--txt3);border:.5px solid var(--brd);border-radius:14px;padding:13px;font-size:14px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer}
-/* BOTTOM NAV */
-.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(10,11,13,.97);backdrop-filter:blur(20px);border-top:.5px solid var(--brd);display:flex;padding-bottom:env(safe-area-inset-bottom,0px)}
-.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 0 8px;cursor:pointer;color:var(--txt3);transition:color .15s;border:none;background:none;font-family:'Inter',sans-serif}
-.nb svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── BOTTOM NAV ── */
+.bnav{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(8,10,12,.97);backdrop-filter:blur(20px);border-top:.5px solid var(--brd);display:flex;padding-bottom:env(safe-area-inset-bottom,0)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px 0 8px;cursor:pointer;color:var(--txt3);transition:color .15s;border:none;background:none;font-family:'Inter',sans-serif}
+.nb svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .nb span{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
 .nb.active{color:var(--txt)}
-/* MODALS */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:500;align-items:flex-end;backdrop-filter:blur(6px)}
+
+/* ── MODALS ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:500;align-items:flex-end;backdrop-filter:blur(6px)}
 .overlay.open{display:flex}
 .modal-sheet{background:var(--s1);border-radius:24px 24px 0 0;padding:24px 20px 48px;width:100%;border-top:.5px solid var(--brd2);max-height:92vh;overflow-y:auto}
 .mhandle{width:36px;height:4px;background:var(--s3);border-radius:2px;margin:0 auto 20px}
-.mtitle{font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:700;color:var(--txt);margin-bottom:4px}
+.mtitle{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--txt);margin-bottom:4px}
 .msub{font-size:13px;color:var(--txt3);margin-bottom:18px;line-height:1.5}
-.modal-textarea{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:12px;padding:14px;font-size:15px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;resize:none;height:130px;line-height:1.6}
+.modal-textarea{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:12px;padding:14px;font-size:15px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;resize:none;height:130px;line-height:1.6;transition:border-color .15s}
+.modal-textarea:focus{border-color:var(--brd2)}
 .modal-textarea::placeholder{color:var(--txt3)}
+/* Location options */
+.loc-opts{margin:12px 0;display:flex;flex-direction:column;gap:8px}
+.loc-label{font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:2px}
+.loc-opt{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--txt2);cursor:pointer;padding:4px 0}
+.loc-opt input{accent-color:var(--grn);width:16px;height:16px;cursor:pointer}
 .modal-btns{display:flex;gap:10px;margin-top:12px}
 .m-cancel{flex:1;background:var(--s2);border:none;border-radius:22px;padding:13px;font-size:14px;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer}
 .m-submit{flex:2;background:var(--txt);border:none;border-radius:22px;padding:13px;font-size:14px;font-weight:700;color:var(--bg);font-family:'Inter',sans-serif;cursor:pointer}
-/* AUTH */
+/* Auth */
 .auth-tabs{display:flex;background:var(--s2);border-radius:10px;padding:3px;margin-bottom:16px}
 .auth-tab{flex:1;padding:9px;text-align:center;font-size:13px;font-weight:500;color:var(--txt3);cursor:pointer;border-radius:8px;transition:all .15s}
 .auth-tab.active{background:var(--s3);color:var(--txt)}
@@ -163,72 +229,50 @@ select.field{-webkit-appearance:none;appearance:none}
 .linkrow{text-align:center;margin-top:10px}
 .linkbtn{font-size:12px;color:var(--txt3);background:none;border:none;font-family:'Inter',sans-serif;cursor:pointer}
 .forgotrow{text-align:right;margin-bottom:8px;margin-top:-4px}
-.photo-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.photo-circle{width:44px;height:44px;border-radius:50%;background:var(--s2);border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;flex-shrink:0}
-.photo-circle img{width:100%;height:100%;object-fit:cover;display:none}
-.ph-icon{font-size:18px}
-.photo-hint{font-size:12px;color:var(--txt3);line-height:1.4}
-.photo-hint strong{color:var(--txt2);font-weight:500}
 .ob-user-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px;background:var(--s2);border-radius:12px;border:.5px solid var(--brd)}
-.ob-av{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:var(--txt)}
-.ob-av img{width:100%;height:100%;object-fit:cover}
+.ob-av{width:40px;height:40px;border-radius:50%;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:var(--txt);flex-shrink:0}
 .ob-user-name{font-size:14px;font-weight:600;color:var(--txt)}
 .ob-user-email{font-size:12px;color:var(--txt3)}
-/* DOT POPUP */
-
-
-
-
-
-
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--s1);border:.5px solid var(--brd2);border-radius:12px;padding:10px 18px;font-size:13px;color:var(--txt);z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
-.toast.show{opacity:1}
-
-.chat-tabs-wrap{display:flex;gap:6px;padding:10px 14px 0;overflow-x:auto;scrollbar-width:none;border-bottom:.5px solid var(--brd);background:var(--bg)}
-.chat-tabs-wrap::-webkit-scrollbar{display:none}
-.chat-tab{background:none;border:.5px solid var(--brd);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .15s}
-.chat-tab.active{background:var(--s2);color:var(--txt);border-color:var(--brd2)}
-.chat-badge{background:#EF4444;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 5px;margin-left:4px}
-.priv-context{background:var(--s2);border-left:3px solid var(--grn);border-radius:0 10px 10px 0;padding:10px 14px;margin:10px 14px;font-size:12px}
-.priv-context-lbl{font-size:10px;color:var(--grn);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.priv-context-txt{color:var(--txt2);line-height:1.5;font-style:italic}
-.fi-reply-btn{background:none;border:.5px solid var(--brd);border-radius:18px;padding:5px 12px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s}
-.fi-reply-btn:hover{color:#8B5CF6;border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.08)}
-
-.dp-reply-btn:hover{background:var(--s3)}
-.fi-flag{font-size:12px}
-
-.loc-opts{margin:12px 0;display:flex;flex-direction:column;gap:8px}
-.loc-label{font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:2px}
-.loc-opt{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--txt2);cursor:pointer;padding:4px 0}
-.loc-opt input{accent-color:var(--grn);width:16px;height:16px;cursor:pointer}
-.anon-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--txt3);cursor:pointer;margin-bottom:6px}
-.anon-row input{accent-color:var(--grn);width:15px;height:15px;cursor:pointer}
-
-
-
-.fi-cnt{font-size:12px;color:var(--txt3)}
-
 /* Dot popup */
-.dotpop{position:fixed;z-index:400;background:var(--s1);border:.5px solid var(--brd2);border-radius:16px;padding:16px 16px 14px;width:240px;box-shadow:0 8px 40px rgba(0,0,0,.7);pointer-events:none;opacity:0;transition:opacity .2s,transform .2s;transform:scale(.95)}
+.dotpop{position:fixed;z-index:400;background:var(--s1);border:.5px solid var(--brd2);border-radius:16px;padding:16px;width:240px;box-shadow:0 8px 40px rgba(0,0,0,.8);pointer-events:none;opacity:0;transition:opacity .2s,transform .2s;transform:scale(.95)}
 .dotpop.show{opacity:1;transform:scale(1);pointer-events:all}
 .dp-x{position:absolute;top:8px;right:10px;background:none;border:none;color:var(--txt3);font-size:20px;line-height:1;cursor:pointer;padding:2px 6px;font-family:'Inter',sans-serif}
 .dp-x:hover{color:var(--txt)}
 .dp-flag{font-size:20px;margin-bottom:4px}
 .dp-name{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:6px}
 .dp-txt{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:10px}
-.dp-reply-btn{width:100%;background:rgba(139,92,246,0.15);border:.5px solid rgba(139,92,246,0.4);border-radius:10px;padding:9px;font-size:13px;font-weight:600;color:#A78BFA;font-family:'Inter',sans-serif;cursor:pointer}
-.dp-reply-btn:hover{background:rgba(139,92,246,0.25)}
-/* Comment button - very visible */
-.fi-comment-btn{background:rgba(139,92,246,0.13);border:1px solid rgba(139,92,246,0.4);border-radius:18px;padding:6px 14px;font-size:12px;font-weight:700;color:#A78BFA;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.fi-comment-btn:hover{background:rgba(139,92,246,0.25);border-color:rgba(139,92,246,0.7)}
-.fi-foot{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-.fi-cnt{font-size:12px;color:var(--txt3);flex-shrink:0}
+.dp-reply-btn{width:100%;background:var(--pur-dim);border:.5px solid rgba(139,92,246,.35);border-radius:10px;padding:9px;font-size:13px;font-weight:600;color:var(--pur);font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.dp-reply-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dp-reply-btn:hover{background:rgba(139,92,246,.22)}
+/* Toast */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--s1);border:.5px solid var(--brd2);border-radius:12px;padding:10px 18px;font-size:13px;color:var(--txt);z-index:600;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
 </style>
 </head>
 <body>
 
-<div id="s-app">
+<!-- INTRO ANIMATION -->
+<div id="intro">
+  <div style="position:relative">
+    <div class="intro-globe">
+      <div class="intro-dots-wrap">
+        <div class="intro-dot" style="top:30%;left:25%;animation-delay:.1s"></div>
+        <div class="intro-dot" style="top:45%;left:60%;animation-delay:.4s"></div>
+        <div class="intro-dot" style="top:60%;left:35%;animation-delay:.7s"></div>
+        <div class="intro-dot" style="top:25%;left:55%;animation-delay:.2s"></div>
+        <div class="intro-dot" style="top:65%;left:65%;animation-delay:.9s"></div>
+        <div class="intro-dot" style="top:50%;left:15%;animation-delay:.6s"></div>
+      </div>
+    </div>
+    <div class="intro-ring"></div>
+    <div class="intro-ring2"></div>
+  </div>
+  <div class="intro-title">GlobePray</div>
+  <div class="intro-sub">Pray Together · Worldwide</div>
+</div>
+
+<!-- APP -->
+<div id="s-app" style="opacity:0;transition:opacity .6s">
   <div class="topbar">
     <div class="tb-left">
       <img class="tb-logo-img" src="media/logo.png" alt="" onerror="this.style.display='none'">
@@ -236,15 +280,25 @@ select.field{-webkit-appearance:none;appearance:none}
     </div>
     <div class="tb-right">
       <div class="lpill"><div class="ldot"></div><div class="lnum" id="liveN">0</div></div>
-      <button id="music-btn" title="Ambient music" style="background:none;border:none;font-size:18px;cursor:pointer;padding:4px;opacity:.7;line-height:1">🎵</button>
       <div id="tb-auth"></div>
     </div>
   </div>
 
-  <!-- GLOBE SECTION -->
+  <!-- GLOBE -->
   <div class="section active" id="sec-globe">
     <div class="globe-wrap">
       <canvas id="globe" width="320" height="320"></canvas>
+      <!-- Music button bottom-right of globe -->
+      <div class="music-btn-wrap">
+        <div class="music-btn-inner muted" id="music-btn" title="Play ambient music">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/>
+            <circle cx="18" cy="16" r="3"/>
+            <line class="mute-line" x1="3" y1="3" x2="21" y2="21" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
       <div class="globe-hint">Tap a light to read their prayer</div>
     </div>
     <div class="globe-stats">
@@ -259,19 +313,21 @@ select.field{-webkit-appearance:none;appearance:none}
     <div class="sch"><div class="sct">My Prayer</div></div>
     <div class="mypray-wrap"><div id="myBox"></div></div>
     <div class="sch"><div class="sct">Community</div></div>
-    <div class="feed" id="feedEl"><div class="empty-state">Loading prayers...</div></div>
+    <div class="feed" id="feedEl"></div>
   </div>
 
-  <!-- CHAT SECTION -->
+  <!-- CHAT -->
   <div class="section" id="sec-chat">
     <div class="chat-wrap">
-      <div class="chat-tabs-wrap" id="chat-tabs"></div>
+      <div class="chat-header">
+        <div class="chat-tabs-scroll" id="chat-tabs"></div>
+      </div>
       <div class="chatmsgs" id="chatEl"></div>
       <div id="chat-bar"></div>
     </div>
   </div>
 
-  <!-- PROFILE SECTION -->
+  <!-- PROFILE -->
   <div class="section" id="sec-profile">
     <div id="profile-content"></div>
   </div>
@@ -296,27 +352,24 @@ select.field{-webkit-appearance:none;appearance:none}
 <div class="overlay" id="ov-auth" onclick="if(event.target===this)closeAuth()">
   <div class="modal-sheet">
     <div class="mhandle"></div>
-    <!-- Onboarding Google -->
     <div id="auth-onboard" style="display:none">
-      <div class="mtitle">Almost there 👋</div>
-      <div class="msub">Tell us where you are to appear on the globe.</div>
+      <div class="mtitle" id="ob-title">Almost there</div>
+      <div class="msub" id="ob-sub">Tell us where you are to appear on the globe.</div>
       <div class="ob-user-row">
         <div class="ob-av" id="ob-av"></div>
         <div><div class="ob-user-name" id="ob-uname"></div><div class="ob-user-email" id="ob-uemail"></div></div>
       </div>
-
       <select class="field" id="ob-lang">
-        <option value="en">🌐 English</option><option value="fr">🇫🇷 Français</option>
-        <option value="es">🇪🇸 Español</option><option value="pt">🇧🇷 Português</option>
+        <option value="en">English</option><option value="fr">Francais</option>
+        <option value="es">Espanol</option><option value="pt">Portugues</option>
       </select>
       <select class="field" id="ob-country"><option value="">Your country...</option></select>
       <div class="errmsg" id="ob-err"></div>
-      <button class="primary-btn" id="ob-btn">Enter GlobePray 🌍</button>
+      <button class="primary-btn" id="ob-btn">Enter GlobePray</button>
     </div>
-    <!-- Sign in/up -->
     <div id="auth-main">
       <div class="mtitle" id="auth-title">Join GlobePray</div>
-      <div class="msub" id="auth-sub">Free · No ads. Your prayer on the globe.</div>
+      <div class="msub" id="auth-sub">Free. No ads. Your prayer on the globe.</div>
       <div class="auth-tabs">
         <div class="auth-tab active" id="tab-signup">Create Account</div>
         <div class="auth-tab" id="tab-signin">Sign In</div>
@@ -327,13 +380,12 @@ select.field{-webkit-appearance:none;appearance:none}
           Continue with Google
         </button>
         <div class="divrow"><div class="divline"></div><div class="divtxt">or</div><div class="divline"></div></div>
-
         <input class="field" type="text" id="su-name" placeholder="Your name">
         <input class="field" type="email" id="su-email" placeholder="Email">
         <input class="field" type="password" id="su-pass" placeholder="Password (8+ characters)">
         <select class="field" id="su-lang">
-          <option value="en">🌐 English</option><option value="fr">🇫🇷 Français</option>
-          <option value="es">🇪🇸 Español</option><option value="pt">🇧🇷 Português</option>
+          <option value="en">English</option><option value="fr">Francais</option>
+          <option value="es">Espanol</option><option value="pt">Portugues</option>
         </select>
         <select class="field" id="su-country"><option value="">Your country...</option></select>
         <div class="errmsg" id="su-err"></div>
@@ -361,14 +413,14 @@ select.field{-webkit-appearance:none;appearance:none}
 <div class="overlay" id="ov-prayer" onclick="if(event.target===this)closePrayer()">
   <div class="modal-sheet">
     <div class="mhandle"></div>
-    <div class="mtitle">My Prayer Request</div>
-    <div class="msub">Shared with Christians worldwide · active 24h.</div>
+    <div class="mtitle" id="pray-title">My Prayer Request</div>
+    <div class="msub" id="pray-sub">Shared with Christians worldwide · active 24h.</div>
     <textarea class="modal-textarea" id="prayIn" placeholder="Lord, I pray for..."></textarea>
     <div class="loc-opts">
-      <div class="loc-label">Appear on the globe as:</div>
-      <label class="loc-opt"><input type="radio" name="prayLoc" value="precise" checked> 📍 My exact location</label>
-      <label class="loc-opt"><input type="radio" name="prayLoc" value="country"> 🌍 My country only</label>
-      <label class="loc-opt"><input type="radio" name="prayLoc" value="none"> 🙈 Don't show on globe</label>
+      <div class="loc-label" id="loc-label">Appear on the globe as</div>
+      <label class="loc-opt"><input type="radio" name="prayLoc" value="precise" checked> Exact location (GPS)</label>
+      <label class="loc-opt"><input type="radio" name="prayLoc" value="country"> Country only</label>
+      <label class="loc-opt"><input type="radio" name="prayLoc" value="none"> Don't show on globe</label>
     </div>
     <div class="modal-btns">
       <button class="m-cancel" id="cancel-pray">Cancel</button>
@@ -381,8 +433,8 @@ select.field{-webkit-appearance:none;appearance:none}
 <div class="overlay" id="ov-forgot" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-sheet">
     <div class="mhandle"></div>
-    <div class="mtitle">Reset Password</div>
-    <div class="msub">We will send a reset link to your email.</div>
+    <div class="mtitle" id="forgot-title">Reset Password</div>
+    <div class="msub" id="forgot-sub">We will send a reset link to your email.</div>
     <input class="field" type="email" id="forgot-email" placeholder="your@email.com">
     <div class="modal-btns">
       <button class="m-cancel" id="cancel-forgot">Cancel</button>
@@ -397,7 +449,10 @@ select.field{-webkit-appearance:none;appearance:none}
   <div class="dp-flag" id="dp-flag"></div>
   <div class="dp-name" id="dp-name"></div>
   <div class="dp-txt" id="dp-txt"></div>
-  <button class="dp-reply-btn" id="dp-reply" style="display:none">💬 Comment privately</button>
+  <button class="dp-reply-btn" id="dp-reply" style="display:none">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Comment privately
+  </button>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -411,25 +466,240 @@ var SURL='https://ycggtqqyffjjniguidgy.supabase.co';
 var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZ2d0cXF5ZmZqam5pZ3VpZGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjM5MjYsImV4cCI6MjA5NDc5OTkyNn0.UW5gd9TL7Q7vy38I90HCp0P7iq6mlhLW9u1_74OLIkc';
 var sb=supabase.createClient(SURL,SKEY);
 
+/* ── TRANSLATIONS ── */
+var T={
+  en:{
+    globe:'Globe',chat:'Chat',profile:'Profile',community:'Community',myPrayer:'My Prayer',
+    shareReq:'Share a prayer request',thousands:'Thousands of Christians worldwide will pray with you — for free.',
+    pray:'Pray',shareMy:'Share my prayer',shareWorld:'Share with the world',
+    prayingWith:'Praying with you',praying:'praying',comment:'Comment',
+    connected:'Connected',nations:'Nations',prayers:'Prayers',
+    joinTitle:'Join GlobePray',joinSub:'Free. No ads. Your prayer on the globe.',
+    createAcc:'Create free account',alreadyAcc:'Already have an account? Sign in',
+    signIn:'Sign In',noAcc:'No account? Create one',
+    name:'Your name',email:'Email',password:'Password (8+ characters)',country:'Your country...',
+    joinBtn:'Join GlobePray — Free',forgotPwd:'Forgot password?',
+    continueGoogle:'Continue with Google',
+    resetTitle:'Reset Password',resetSub:'We will send a reset link to your email.',sendLink:'Send Link',
+    cancel:'Cancel',
+    prayTitle:'My Prayer Request',praySub:'Shared with Christians worldwide · active 24h.',
+    lordPray:'Lord, I pray for...',
+    locLabel:'Appear on the globe as',locPrecise:'Exact location (GPS)',locCountry:'Country only',locNone:"Don't show on globe",
+    almostThere:'Almost there',almostSub:'Tell us where you are to appear on the globe.',
+    enterGlobe:'Enter GlobePray',
+    globalChat:'Global',activeNow:'active',
+    send:'Send',typeMsg:'A word, a prayer...',typePriv:'Send a private message...',
+    joinChat:'Join to chat with Christians worldwide',joinFree:'Join free',
+    signOut:'Sign Out',privateMsg:'Private Messages',conversation:'conversation',conversations:'conversations',
+    tapLight:'Tap a light to read their prayer',
+    commentPriv:'Comment privately',
+    verse:'"Where two or three gather in my name, I am there among them."',
+    verseRef:'Matthew 18 · 20',
+    prayingActive:'My Prayer · Active',newIn:'New in',peopleWith:'people praying with you',
+    welcome:'Welcome to GlobePray',
+    cantComment:"Can't comment on your own prayer.",
+    errName:'Enter your name.',errEmail:'Enter your email.',errPass:'Password must be 8+ characters.',errCountry:'Select your country.',
+    creating:'Creating...',signingIn:'Signing in...',sharing:'Sharing...',
+    emailNotConfirmed:'Please confirm your email first. Check your inbox.',
+    invalidPwd:'Invalid email or password.',
+    prayerShared:'Prayer shared with the world',
+    resetSent:'Reset link sent! Check your inbox.',
+    prayReq:'Prayer request',supportWord:'Send a word of support',
+    countryLbl:'Country',langLbl:'Language',privMsgLbl:'Private Messages',
+    errorSend:'Error sending message.',
+  },
+  fr:{
+    globe:'Globe',chat:'Chat',profile:'Profil',community:'Communauté',myPrayer:'Ma Prière',
+    shareReq:'Partager une demande de prière',thousands:'Des milliers de chrétiens dans le monde prieront avec vous — gratuitement.',
+    pray:'Prier',shareMy:'Partager ma prière',shareWorld:'Partager avec le monde',
+    prayingWith:'Je prie avec vous',praying:'prient',comment:'Commenter',
+    connected:'Connectés',nations:'Nations',prayers:'Prières',
+    joinTitle:'Rejoindre GlobePray',joinSub:'Gratuit. Sans pubs. Votre prière sur le globe.',
+    createAcc:'Créer un compte gratuit',alreadyAcc:'Vous avez déjà un compte ? Connexion',
+    signIn:'Se connecter',noAcc:'Pas de compte ? Créer un',
+    name:'Votre nom',email:'Courriel',password:'Mot de passe (8+ caractères)',country:'Votre pays...',
+    joinBtn:'Rejoindre GlobePray — Gratuit',forgotPwd:'Mot de passe oublié ?',
+    continueGoogle:'Continuer avec Google',
+    resetTitle:'Réinitialiser le mot de passe',resetSub:'Nous vous enverrons un lien de réinitialisation.',sendLink:'Envoyer le lien',
+    cancel:'Annuler',
+    prayTitle:'Ma demande de prière',praySub:'Partagée avec des chrétiens dans le monde · active 24h.',
+    lordPray:'Seigneur, je prie pour...',
+    locLabel:'Apparaître sur le globe comme',locPrecise:'Localisation précise (GPS)',locCountry:'Pays seulement',locNone:"Ne pas afficher sur le globe",
+    almostThere:'Presque là',almostSub:'Dites-nous où vous êtes pour apparaître sur le globe.',
+    enterGlobe:'Entrer dans GlobePray',
+    globalChat:'Global',activeNow:'actif',
+    send:'Envoyer',typeMsg:'Un mot, une prière...', typePriv:'Envoyer un message privé...',
+    joinChat:'Rejoignez pour discuter avec des chrétiens du monde entier',joinFree:'Rejoindre gratuitement',
+    signOut:'Se déconnecter',privateMsg:'Messages privés',conversation:'conversation',conversations:'conversations',
+    tapLight:'Appuyez sur une lumière pour lire sa prière',
+    commentPriv:'Commenter en privé',
+    verse:'"Là où deux ou trois sont réunis en mon nom, je suis au milieu d\'eux."',
+    verseRef:'Matthieu 18 · 20',
+    prayingActive:'Ma Prière · Active',newIn:'Nouveau dans',peopleWith:'personnes prient avec vous',
+    welcome:'Bienvenue sur GlobePray',
+    cantComment:"Vous ne pouvez pas commenter votre propre prière.",
+    errName:'Entrez votre nom.',errEmail:'Entrez votre courriel.',errPass:'Le mot de passe doit avoir 8+ caractères.',errCountry:'Sélectionnez votre pays.',
+    creating:'Création...',signingIn:'Connexion...',sharing:'Partage...',
+    emailNotConfirmed:'Veuillez confirmer votre courriel. Vérifiez votre boîte.',
+    invalidPwd:'Courriel ou mot de passe invalide.',
+    prayerShared:'Prière partagée avec le monde',
+    resetSent:'Lien de réinitialisation envoyé !',
+    prayReq:'Demande de prière',supportWord:'Envoyez un mot de soutien',
+    countryLbl:'Pays',langLbl:'Langue',privMsgLbl:'Messages privés',
+    errorSend:'Erreur lors de l\'envoi.',
+  },
+  es:{
+    globe:'Globo',chat:'Chat',profile:'Perfil',community:'Comunidad',myPrayer:'Mi Oración',
+    shareReq:'Compartir una petición de oración',thousands:'Miles de cristianos en todo el mundo orarán contigo — gratis.',
+    pray:'Orar',shareMy:'Compartir mi oración',shareWorld:'Compartir con el mundo',
+    prayingWith:'Orando contigo',praying:'orando',comment:'Comentar',
+    connected:'Conectados',nations:'Naciones',prayers:'Oraciones',
+    joinTitle:'Únete a GlobePray',joinSub:'Gratis. Sin anuncios. Tu oración en el globo.',
+    createAcc:'Crear cuenta gratuita',alreadyAcc:'¿Ya tienes cuenta? Iniciar sesión',
+    signIn:'Iniciar sesión',noAcc:'¿Sin cuenta? Crea una',
+    name:'Tu nombre',email:'Correo electrónico',password:'Contraseña (8+ caracteres)',country:'Tu país...',
+    joinBtn:'Únete a GlobePray — Gratis',forgotPwd:'¿Olvidaste tu contraseña?',
+    continueGoogle:'Continuar con Google',
+    resetTitle:'Restablecer contraseña',resetSub:'Te enviaremos un enlace de restablecimiento.',sendLink:'Enviar enlace',
+    cancel:'Cancelar',
+    prayTitle:'Mi petición de oración',praySub:'Compartida con cristianos en todo el mundo · activa 24h.',
+    lordPray:'Señor, oro por...',
+    locLabel:'Aparecer en el globo como',locPrecise:'Ubicación exacta (GPS)',locCountry:'Solo país',locNone:"No mostrar en el globo",
+    almostThere:'Casi listo',almostSub:'Dinos dónde estás para aparecer en el globo.',
+    enterGlobe:'Entrar a GlobePray',
+    globalChat:'Global',activeNow:'activo',
+    send:'Enviar',typeMsg:'Una palabra, una oración...',typePriv:'Enviar mensaje privado...',
+    joinChat:'Únete para chatear con cristianos de todo el mundo',joinFree:'Únete gratis',
+    signOut:'Cerrar sesión',privateMsg:'Mensajes privados',conversation:'conversación',conversations:'conversaciones',
+    tapLight:'Toca una luz para leer su oración',
+    commentPriv:'Comentar en privado',
+    verse:'"Porque donde dos o tres se reúnen en mi nombre, allí estoy yo en medio de ellos."',
+    verseRef:'Mateo 18 · 20',
+    prayingActive:'Mi Oración · Activa',newIn:'Nuevo en',peopleWith:'personas orando contigo',
+    welcome:'Bienvenido a GlobePray',
+    cantComment:"No puedes comentar tu propia oración.",
+    errName:'Ingresa tu nombre.',errEmail:'Ingresa tu correo.',errPass:'La contraseña debe tener 8+ caracteres.',errCountry:'Selecciona tu país.',
+    creating:'Creando...',signingIn:'Iniciando sesión...',sharing:'Compartiendo...',
+    emailNotConfirmed:'Por favor confirma tu correo. Revisa tu bandeja.',
+    invalidPwd:'Correo o contraseña inválidos.',
+    prayerShared:'Oración compartida con el mundo',
+    resetSent:'¡Enlace de restablecimiento enviado!',
+    prayReq:'Petición de oración',supportWord:'Envía una palabra de apoyo',
+    countryLbl:'País',langLbl:'Idioma',privMsgLbl:'Mensajes privados',
+    errorSend:'Error al enviar.',
+  },
+  pt:{
+    globe:'Globo',chat:'Chat',profile:'Perfil',community:'Comunidade',myPrayer:'Minha Oração',
+    shareReq:'Compartilhar um pedido de oração',thousands:'Milhares de cristãos em todo o mundo orarão com você — de graça.',
+    pray:'Orar',shareMy:'Compartilhar minha oração',shareWorld:'Compartilhar com o mundo',
+    prayingWith:'Orando com você',praying:'orando',comment:'Comentar',
+    connected:'Conectados',nations:'Nações',prayers:'Orações',
+    joinTitle:'Junte-se ao GlobePray',joinSub:'Grátis. Sem anúncios. Sua oração no globo.',
+    createAcc:'Criar conta gratuita',alreadyAcc:'Já tem conta? Entre',
+    signIn:'Entrar',noAcc:'Sem conta? Criar uma',
+    name:'Seu nome',email:'Email',password:'Senha (8+ caracteres)',country:'Seu país...',
+    joinBtn:'Junte-se ao GlobePray — Grátis',forgotPwd:'Esqueceu a senha?',
+    continueGoogle:'Continuar com Google',
+    resetTitle:'Redefinir senha',resetSub:'Enviaremos um link de redefinição.',sendLink:'Enviar link',
+    cancel:'Cancelar',
+    prayTitle:'Meu pedido de oração',praySub:'Compartilhado com cristãos no mundo todo · ativo 24h.',
+    lordPray:'Senhor, oro por...',
+    locLabel:'Aparecer no globo como',locPrecise:'Localização exata (GPS)',locCountry:'Somente país',locNone:"Não mostrar no globo",
+    almostThere:'Quase lá',almostSub:'Nos diga onde você está para aparecer no globo.',
+    enterGlobe:'Entrar no GlobePray',
+    globalChat:'Global',activeNow:'ativo',
+    send:'Enviar',typeMsg:'Uma palavra, uma oração...',typePriv:'Enviar mensagem privada...',
+    joinChat:'Junte-se para conversar com cristãos do mundo todo',joinFree:'Junte-se grátis',
+    signOut:'Sair',privateMsg:'Mensagens privadas',conversation:'conversa',conversations:'conversas',
+    tapLight:'Toque uma luz para ler sua oração',
+    commentPriv:'Comentar em privado',
+    verse:'"Porque onde dois ou três estiverem reunidos em meu nome, aí estou eu no meio deles."',
+    verseRef:'Mateus 18 · 20',
+    prayingActive:'Minha Oração · Ativa',newIn:'Novo em',peopleWith:'pessoas orando com você',
+    welcome:'Bem-vindo ao GlobePray',
+    cantComment:"Não pode comentar sua própria oração.",
+    errName:'Digite seu nome.',errEmail:'Digite seu email.',errPass:'A senha deve ter 8+ caracteres.',errCountry:'Selecione seu país.',
+    creating:'Criando...',signingIn:'Entrando...',sharing:'Compartilhando...',
+    emailNotConfirmed:'Por favor confirme seu email. Verifique sua caixa.',
+    invalidPwd:'Email ou senha inválidos.',
+    prayerShared:'Oração compartilhada com o mundo',
+    resetSent:'Link de redefinição enviado!',
+    prayReq:'Pedido de oração',supportWord:'Envie uma palavra de apoio',
+    countryLbl:'País',langLbl:'Idioma',privMsgLbl:'Mensagens privadas',
+    errorSend:'Erro ao enviar.',
+  }
+};
+
+var userLang='en';
+function t(k){return (T[userLang]&&T[userLang][k])||T.en[k]||k;}
+function setLang(lang){if(T[lang])userLang=lang;applyTranslations();}
+function applyTranslations(){
+  var el=function(id){return document.getElementById(id);};
+  // Nav
+  var nbs=document.querySelectorAll('.nb span');
+  if(nbs[0])nbs[0].textContent=t('globe');
+  if(nbs[1])nbs[1].textContent=t('chat');
+  if(nbs[2])nbs[2].textContent=t('profile');
+  // Stats labels
+  var gsl=document.querySelectorAll('.gsl');
+  if(gsl[0])gsl[0].textContent=t('connected');
+  if(gsl[1])gsl[1].textContent=t('nations');
+  if(gsl[2])gsl[2].textContent=t('prayers');
+  // Globe hint
+  var gh=document.querySelector('.globe-hint');if(gh)gh.textContent=t('tapLight');
+  // Verse
+  var vq=document.querySelector('.verse-q');if(vq)vq.textContent=t('verse');
+  var vr=document.querySelector('.verse-r');if(vr)vr.textContent=t('verseRef');
+  // Section titles
+  var scts=document.querySelectorAll('.sct');
+  if(scts[0])scts[0].textContent=t('myPrayer');
+  if(scts[1])scts[1].textContent=t('community');
+  // Prayer modal
+  var pt=el('pray-title');if(pt)pt.textContent=t('prayTitle');
+  var ps=el('pray-sub');if(ps)ps.textContent=t('praySub');
+  var pi=el('prayIn');if(pi)pi.placeholder=t('lordPray');
+  var ll=el('loc-label');if(ll)ll.textContent=t('locLabel');
+  var sp=el('submit-pray');if(sp)sp.textContent=t('shareWorld');
+  var cp=el('cancel-pray');if(cp)cp.textContent=t('cancel');
+  // Loc options
+  var locs=document.querySelectorAll('.loc-opt');
+  if(locs[0])locs[0].lastChild.textContent=' '+t('locPrecise');
+  if(locs[1])locs[1].lastChild.textContent=' '+t('locCountry');
+  if(locs[2])locs[2].lastChild.textContent=' '+t('locNone');
+  // Auth
+  var at=el('auth-title');if(at)at.textContent=t('joinTitle');
+  var as_=el('auth-sub');if(as_)as_.textContent=t('joinSub');
+  var ts=el('tab-signup');if(ts)ts.textContent=t('createAcc').split(' ')[0];
+  var tsi=el('tab-signin');if(tsi)tsi.textContent=t('signIn');
+  var gbu=el('google-btn-up');if(gbu)gbu.lastChild.textContent=t('continueGoogle');
+  var gbi=el('google-btn-in');if(gbi)gbi.lastChild.textContent=t('continueGoogle');
+  // Forgot
+  var ftt=el('forgot-title');if(ftt)ftt.textContent=t('resetTitle');
+  var fts=el('forgot-sub');if(fts)fts.textContent=t('resetSub');
+  var sr=el('send-reset');if(sr)sr.textContent=t('sendLink');
+  var cf=el('cancel-forgot');if(cf)cf.textContent=t('cancel');
+}
+
+/* ── SEED DATA ── */
 var SEED=[
   {id:'s1',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',country:'Brazil',lon:-47,lat:-15,text:'For the families affected by the floods in southern Brazil. Lord, be their refuge and strength.',pray_count:312,created_at:new Date(Date.now()-7200000).toISOString()},
   {id:'s2',uid:'seed',name:'Abigail Okafor',flag:'🇳🇬',country:'Nigeria',lon:8,lat:9,text:"For my daughter's full recovery. She has been in hospital since Monday. God, heal her completely.",pray_count:287,created_at:new Date(Date.now()-14400000).toISOString()},
   {id:'s3',uid:'seed',name:'Lucia Santos',flag:'🇵🇭',country:'Philippines',lon:122,lat:12,text:"For peace in our community and wisdom for our leaders. May God's grace cover our nation.",pray_count:198,created_at:new Date(Date.now()-21600000).toISOString()},
   {id:'s4',uid:'seed',name:'Ji-ho Park',flag:'🇰🇷',country:'South Korea',lon:128,lat:36,text:'For my family going through a very difficult season. Lord, I trust you with all my heart.',pray_count:143,created_at:new Date(Date.now()-28800000).toISOString()},
-  {id:'s5',uid:'seed',name:'Marie Dubois',flag:'🇫🇷',country:'France',lon:2,lat:47,text:"For my friend who lost his job this week. May God open new doors for his family.",pray_count:89,created_at:new Date(Date.now()-36000000).toISOString()},
+  {id:'s5',uid:'seed',name:'Marie Dubois',flag:'🇫🇷',country:'France',lon:2,lat:47,text:"Pour mon ami qui a perdu son travail cette semaine. Que Dieu lui ouvre de nouvelles portes.",pray_count:89,created_at:new Date(Date.now()-36000000).toISOString()},
   {id:'s6',uid:'seed',name:'Priya Thomas',flag:'🇮🇳',country:'India',lon:78,lat:22,text:'For revival across India. Lord, pour out your Spirit on every village and city.',pray_count:231,created_at:new Date(Date.now()-43200000).toISOString()},
   {id:'s7',uid:'seed',name:'Emmanuel Mbeki',flag:'🇨🇩',country:'Congo',lon:24,lat:-4,text:'For reconciliation and peace. Lord, let your kingdom come to Congo.',pray_count:64,created_at:new Date(Date.now()-50400000).toISOString()},
   {id:'s8',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',country:'South Africa',lon:25,lat:-29,text:'Praying for unity in the body of Christ across Africa. We are one in Him.',pray_count:117,created_at:new Date(Date.now()-57600000).toISOString()},
-  {id:'s9',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',country:'Germany',lon:10,lat:51,text:'For my mother who is battling cancer. Lord, you are the healer. We place her in your hands.',pray_count:176,created_at:new Date(Date.now()-64800000).toISOString()},
+  {id:'s9',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',country:'Germany',lon:10,lat:51,text:'Für meine Mutter, die gegen Krebs kämpft. Herr, du bist der Heiler.',pray_count:176,created_at:new Date(Date.now()-64800000).toISOString()},
   {id:'s10',uid:'seed',name:'Amara Diallo',flag:'🇸🇳',country:'Senegal',lon:-14,lat:14,text:'For the children in our village with no access to clean water or schooling.',pray_count:94,created_at:new Date(Date.now()-72000000).toISOString()},
   {id:'s11',uid:'seed',name:'Grace Mensah',flag:'🇬🇭',country:'Ghana',lon:-2,lat:8,text:'Praying for my marriage. Lord, restore what has been broken and renew our love.',pray_count:152,created_at:new Date(Date.now()-79200000).toISOString()},
   {id:'s12',uid:'seed',name:'David L.',flag:'🇨🇦',country:'Canada',lon:-80,lat:45,text:'For the unity of the body of Christ across all nations. That we would be one as He is one.',pray_count:891,created_at:new Date(Date.now()-86400000).toISOString()},
 ];
 var SEED_CHAT=[
-  {id:'c1',uid:'seed',name:'Abigail Okafor',flag:'🇳🇬',text:"May God's grace be upon you all this morning. Amen 🙏",created_at:new Date(Date.now()-300000).toISOString()},
-  {id:'c2',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',text:'Amazing to be in communion with believers from every nation.',created_at:new Date(Date.now()-240000).toISOString()},
+  {id:'c1',uid:'seed',name:'Abigail Okafor',flag:'🇳🇬',text:"May God's grace be upon you all this morning.",created_at:new Date(Date.now()-300000).toISOString()},
+  {id:'c2',uid:'seed',name:'Jonas Weber',flag:'🇩🇪',text:'Incredible to pray together from every corner of the earth.',created_at:new Date(Date.now()-240000).toISOString()},
   {id:'c3',uid:'seed',name:'Lucia Santos',flag:'🇵🇭',text:"Can anyone pray for my family right now?",created_at:new Date(Date.now()-180000).toISOString()},
-  {id:'c4',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',text:'With you Lucia 🙏 Lord, we lift them up right now.',created_at:new Date(Date.now()-120000).toISOString()},
+  {id:'c4',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',text:'With you Lucia. Lord, we lift them up right now.',created_at:new Date(Date.now()-120000).toISOString()},
   {id:'c5',uid:'seed',name:'Thabo Nkosi',flag:'🇿🇦',text:'Praying for everyone here. You are not alone.',created_at:new Date(Date.now()-60000).toISOString()},
 ];
 var CC=[
@@ -456,26 +726,81 @@ var CC=[
   {c:'CI',n:"Cote d'Ivoire",f:'🇨🇮',lo:-6,la:8},{c:'UY',n:'Uruguay',f:'🇺🇾',lo:-56,la:-33},
 ];
 
+/* ── TRANSLATION via Claude API ── */
+var translationCache={};
+async function translateText(text, targetLang){
+  if(!text||targetLang==='en')return text;
+  var cacheKey=targetLang+'|'+text.substring(0,50);
+  if(translationCache[cacheKey])return translationCache[cacheKey];
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:300,
+        messages:[{role:'user',content:'Translate the following text to '+targetLang+'. Respond with ONLY the translated text, nothing else:\n\n'+text}]
+      })
+    });
+    var d=await res.json();
+    var translated=(d.content&&d.content[0]&&d.content[0].text)||text;
+    translationCache[cacheKey]=translated;
+    return translated;
+  }catch(e){return text;}
+}
+
+/* ── STATE ── */
 var cu=null,prof=null,prayers=[],chatMsgs=[],dots=[],privConvos={};
 var pCh=null,cCh=null,prvCh=null,pendAction=null,pendPrayId=null,chatMode='global';
 
 /* ── MUSIC ── */
 var audioCtx=null,musicGain=null,musicPlaying=false,musicTimer=null;
-function initAudio(){if(audioCtx)return true;try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();musicGain=audioCtx.createGain();musicGain.gain.setValueAtTime(0,audioCtx.currentTime);musicGain.connect(audioCtx.destination);return true;}catch(e){return false;}}
+function initAudio(){
+  if(audioCtx)return true;
+  try{
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    musicGain=audioCtx.createGain();
+    musicGain.gain.setValueAtTime(0,audioCtx.currentTime);
+    musicGain.connect(audioCtx.destination);
+    return true;
+  }catch(e){return false;}
+}
 function playPad(){
   if(!audioCtx||!musicPlaying)return;
-  var sets=[[196,261.6,329.6,392],[220,293.7,369.9,440],[174.6,220,261.6,349.2],[196,261.6,349.2,440],[246.9,329.6,392,493.9]];
-  var chord=sets[Math.floor(Math.random()*sets.length)],now=audioCtx.currentTime,dur=6+Math.random()*3;
+  // Deep, resonant spiritual pads — inspired by the YouTube track
+  var sets=[
+    [130.8,196,261.6,392],    // C-G-C-G low
+    [146.8,220,293.7,440],    // D-A-D-A
+    [164.8,247,329.6,493.9],  // E-B-E-B
+    [174.6,261.6,349.2,523.3],// F-C-F-C
+    [146.8,220,349.2,440],    // D-A-F-A
+    [130.8,196,329.6,392],    // C-G-E-G
+  ];
+  var chord=sets[Math.floor(Math.random()*sets.length)];
+  var now=audioCtx.currentTime,dur=9+Math.random()*4;
   chord.forEach(function(freq,i){
-    var osc=audioCtx.createOscillator(),g=audioCtx.createGain();
-    osc.connect(g);g.connect(musicGain);osc.type='sine';
-    osc.frequency.setValueAtTime(freq,now);osc.detune.setValueAtTime((Math.random()-0.5)*10,now);
-    var vol=[0.2,0.14,0.1,0.07][i]||0.05;
-    g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(vol,now+2);
-    g.gain.setValueAtTime(vol,now+dur-1.5);g.gain.linearRampToValueAtTime(0,now+dur+0.5);
-    osc.start(now);osc.stop(now+dur+1);
+    // Layer 1: pure sine
+    var osc1=audioCtx.createOscillator(),g1=audioCtx.createGain();
+    osc1.connect(g1);g1.connect(musicGain);osc1.type='sine';
+    osc1.frequency.setValueAtTime(freq,now);
+    osc1.detune.setValueAtTime((Math.random()-0.5)*6,now);
+    var vol=[0.18,0.14,0.1,0.07][i]||0.05;
+    g1.gain.setValueAtTime(0,now);
+    g1.gain.linearRampToValueAtTime(vol,now+3);
+    g1.gain.setValueAtTime(vol,now+dur-2);
+    g1.gain.linearRampToValueAtTime(0,now+dur+1);
+    osc1.start(now);osc1.stop(now+dur+2);
+    // Layer 2: slight sub harmonic
+    if(i===0){
+      var osc2=audioCtx.createOscillator(),g2=audioCtx.createGain();
+      osc2.connect(g2);g2.connect(musicGain);osc2.type='sine';
+      osc2.frequency.setValueAtTime(freq/2,now);
+      g2.gain.setValueAtTime(0,now);g2.gain.linearRampToValueAtTime(0.06,now+3);
+      g2.gain.setValueAtTime(0.06,now+dur-2);g2.gain.linearRampToValueAtTime(0,now+dur+1);
+      osc2.start(now);osc2.stop(now+dur+2);
+    }
   });
-  musicTimer=setTimeout(playPad,(dur-1)*1000+Math.random()*2000);
+  musicTimer=setTimeout(playPad,(dur-2)*1000+Math.random()*3000);
 }
 function startMusic(){
   if(!initAudio())return;
@@ -483,25 +808,49 @@ function startMusic(){
   musicPlaying=true;
   musicGain.gain.cancelScheduledValues(audioCtx.currentTime);
   musicGain.gain.setValueAtTime(0,audioCtx.currentTime);
-  musicGain.gain.linearRampToValueAtTime(0.65,audioCtx.currentTime+3);
+  musicGain.gain.linearRampToValueAtTime(0.7,audioCtx.currentTime+4);
   playPad();
-  var btn=document.querySelector('#music-btn');if(btn)btn.textContent='🔇';
+  updateMusicBtn(true);
 }
 function stopMusic(){
-  musicPlaying=false;if(musicTimer){clearTimeout(musicTimer);musicTimer=null;}
-  if(musicGain&&audioCtx){musicGain.gain.cancelScheduledValues(audioCtx.currentTime);musicGain.gain.setValueAtTime(musicGain.gain.value,audioCtx.currentTime);musicGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+1.5);}
-  var btn=document.querySelector('#music-btn');if(btn)btn.textContent='🎵';
+  musicPlaying=false;
+  if(musicTimer){clearTimeout(musicTimer);musicTimer=null;}
+  if(musicGain&&audioCtx){
+    musicGain.gain.cancelScheduledValues(audioCtx.currentTime);
+    musicGain.gain.setValueAtTime(musicGain.gain.value,audioCtx.currentTime);
+    musicGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+2);
+  }
+  updateMusicBtn(false);
 }
 function toggleMusic(){if(musicPlaying)stopMusic();else startMusic();}
+function updateMusicBtn(playing){
+  var btn=document.getElementById('music-btn');
+  if(!btn)return;
+  if(playing){btn.classList.remove('muted');}
+  else{btn.classList.add('muted');}
+}
 
 /* ── UTILS ── */
 function toast(m){var t=qs('#toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2800);}
 function ago(ts){var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);return dy>0?dy+'d':h>0?h+'h':m>0?m+'m':'now';}
 function qs(s){return document.querySelector(s);}
 function qsa(s){return document.querySelectorAll(s);}
-function getCC(c){return CC.find(function(x){return x.c===c;})||{c:'XX',n:'Unknown',f:'🌍',lo:0,la:0};}
+function getCC(code){return CC.find(function(c){return c.c===code;})||{c:'XX',n:'Unknown',f:'🌍',lo:0,la:0};}
 function fillSel(id){var el=qs('#'+id);if(!el||el.children.length>1)return;CC.forEach(function(c){var o=document.createElement('option');o.value=c.c;o.textContent=c.f+' '+c.n;el.appendChild(o);});}
 function avStyle(name){var cols=[['#E91E8C','#9B27AF'],['#F97316','#EAB308'],['#10B981','#3B82F6'],['#8B5CF6','#EC4899'],['#14B8A6','#6366F1']];var ci=Math.abs((name||'').charCodeAt(0))%cols.length;return 'background:linear-gradient(135deg,'+cols[ci][0]+','+cols[ci][1]+')';}
+
+/* SVG ICONS */
+var SVG={
+  pray:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>',
+  comment:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  globe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  chevron:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>',
+  logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
+  country:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+  lang:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>',
+  privMsg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+};
 
 /* ── NAV ── */
 function navTo(id){
@@ -514,11 +863,12 @@ function navTo(id){
 }
 window.navTo=navTo;
 
+/* ── TOPBAR ── */
 function renderTopbar(){
   var w=qs('#tb-auth');if(!w)return;w.innerHTML='';
   var b=document.createElement('button');
   if(cu&&prof){b.className='tb-av';b.textContent=(prof.name||'U')[0].toUpperCase();b.onclick=function(){navTo('profile');};}
-  else{b.className='tb-signin-btn';b.textContent='Sign in';b.onclick=function(){openAuth(null);};}
+  else{b.className='tb-signin-btn';b.textContent=t('signIn');b.onclick=function(){openAuth(null);};}
   w.appendChild(b);
 }
 
@@ -526,108 +876,98 @@ function renderTopbar(){
 function openAuth(action){
   pendAction=action;fillSel('su-country');fillSel('ob-country');
   qs('#auth-onboard').style.display='none';qs('#auth-main').style.display='block';
-  var titles={pray:['Share your prayer','Thousands of Christians worldwide will pray with you — free.'],chat:['Join the conversation','Chat with Christians from 156 nations.'],priv:['Leave a comment','Create a free account to comment on this prayer.']};
-  var t=titles[action]||['Join GlobePray','Free · No ads. Your prayer on the globe.'];
-  qs('#auth-title').textContent=t[0];qs('#auth-sub').textContent=t[1];
+  var titleMap={pray:[t('shareReq'),t('thousands')],chat:[t('joinTitle'),t('joinSub')],priv:['Leave a comment','Create a free account to comment on this prayer.']};
+  var tt=titleMap[action]||[t('joinTitle'),t('joinSub')];
+  qs('#auth-title').textContent=tt[0];qs('#auth-sub').textContent=tt[1];
   qs('#ov-auth').classList.add('open');
 }
 function closeAuth(){qs('#ov-auth').classList.remove('open');}
 window.closeAuth=closeAuth;
-function switchTab(t){['signup','signin'].forEach(function(x){qs('#tab-'+x).classList.toggle('active',x===t);qs('#panel-'+x).classList.toggle('active',x===t);});}
+function switchTab(tab){['signup','signin'].forEach(function(x){qs('#tab-'+x).classList.toggle('active',x===tab);qs('#panel-'+x).classList.toggle('active',x===tab);});}
 window.switchTab=switchTab;
 
+/* ── SIGN UP ── */
 async function doSignUp(){
   var name=(qs('#su-name').value||'').trim(),email=(qs('#su-email').value||'').trim(),pass=qs('#su-pass').value||'',lang=qs('#su-lang').value||'en',code=qs('#su-country').value||'';
   var err=qs('#su-err');err.textContent='';err.style.color='#F87171';
-  if(!name){err.textContent='Enter your name.';return;}
-  if(!email){err.textContent='Enter your email.';return;}
-  if(pass.length<8){err.textContent='Password must be 8+ characters.';return;}
-  if(!code){err.textContent='Select your country.';return;}
-  var btn=qs('#su-btn');btn.textContent='Creating...';btn.disabled=true;
+  if(!name){err.textContent=t('errName');return;}
+  if(!email){err.textContent=t('errEmail');return;}
+  if(pass.length<8){err.textContent=t('errPass');return;}
+  if(!code){err.textContent=t('errCountry');return;}
+  var btn=qs('#su-btn');btn.textContent=t('creating');btn.disabled=true;
   var res=await sb.auth.signUp({email:email,password:pass});
-  if(res.error){err.textContent=res.error.message;btn.textContent='Join GlobePray — Free';btn.disabled=false;return;}
-  if(!res.data||!res.data.user){err.style.color='var(--grn)';err.textContent='Account created! Check your email to confirm.';btn.textContent='Join GlobePray — Free';btn.disabled=false;return;}
+  if(res.error){err.textContent=res.error.message;btn.textContent=t('joinBtn');btn.disabled=false;return;}
+  if(!res.data||!res.data.user){err.style.color='var(--grn)';err.textContent='Account created! Check your email to confirm.';btn.textContent=t('joinBtn');btn.disabled=false;return;}
   var ct=getCC(code);
   var p={id:res.data.user.id,name:name,email:email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:null,anonymous:false};
   await sb.from('profiles').upsert(p);
-  prof=p;cu=res.data.user;btn.textContent='Join GlobePray — Free';btn.disabled=false;
+  prof=p;cu=res.data.user;setLang(lang);btn.textContent=t('joinBtn');btn.disabled=false;
   closeAuth();afterLogin();
 }
 
+/* ── SIGN IN ── */
 async function doSignIn(){
   var email=(qs('#si-email').value||'').trim(),pass=qs('#si-pass').value||'';
   var err=qs('#si-err');err.textContent='';
   if(!email||!pass){err.textContent='Fill all fields.';return;}
-  var btn=qs('#si-btn');btn.textContent='Signing in...';btn.disabled=true;
+  var btn=qs('#si-btn');btn.textContent=t('signingIn');btn.disabled=true;
   var res=await sb.auth.signInWithPassword({email:email,password:pass});
   if(res.error){
-    if(res.error.message&&res.error.message.toLowerCase().indexOf('email not confirmed')>-1){
-      err.textContent='Please confirm your email first. Check your inbox.';
-    }else{
-      err.textContent='Invalid email or password.';
-    }
-    btn.textContent='Sign In';btn.disabled=false;return;
+    err.textContent=res.error.message.indexOf('Email not confirmed')>-1?t('emailNotConfirmed'):t('invalidPwd');
+    btn.textContent=t('signIn');btn.disabled=false;return;
   }
   cu=res.data.user;
   var p=await sb.from('profiles').select('*').eq('id',cu.id).single();
-  if(p.data){prof=p.data;}
+  if(p.data){prof=p.data;if(prof.lang)setLang(prof.lang);}
   else{
-    var meta=cu.user_metadata||{};
-    prof={id:cu.id,name:meta.full_name||email.split('@')[0],email:email,lang:'en',country:'Unknown',country_code:'XX',flag:'🌍',lon:null,lat:null,photo_url:null,anonymous:false};
+    prof={id:cu.id,name:email.split('@')[0],email:email,lang:'en',country:'Unknown',country_code:'XX',flag:'🌍',lon:null,lat:null,photo_url:null,anonymous:false};
     await sb.from('profiles').upsert(prof);
   }
-  btn.textContent='Sign In';btn.disabled=false;closeAuth();afterLogin();
+  btn.textContent=t('signIn');btn.disabled=false;closeAuth();afterLogin();
 }
 
-/* ── GOOGLE — vraie solution ── */
+/* ── GOOGLE ── */
 async function doGoogle(){
-  // Determine the best redirectTo URL
-  // Must be a real HTTPS URL registered in Google Console AND in Supabase allow list
   var currentUrl=window.location.href;
-  var redirectTo;
-  if(currentUrl.indexOf('file://')>-1||currentUrl.indexOf('localhost')>-1||currentUrl.indexOf('127.0.0.1')>-1){
-    // Local file: redirect to Supabase itself, then user can navigate back
-    redirectTo=SURL;
-  } else {
-    // Real hosting: use current page URL (strip hash/query)
+  var redirectTo=SURL;
+  if(currentUrl.indexOf('https://')===0&&currentUrl.indexOf('file://')===-1&&currentUrl.indexOf('localhost')===-1){
     redirectTo=currentUrl.split('#')[0].split('?')[0];
   }
-  var res=await sb.auth.signInWithOAuth({
-    provider:'google',
-    options:{
-      redirectTo:redirectTo,
-      queryParams:{access_type:'offline',prompt:'select_account'}
-    }
-  });
+  var res=await sb.auth.signInWithOAuth({provider:'google',options:{redirectTo:redirectTo,queryParams:{access_type:'offline',prompt:'select_account'}}});
   if(res.error)toast('Google: '+res.error.message);
 }
 
+/* ── AFTER LOGIN ── */
 function afterLogin(){
+  if(prof&&prof.lang)setLang(prof.lang);
   renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
   if(!pCh)loadPrayers();if(!cCh)loadChat();loadPrivate();
   if(pendAction==='pray')setTimeout(openPrayer,300);
   else if(pendAction==='priv'&&pendPrayId)setTimeout(function(){openPrivReply(pendPrayId);},300);
-  pendAction=null;toast('Welcome to GlobePray 🙏');
+  pendAction=null;toast(t('welcome'));
 }
 
 async function doLogout(){
-  await sb.auth.signOut();cu=null;prof=null;chatMode='global';
+  await sb.auth.signOut();cu=null;prof=null;chatMode='global';userLang='en';
   if(pCh){sb.removeChannel(pCh);pCh=null;}if(cCh){sb.removeChannel(cCh);cCh=null;}if(prvCh){sb.removeChannel(prvCh);prvCh=null;}
-  renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
+  setLang('en');renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
 }
 
+/* ── GOOGLE ONBOARDING ── */
 function showOnboard(user){
   fillSel('ob-country');qs('#auth-onboard').style.display='block';qs('#auth-main').style.display='none';
   var gn=(user.user_metadata||{}).full_name||user.email.split('@')[0];
   qs('#ob-av').textContent=gn[0].toUpperCase();qs('#ob-uname').textContent=gn;qs('#ob-uemail').textContent=user.email;
+  qs('#ob-title').textContent=t('almostThere');qs('#ob-sub').textContent=t('almostSub');
+  qs('#ob-btn').textContent=t('enterGlobe');
   qs('#ov-auth').classList.add('open');
 }
 async function doFinishOnboard(){
   var lang=qs('#ob-lang').value||'en',code=qs('#ob-country').value||'',err=qs('#ob-err');
-  if(!code){err.textContent='Please select your country.';return;}err.textContent='';
+  if(!code){err.textContent=t('errCountry');return;}err.textContent='';
   var ct=getCC(code),gn=(cu.user_metadata||{}).full_name||cu.email.split('@')[0];
   var p={id:cu.id,name:gn,email:cu.email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:null,anonymous:false};
-  await sb.from('profiles').upsert(p);prof=p;closeAuth();afterLogin();
+  await sb.from('profiles').upsert(p);prof=p;setLang(lang);closeAuth();afterLogin();
 }
 
 /* ── MY PRAYER ── */
@@ -637,18 +977,18 @@ function renderMyPrayer(){
     box.innerHTML='';
     var d=document.createElement('div');d.className='mp-teaser';
     var txt=document.createElement('div');txt.className='mp-teaser-txt';
-    txt.innerHTML='<div class="mp-teaser-title">🙏 Share a prayer request</div><div class="mp-teaser-sub">Thousands of Christians worldwide will pray with you — for free.</div>';
-    var btn=document.createElement('button');btn.className='mp-teaser-btn';btn.textContent='Pray →';
+    txt.innerHTML='<div class="mp-teaser-title">🙏 '+t('shareReq')+'</div><div class="mp-teaser-sub">'+t('thousands')+'</div>';
+    var btn=document.createElement('button');btn.className='mp-teaser-btn';btn.textContent=t('pray');
     btn.onclick=function(){openAuth('pray');};d.appendChild(txt);d.appendChild(btn);box.appendChild(d);return;
   }
   var myText=localStorage.getItem('gp_p_'+cu.id),myTime=parseInt(localStorage.getItem('gp_pt_'+cu.id)||'0'),elapsed=Date.now()-myTime;
   if(!myText||elapsed>86400000){
-    box.innerHTML='<div class="mp-empty"><div class="mp-icon">🙏</div><div class="mp-txt">Share your prayer request with thousands of Christians worldwide.</div></div>';
-    var btn=document.createElement('button');btn.className='mp-btn';btn.textContent='Share my prayer';
+    box.innerHTML='<div class="mp-empty"><div class="mp-icon">🙏</div><div class="mp-txt">'+t('thousands')+'</div></div>';
+    var btn=document.createElement('button');btn.className='mp-btn';btn.textContent=t('shareMy');
     btn.onclick=openPrayer;box.querySelector('.mp-empty').appendChild(btn);
   }else{
     var rem=86400000-elapsed,h=Math.floor(rem/3600000),m=Math.floor((rem%3600000)/60000),pc=parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0');
-    box.innerHTML='<div class="mp-live"><div class="mp-top"><div class="mp-badge">My Prayer · Active</div><div class="mp-timer">New in '+h+'h '+m+'m</div></div><div class="mp-content">'+myText+'</div><div class="mp-pc"><strong>'+(pc+12)+'</strong> people praying with you</div></div>';
+    box.innerHTML='<div class="mp-live"><div class="mp-top"><div class="mp-badge">'+t('prayingActive')+'</div><div class="mp-timer">'+t('newIn')+' '+h+'h '+m+'m</div></div><div class="mp-content">'+myText+'</div><div class="mp-pc"><strong>'+(pc+12)+'</strong> '+t('peopleWith')+'</div></div>';
   }
 }
 function openPrayer(){qs('#ov-prayer').classList.add('open');}
@@ -657,7 +997,7 @@ function closePrayer(){qs('#ov-prayer').classList.remove('open');}
 async function doSubmitPrayer(){
   var txt=(qs('#prayIn').value||'').trim();if(!txt||!cu||!prof)return;
   var locChoice=qs('input[name="prayLoc"]:checked'),locVal=locChoice?locChoice.value:'precise';
-  var btn=qs('#submit-pray');btn.disabled=true;btn.textContent='Sharing...';
+  var btn=qs('#submit-pray');btn.disabled=true;btn.textContent=t('sharing');
   var lon=null,lat=null,showOnGlobe=true;
   if(locVal==='none'){showOnGlobe=false;}
   else if(locVal==='precise'){
@@ -666,10 +1006,10 @@ async function doSubmitPrayer(){
   }else{lon=prof.lon||null;lat=prof.lat||null;}
   var p={user_id:cu.id,name:prof.name,flag:prof.flag,country:prof.country,country_code:prof.country_code,lon:lon,lat:lat,photo_url:null,text:txt,pray_count:0,lang:prof.lang||'en',show_on_globe:showOnGlobe};
   var res=await sb.from('prayers').insert(p);
-  if(res.error){toast('Error: '+res.error.message);btn.disabled=false;btn.textContent='Share with the world';return;}
+  if(res.error){toast('Error: '+res.error.message);btn.disabled=false;btn.textContent=t('shareWorld');return;}
   localStorage.setItem('gp_p_'+cu.id,txt);localStorage.setItem('gp_pt_'+cu.id,String(Date.now()));localStorage.setItem('gp_pc_'+cu.id,'0');
-  qs('#prayIn').value='';closePrayer();renderMyPrayer();btn.disabled=false;btn.textContent='Share with the world';
-  toast('Prayer shared with the world 🙏');
+  qs('#prayIn').value='';closePrayer();renderMyPrayer();btn.disabled=false;btn.textContent=t('shareWorld');
+  toast(t('prayerShared'));
 }
 
 /* ── FEED ── */
@@ -690,38 +1030,50 @@ function renderFeed(){
   all.forEach(function(p){
     var isSeed=p.uid==='seed';
     var div=document.createElement('div');div.className='fi';
-    div.innerHTML='<div class="fi-head"><div class="fi-av-txt" style="'+avStyle(p.name)+'">'+(p.name||'?')[0].toUpperCase()+'</div><div class="fi-info"><div class="fi-name">'+(p.name||'Anonymous')+' <span class="fi-flag">'+(p.flag||'')+'</span></div><div class="fi-sub">'+(p.country||'')+'</div></div><div class="fi-time">'+ago(p.created_at)+'</div></div><div class="fi-body">'+(p.text||'')+'</div><div class="fi-foot"></div>';
+    var displayText=p.text||'';
+    div.innerHTML='<div class="fi-head"><div class="fi-av-txt" style="'+avStyle(p.name)+'">'+(p.name||'?')[0].toUpperCase()+'</div><div class="fi-info"><div class="fi-name">'+(p.name||'Anonymous')+' <span class="fi-flag">'+(p.flag||'')+'</span></div><div class="fi-sub">'+(p.country||'')+'</div></div><div class="fi-time">'+ago(p.created_at)+'</div></div><div class="fi-body" data-orig="'+encodeURIComponent(p.text||'')+'">'+displayText+'</div><div class="fi-foot"></div>';
     var foot=div.querySelector('.fi-foot');
 
-    // 🙏 Pray button
+    // Translate prayer text if needed
+    var bodyEl=div.querySelector('.fi-body');
+    var pLang=p.lang||'en';
+    if(userLang!=='en'&&pLang!==userLang){
+      translateText(p.text||'',userLang).then(function(translated){
+        if(bodyEl&&translated&&translated!==p.text){
+          bodyEl.textContent=translated;
+          var origDiv=document.createElement('div');origDiv.className='fi-orig';origDiv.textContent='Original: '+p.text;
+          bodyEl.after(origDiv);
+        }
+      });
+    }
+
+    // Pray button (SVG icon instead of emoji)
     var pBtn=document.createElement('button');pBtn.className='fi-pbtn'+(p._prayed?' done':'');
-    pBtn.textContent=p._prayed?'✓ Praying':'🙏 Praying with you';
+    pBtn.innerHTML=SVG.pray+'<span>'+(p._prayed?'✓ '+t('prayingWith'):t('prayingWith'))+'</span>';
     pBtn.addEventListener('click',(function(pr,b){return function(){
-      if(pr._prayed)return;pr._prayed=true;b.className='fi-pbtn done';b.textContent='✓ Praying';
+      if(pr._prayed)return;pr._prayed=true;b.className='fi-pbtn done';
+      b.innerHTML=SVG.pray+'<span>'+t('prayingWith')+'</span>';
       pr.pray_count=(pr.pray_count||0)+1;
-      var cEl=b.parentElement.querySelector('.fi-cnt');if(cEl)cEl.textContent=pr.pray_count+' praying';
+      var cEl=b.parentElement.querySelector('.fi-cnt');if(cEl)cEl.textContent=pr.pray_count+' '+t('praying');
       if(cu&&!isSeed)localStorage.setItem('gp_pc_'+cu.id,String(parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0')+1));
       if(!isSeed)sb.from('prayers').update({pray_count:pr.pray_count}).eq('id',pr.id);
     };})(p,pBtn));
     foot.appendChild(pBtn);
 
-    // Pray count
-    var cnt=document.createElement('div');cnt.className='fi-cnt';cnt.textContent=(p.pray_count||0)+' praying';
+    var cnt=document.createElement('div');cnt.className='fi-cnt';cnt.textContent=(p.pray_count||0)+' '+t('praying');
     foot.appendChild(cnt);
 
-    // 💬 Comment — ALWAYS visible on non-seed prayers, right next to pray button
+    // Comment button (SVG icon)
     if(!isSeed){
-      var cBtn=document.createElement('button');
-      cBtn.className='fi-comment-btn';
-      cBtn.textContent='💬 Comment';
+      var cBtn=document.createElement('button');cBtn.className='fi-comment-btn';
+      cBtn.innerHTML=SVG.comment+'<span>'+t('comment')+'</span>';
       cBtn.addEventListener('click',(function(pr){return function(){
         if(!cu){pendPrayId=pr.id;openAuth('priv');return;}
-        if(pr.user_id===cu.id){toast("Can't comment on your own prayer.");return;}
+        if(pr.user_id===cu.id){toast(t('cantComment'));return;}
         openPrivReply(pr.id,pr.name,pr.user_id,pr.text);
       };})(p));
       foot.appendChild(cBtn);
     }
-
     el.appendChild(div);
   });
 }
@@ -761,38 +1113,48 @@ function openPrivReply(prayId,prayerName,prayerUserId,prayerText){
 /* ── CHAT ── */
 function renderChatTabs(){
   var el=qs('#chat-tabs');if(!el)return;el.innerHTML='';
-  var g=document.createElement('button');g.className='chat-tab'+(chatMode==='global'?' active':'');g.textContent='🌍 Global';
+  var g=document.createElement('button');g.className='chat-tab'+(chatMode==='global'?' active':'');
+  g.innerHTML=SVG.globe+'<span>'+t('globalChat')+'</span>';
   g.onclick=function(){chatMode='global';renderChatTabs();renderChatContent();};el.appendChild(g);
   if(cu){Object.values(privConvos).forEach(function(conv){
     var b=document.createElement('button');b.className='chat-tab'+(chatMode===conv.id?' active':'');
-    b.textContent='💬 '+(conv.other_name||'Prayer');
+    b.innerHTML=SVG.comment+'<span>'+(conv.other_name||'Prayer')+'</span>';
     b.onclick=(function(cid){return function(){chatMode=cid;renderChatTabs();renderChatContent();};})(conv.id);
     el.appendChild(b);
   });}
 }
-function renderChatContent(){if(chatMode==='global'){renderGlobalChat();renderChatBar(false);}else{renderPrivChat(chatMode);renderChatBar(true);}}
+function renderChatContent(){
+  if(chatMode==='global'){renderGlobalChat();renderChatBar(false);}
+  else{renderPrivChat(chatMode);renderChatBar(true);}
+}
 function renderGlobalChat(){
   var el=qs('#chatEl');if(!el)return;
   var all=[].concat(SEED_CHAT).concat(chatMsgs);el.innerHTML='';
-  all.forEach(function(m){
+  all.forEach(function(m,idx){
     var isMe=cu&&(m.uid===cu.id||m.user_id===cu.id);
     var div=document.createElement('div');div.className='cm'+(isMe?' cm-me':'');
     var av='<div class="cm-av-txt" style="'+avStyle(m.name)+'">'+((m.name||'?')[0].toUpperCase())+'</div>';
-    var meta='<div class="cm-meta"><span class="cm-name">'+(m.name||'?')+'</span> <span class="cm-flag">'+(m.flag||'')+'</span> <span class="cm-time">'+ago(m.created_at)+'</span></div>';
-    div.innerHTML=(!isMe?av:'')+'<div class="cm-bwrap">'+(!isMe?meta:'')+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'">'+(m.text||'')+'</div></div>';
+    var meta='<div class="cm-meta"><span class="cm-name">'+(m.name||'?')+'</span><span class="cm-flag"> '+(m.flag||'')+'</span><span class="cm-time"> '+ago(m.created_at)+'</span></div>';
+    div.innerHTML=(!isMe?av:'')+'<div class="cm-bwrap">'+(!isMe?meta:'')+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'" id="cmsg-'+idx+'">'+(m.text||'')+'</div></div>';
     el.appendChild(div);
-  });el.scrollTop=el.scrollHeight;
+    // Translate if needed
+    if(userLang!=='en'&&m.text){
+      var bubbleEl=document.getElementById('cmsg-'+idx);
+      translateText(m.text,userLang).then(function(tr){if(bubbleEl&&tr&&tr!==m.text)bubbleEl.textContent=tr;});
+    }
+  });
+  el.scrollTop=el.scrollHeight;
 }
 function renderPrivChat(convoId){
   var el=qs('#chatEl');if(!el)return;var conv=privConvos[convoId];el.innerHTML='';
-  if(conv&&conv.prayer_text){var ctx=document.createElement('div');ctx.className='priv-context';ctx.innerHTML='<div class="priv-context-lbl">Prayer request</div><div class="priv-context-txt">'+conv.prayer_text+'</div>';el.appendChild(ctx);}
-  if(!conv||!conv.msgs.length){el.innerHTML+='<div style="padding:20px;text-align:center;color:var(--txt3);font-size:14px">Send a word of support 🙏</div>';el.scrollTop=el.scrollHeight;return;}
-  conv.msgs.forEach(function(m){
+  if(conv&&conv.prayer_text){var ctx=document.createElement('div');ctx.className='priv-context';ctx.innerHTML='<div class="priv-context-lbl">'+t('prayReq')+'</div><div class="priv-context-txt">'+conv.prayer_text+'</div>';el.appendChild(ctx);}
+  if(!conv||!conv.msgs.length){el.innerHTML+='<div style="padding:20px;text-align:center;color:var(--txt3);font-size:14px">'+t('supportWord')+'</div>';el.scrollTop=el.scrollHeight;return;}
+  conv.msgs.forEach(function(m,idx){
     var isMe=cu&&m.sender_id===cu.id;
     var div=document.createElement('div');div.className='cm'+(isMe?' cm-me':'');
     var nm=isMe?(prof&&prof.name)||'You':(conv.other_name||'?');
     var av='<div class="cm-av-txt" style="'+avStyle(nm)+'">'+nm[0].toUpperCase()+'</div>';
-    var meta='<div class="cm-meta"><span class="cm-name">'+nm+'</span> <span class="cm-time">'+ago(m.created_at)+'</span></div>';
+    var meta='<div class="cm-meta"><span class="cm-name">'+nm+'</span><span class="cm-time"> '+ago(m.created_at)+'</span></div>';
     div.innerHTML=(!isMe?av:'')+'<div class="cm-bwrap">'+(!isMe?meta:'')+'<div class="cm-bubble'+(isMe?' cm-bubble-me':'')+'">'+m.text+'</div></div>';
     el.appendChild(div);
   });el.scrollTop=el.scrollHeight;
@@ -801,58 +1163,115 @@ function renderChatBar(isPriv){
   var el=qs('#chat-bar');if(!el)return;el.innerHTML='';
   if(!cu){
     var d=document.createElement('div');d.className='chat-locked';
-    d.innerHTML='<div class="chat-locked-txt">Join to chat with Christians worldwide 🌍</div>';
-    var b=document.createElement('button');b.className='chat-locked-btn';b.textContent='Join free';
-    b.onclick=function(){openAuth('chat');};d.appendChild(b);el.appendChild(d);return;
+    var lockTxt=document.createElement('div');lockTxt.className='chat-locked-txt';lockTxt.textContent=t('joinChat');
+    var b=document.createElement('button');b.className='chat-locked-btn';b.textContent=t('joinFree');
+    b.onclick=function(){openAuth('chat');};d.appendChild(lockTxt);d.appendChild(b);el.appendChild(d);return;
   }
   var bar=document.createElement('div');bar.className='chat-bar-inner';
-  var inp=document.createElement('input');inp.className='chat-in';inp.id='chatIn';inp.placeholder=isPriv?'Send a private message...':'A word, a prayer...';
-  inp.addEventListener('keydown',function(e){if(e.key==='Enter'){isPriv?doSendPriv():doSendChat();}});
-  var sb2=document.createElement('button');sb2.className='chat-send';
-  sb2.innerHTML='<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
-  sb2.onclick=isPriv?doSendPriv:doSendChat;bar.appendChild(inp);bar.appendChild(sb2);el.appendChild(bar);
+  var inp=document.createElement('input');inp.className='chat-in';inp.id='chatIn';
+  inp.placeholder=isPriv?t('typePriv'):t('typeMsg');
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();isPriv?doSendPriv():doSendChat();}});
+  var sendBtn=document.createElement('button');sendBtn.className='chat-send';
+  sendBtn.innerHTML='<svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+  sendBtn.onclick=isPriv?doSendPriv:doSendChat;
+  bar.appendChild(inp);bar.appendChild(sendBtn);el.appendChild(bar);
 }
 function loadChat(){
-  sb.from('chat').select('*').order('created_at',{ascending:true}).limit(60).then(function(res){chatMsgs=res.data||[];if(chatMode==='global')renderChatContent();});
-  cCh=sb.channel('gp-chat').on('postgres_changes',{event:'INSERT',schema:'public',table:'chat'},function(p){chatMsgs.push(p.new);if(chatMode==='global')renderChatContent();}).subscribe();
+  sb.from('chat').select('*').order('created_at',{ascending:true}).limit(60).then(function(res){
+    chatMsgs=res.data||[];if(chatMode==='global')renderChatContent();
+  });
+  cCh=sb.channel('gp-chat')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'chat'},function(p){
+      chatMsgs.push(p.new);
+      if(chatMode==='global'){renderChatContent();}
+    })
+    .subscribe();
 }
-async function doSendChat(){var inp=qs('#chatIn');if(!inp||!cu||!prof)return;var txt=(inp.value||'').trim();if(!txt)return;inp.value='';await sb.from('chat').insert({user_id:cu.id,name:prof.name,flag:prof.flag,photo_url:null,text:txt});}
+async function doSendChat(){
+  var inp=qs('#chatIn');if(!inp||!cu||!prof)return;
+  var txt=(inp.value||'').trim();if(!txt)return;
+  inp.value='';
+  // Optimistic update
+  var tmpMsg={user_id:cu.id,uid:cu.id,name:prof.name,flag:prof.flag,text:txt,created_at:new Date().toISOString()};
+  chatMsgs.push(tmpMsg);
+  if(chatMode==='global')renderChatContent();
+  var res=await sb.from('chat').insert({user_id:cu.id,name:prof.name,flag:prof.flag,photo_url:null,text:txt});
+  if(res.error)toast(t('errorSend'));
+}
 async function doSendPriv(){
-  var inp=qs('#chatIn');if(!inp||!cu||!prof)return;var txt=(inp.value||'').trim();if(!txt)return;inp.value='';
+  var inp=qs('#chatIn');if(!inp||!cu||!prof)return;
+  var txt=(inp.value||'').trim();if(!txt)return;inp.value='';
   var conv=privConvos[chatMode];if(!conv)return;
   var msg={convo_id:chatMode,sender_id:cu.id,sender_name:prof.name,recipient_id:conv.recipient_id||'',recipient_name:conv.other_name||'',prayer_text:conv.prayer_text||'',text:txt};
+  // Optimistic
+  privConvos[chatMode].msgs.push(Object.assign({},msg,{created_at:new Date().toISOString()}));
+  renderChatContent();
   var res=await sb.from('private_messages').insert(msg);
-  if(res.error){toast('Error: '+res.error.message);return;}
-  privConvos[chatMode].msgs.push(Object.assign({},msg,{created_at:new Date().toISOString()}));renderChatContent();
+  if(res.error)toast(t('errorSend'));
 }
 
 /* ── PROFILE ── */
+function openEditModal(field){
+  // For now show a simple prompt
+  var val=prompt('Enter new '+field+':',prof[field]||'');
+  if(!val)return;
+  if(field==='lang'){setLang(val);}
+  prof[field]=val;
+  sb.from('profiles').update({[field]:val}).eq('id',cu.id).then(function(){renderProfile();});
+}
 function renderProfile(){
   var el=qs('#profile-content');if(!el)return;el.innerHTML='';
   if(!cu||!prof){
     var d=document.createElement('div');d.className='guest-profile';
-    d.innerHTML='<div class="gp-icon">🌍</div><div class="gp-title">Join GlobePray</div><div class="gp-sub">Create a free account to share your prayer, appear on the globe, and chat with Christians from 156 nations.</div>';
-    var b1=document.createElement('button');b1.className='gp-btn';b1.textContent='Create free account';b1.onclick=function(){openAuth(null);};
-    var b2=document.createElement('button');b2.className='gp-sub-btn';b2.textContent='Already have an account? Sign in';b2.onclick=function(){openAuth(null);setTimeout(function(){switchTab('signin');},100);};
+    d.innerHTML='<div class="gp-icon-wrap">'+SVG.user+'</div><div class="gp-title">'+t('joinTitle')+'</div><div class="gp-sub">'+t('joinSub')+'</div>';
+    var b1=document.createElement('button');b1.className='gp-btn';b1.textContent=t('createAcc');b1.onclick=function(){openAuth(null);};
+    var b2=document.createElement('button');b2.className='gp-sub-btn';b2.textContent=t('alreadyAcc');b2.onclick=function(){openAuth(null);setTimeout(function(){switchTab('signin');},100);};
     d.appendChild(b1);d.appendChild(b2);el.appendChild(d);return;
   }
-  var init=(prof.name||'U')[0].toUpperCase(),langs={en:'English',fr:'Français',es:'Español',pt:'Português'},convCount=Object.keys(privConvos).length;
-  el.innerHTML='<div class="prof-wrap"><div class="pav-wrap"><div class="pav" style="'+avStyle(prof.name)+'">'+init+'</div></div><div class="pname">'+(prof.name||'')+'</div><div class="pemail">'+(prof.email||cu.email||'')+'</div><div class="prow"><div class="prow-ic">🌍</div><div><div class="prow-lbl">Country</div><div class="prow-sub">'+(prof.flag||'')+' '+(prof.country||'')+'</div></div><div class="prow-arr">›</div></div><div class="prow"><div class="prow-ic">🔤</div><div><div class="prow-lbl">Language</div><div class="prow-sub">'+(langs[prof.lang||'en'])+'</div></div><div class="prow-arr">›</div></div><div class="prow" id="priv-row"><div class="prow-ic">💬</div><div><div class="prow-lbl">Private Messages</div><div class="prow-sub">'+convCount+' conversation'+(convCount!==1?'s':'')+'</div></div><div class="prow-arr">›</div></div></div>';
-  el.querySelector('#priv-row').onclick=function(){navTo('chat');};
-  var lb=document.createElement('button');lb.className='p-logout';lb.textContent='Sign Out';lb.onclick=doLogout;
-  el.querySelector('.prof-wrap').appendChild(lb);
+  var init=(prof.name||'U')[0].toUpperCase();
+  var langNames={en:'English',fr:'Français',es:'Español',pt:'Português'};
+  var convCount=Object.keys(privConvos).length;
+  var pw=document.createElement('div');pw.className='prof-wrap';
+  pw.innerHTML='<div class="pav-wrap"><div class="pav" style="'+avStyle(prof.name)+'">'+init+'</div></div><div class="pname">'+(prof.name||'')+'</div><div class="pemail">'+(prof.email||cu.email||'')+'</div>';
+  // Country row
+  var r1=document.createElement('div');r1.className='prow';
+  r1.innerHTML='<div class="prow-ic">'+SVG.country+'</div><div><div class="prow-lbl">'+t('countryLbl')+'</div><div class="prow-sub">'+(prof.flag||'')+' '+(prof.country||'')+'</div></div><div class="prow-arr">'+SVG.chevron+'</div>';
+  r1.onclick=function(){var v=prompt(t('countryLbl')+':',prof.country||'');if(v){prof.country=v;sb.from('profiles').update({country:v}).eq('id',cu.id).then(function(){renderProfile();});}};
+  pw.appendChild(r1);
+  // Language row
+  var r2=document.createElement('div');r2.className='prow';
+  r2.innerHTML='<div class="prow-ic">'+SVG.lang+'</div><div><div class="prow-lbl">'+t('langLbl')+'</div><div class="prow-sub">'+(langNames[prof.lang||'en'])+'</div></div><div class="prow-arr">'+SVG.chevron+'</div>';
+  r2.onclick=function(){
+    var v=prompt('Language (en/fr/es/pt):',prof.lang||'en');
+    if(v&&T[v]){prof.lang=v;setLang(v);sb.from('profiles').update({lang:v}).eq('id',cu.id).then(function(){renderProfile();renderFeed();renderChatContent();});}
+  };
+  pw.appendChild(r2);
+  // Private messages row
+  var r3=document.createElement('div');r3.className='prow';
+  r3.innerHTML='<div class="prow-ic">'+SVG.privMsg+'</div><div><div class="prow-lbl">'+t('privMsgLbl')+'</div><div class="prow-sub">'+convCount+' '+(convCount!==1?t('conversations'):t('conversation'))+'</div></div><div class="prow-arr">'+SVG.chevron+'</div>';
+  r3.onclick=function(){navTo('chat');};
+  pw.appendChild(r3);
+  // Logout button
+  var lb=document.createElement('button');lb.className='p-logout';
+  lb.innerHTML=SVG.logout+'<span>'+t('signOut')+'</span>';lb.onclick=doLogout;
+  pw.appendChild(lb);
+  el.appendChild(pw);
 }
 
-async function doReset(){var email=(qs('#forgot-email').value||'').trim();if(!email){toast('Enter your email.');return;}await sb.auth.resetPasswordForEmail(email,{redirectTo:SURL});qs('#ov-forgot').classList.remove('open');toast('Reset link sent!');}
+async function doReset(){var email=(qs('#forgot-email').value||'').trim();if(!email){toast(t('errEmail'));return;}await sb.auth.resetPasswordForEmail(email,{redirectTo:SURL});qs('#ov-forgot').classList.remove('open');toast(t('resetSent'));}
 
-function startCount(){var base=3241+Math.floor(Math.random()*200);function u(){base+=Math.floor(Math.random()*7)-3;base=Math.max(3100,base);var s=base.toLocaleString();qs('#liveN').textContent=s;qs('#sConn').textContent=s;}u();setInterval(u,5000);qs('#sPray').textContent=SEED.length;}
+function startCount(){
+  var base=3241+Math.floor(Math.random()*200);
+  function u(){base+=Math.floor(Math.random()*7)-3;base=Math.max(3100,base);var s=base.toLocaleString();qs('#liveN').textContent=s;qs('#sConn').textContent=s;}
+  u();setInterval(u,5000);qs('#sPray').textContent=SEED.length;
+}
 
 /* ── GLOBE ── */
 function initGlobe(){
   var cv=qs('#globe');if(!cv)return;
   var G=cv.getContext('2d'),SZ=320,CX=160,CY=160,R=145;
   var lon0=-10,lat0=20,vLon=.25,vLat=0,dragging=false,px=0,py=0;
-  var zoom=1,minZ=0.4,maxZ=6,pinchD0=0,lastTouchTime=0;
+  var zoom=1,minZ=0.4,maxZ=6,pinchD0=0,dragDist=0;
 
   function getR(){return Math.max(20,Math.min(R*zoom,CX-2));}
   function proj(lon,lat){
@@ -860,109 +1279,57 @@ function initGlobe(){
     var cL=Math.cos(lR),sL=Math.sin(lR),cL0=Math.cos(l0R),sL0=Math.sin(l0R),cdL=Math.cos(dL),sdL=Math.sin(dL);
     return{sx:CX+r*cL*sdL,sy:CY-r*(cL0*sL-sL0*cL*cdL),vis:sL0*sL+cL0*cL*cdL>=0};
   }
-  function dist2d(e){var dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
+  function pd(e){var dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
 
-  // Mouse drag
-  cv.addEventListener('mousedown',function(e){dragging=true;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
-  window.addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-px,dy=e.clientY-py;lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.clientX;py=e.clientY;});
+  cv.addEventListener('mousedown',function(e){dragging=true;dragDist=0;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
+  window.addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-px,dy=e.clientY-py;dragDist+=Math.abs(dx)+Math.abs(dy);lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.clientX;py=e.clientY;});
   window.addEventListener('mouseup',function(){dragging=false;});
+  cv.addEventListener('wheel',function(e){e.preventDefault();var f=e.deltaY<0?1.2:0.83;zoom=Math.max(minZ,Math.min(maxZ,zoom*f));},{passive:false});
+  cv.addEventListener('click',function(e){
+    if(dragDist>8)return; // was a drag, not a click
+    var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
+    var mx=(e.clientX-rect.left)*scx,my=(e.clientY-rect.top)*scy,closest=null,minD=36;
+    dots.forEach(function(d){var p=proj(d.lon,d.lat);if(!p.vis)return;var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}});
+    if(closest)showDotPop(closest);else qs('#dotpop').classList.remove('show');
+  });
 
-  // Mouse wheel zoom - strong
-  cv.addEventListener('wheel',function(e){
-    e.preventDefault();
-    var factor=e.deltaY<0?1.2:0.83;
-    zoom=Math.max(minZ,Math.min(maxZ,zoom*factor));
-  },{passive:false});
-
-  // Touch start
-  cv.addEventListener('touchstart',function(e){
-    e.preventDefault();
-    if(e.touches.length===2){
-      pinchD0=dist2d(e);dragging=false;
-    }else{
-      dragging=true;px=e.touches[0].clientX;py=e.touches[0].clientY;vLon=0;vLat=0;
-    }
-  },{passive:false});
-
-  // Touch move
-  cv.addEventListener('touchmove',function(e){
-    e.preventDefault();
-    if(e.touches.length===2&&pinchD0>0){
-      var d=dist2d(e);
-      zoom=Math.max(minZ,Math.min(maxZ,zoom*(d/pinchD0)));
-      pinchD0=d;
-    }else if(e.touches.length===1&&dragging){
-      var dx=e.touches[0].clientX-px,dy=e.touches[0].clientY-py;
-      lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));
-      vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.touches[0].clientX;py=e.touches[0].clientY;
-    }
-  },{passive:false});
-
-  // Touch end — detect tap on dot
+  cv.addEventListener('touchstart',function(e){e.preventDefault();if(e.touches.length===2){pinchD0=pd(e);dragging=false;}else{dragging=true;dragDist=0;px=e.touches[0].clientX;py=e.touches[0].clientY;vLon=0;vLat=0;}},{passive:false});
+  cv.addEventListener('touchmove',function(e){e.preventDefault();if(e.touches.length===2&&pinchD0>0){var d=pd(e);zoom=Math.max(minZ,Math.min(maxZ,zoom*(d/pinchD0)));pinchD0=d;}else if(e.touches.length===1&&dragging){var dx=e.touches[0].clientX-px,dy=e.touches[0].clientY-py;dragDist+=Math.abs(dx)+Math.abs(dy);lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.touches[0].clientX;py=e.touches[0].clientY;}},{passive:false});
   cv.addEventListener('touchend',function(e){
     e.preventDefault();
-    var now=Date.now();
-    if(e.changedTouches.length===1&&dragging&&(now-lastTouchTime)>200){
-      // Check if it was a tap (not a drag) by distance moved
-      var t=e.changedTouches[0];
-      var movedX=Math.abs(t.clientX-px),movedY=Math.abs(t.clientY-py);
-      if(movedX<10&&movedY<10){
-        // It's a tap — find closest dot
-        var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
-        var mx=(t.clientX-rect.left)*scx,my=(t.clientY-rect.top)*scy;
-        var closest=null,minD=42;
-        dots.forEach(function(d){
-          var p=proj(d.lon,d.lat);if(!p.vis)return;
-          var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));
-          if(dist<minD){minD=dist;closest={d:d,cx:t.clientX,cy:t.clientY};}
-        });
-        if(closest)showDotPop(closest);
-        else qs('#dotpop').classList.remove('show');
-      }
+    var t0=e.changedTouches[0];
+    if(dragging&&dragDist<12){
+      var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
+      var mx=(t0.clientX-rect.left)*scx,my=(t0.clientY-rect.top)*scy,closest=null,minD=44;
+      dots.forEach(function(d){var p=proj(d.lon,d.lat);if(!p.vis)return;var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));if(dist<minD){minD=dist;closest={d:d,cx:t0.clientX,cy:t0.clientY};}});
+      if(closest)showDotPop(closest);else qs('#dotpop').classList.remove('show');
     }
-    lastTouchTime=now;
     dragging=false;pinchD0=0;
   },{passive:false});
-
-  // Mouse click on dot
-  cv.addEventListener('click',function(e){
-    var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
-    var mx=(e.clientX-rect.left)*scx,my=(e.clientY-rect.top)*scy;
-    var closest=null,minD=35;
-    dots.forEach(function(d){
-      var p=proj(d.lon,d.lat);if(!p.vis)return;
-      var dist=Math.sqrt((p.sx-mx)*(p.sx-mx)+(p.sy-my)*(p.sy-my));
-      if(dist<minD){minD=dist;closest={d:d,cx:e.clientX,cy:e.clientY};}
-    });
-    if(closest)showDotPop(closest);
-    else qs('#dotpop').classList.remove('show');
-  });
 
   function showDotPop(closest){
     var pop=qs('#dotpop');
     qs('#dp-flag').textContent=closest.d.flag||'';
     qs('#dp-name').textContent=(closest.d.name||'Anonymous')+(closest.d.flag?' · ':'');
     qs('#dp-txt').textContent=closest.d.txt||'';
+    // Translate popup text
+    if(userLang!=='en'&&closest.d.txt){
+      translateText(closest.d.txt,userLang).then(function(tr){var dtEl=qs('#dp-txt');if(dtEl&&tr&&tr!==closest.d.txt)dtEl.textContent=tr;});
+    }
     var rb=qs('#dp-reply');
     if(rb){
       var isSeed=closest.d.uid==='seed',isOwn=cu&&closest.d.uid===cu.id;
       if(isSeed||isOwn){rb.style.display='none';}
-      else{rb.style.display='block';rb.onclick=(function(d){return function(){pop.classList.remove('show');openPrivReply(d.id,d.name,d.uid,d.txt);};})(closest.d);}
+      else{rb.style.display='flex';rb.onclick=(function(d){return function(){pop.classList.remove('show');openPrivReply(d.id,d.name,d.uid,d.txt);};})(closest.d);}
     }
-    // Smart position
-    var popW=240,popH=170,x=closest.cx-popW/2,y=closest.cy-popH-16;
-    x=Math.max(8,Math.min(x,window.innerWidth-popW-8));
-    if(y<70)y=closest.cy+24;
+    var popW=240,popH=180,x=closest.cx-popW/2,y=closest.cy-popH-18;
+    x=Math.max(8,Math.min(x,window.innerWidth-popW-8));if(y<70)y=closest.cy+22;
     pop.style.left=x+'px';pop.style.top=y+'px';
     pop.classList.add('show');
   }
 
   function draw(){
-    if(!dragging){
-      lon0-=vLon;vLon*=.92;lat0+=vLat;vLat*=.92;
-      lat0=Math.max(-80,Math.min(80,lat0));
-      if(Math.abs(vLon)<.03&&Math.abs(vLat)<.03)vLon=.22;
-    }
+    if(!dragging){lon0-=vLon;vLon*=.92;lat0+=vLat;vLat*=.92;lat0=Math.max(-80,Math.min(80,lat0));if(Math.abs(vLon)<.03&&Math.abs(vLat)<.03)vLon=.22;}
     var r=getR();
     G.clearRect(0,0,SZ,SZ);
     G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.fillStyle='#14161B';G.fill();
@@ -982,21 +1349,14 @@ function initGlobe(){
     atm.addColorStop(0,'rgba(100,150,255,0.03)');atm.addColorStop(1,'rgba(60,100,200,0.08)');
     G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.fillStyle=atm;G.fill();
     G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,.1)';G.lineWidth=1;G.stroke();
-
-    // WHITE pulsing dots
-    var t=Date.now()/1000;
+    // White pulsing dots
+    var tt=Date.now()/1000;
     dots.forEach(function(d,i){
       var p=proj(d.lon,d.lat);if(!p.vis)return;
-      var fl=.5+.5*Math.sin(t*1.4+i*.9);
-      var dotR=Math.max(2.5,3*Math.min(zoom,2));
-      // Glow
-      G.beginPath();G.arc(p.sx,p.sy,dotR*4.5,0,Math.PI*2);
-      G.fillStyle='rgba(255,255,255,'+fl*.07+')';G.fill();
-      G.beginPath();G.arc(p.sx,p.sy,dotR*2,0,Math.PI*2);
-      G.fillStyle='rgba(255,255,255,'+fl*.18+')';G.fill();
-      // Core — bright white
-      G.beginPath();G.arc(p.sx,p.sy,dotR,0,Math.PI*2);
-      G.fillStyle='rgba(255,255,255,'+(.7+fl*.3)+')';G.fill();
+      var fl=.5+.5*Math.sin(tt*1.4+i*.9),dotR=Math.max(2.5,3*Math.min(zoom,2));
+      G.beginPath();G.arc(p.sx,p.sy,dotR*5,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+fl*.06+')';G.fill();
+      G.beginPath();G.arc(p.sx,p.sy,dotR*2.2,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+fl*.15+')';G.fill();
+      G.beginPath();G.arc(p.sx,p.sy,dotR,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+(0.65+fl*.35)+')';G.fill();
     });
     requestAnimationFrame(draw);
   }
@@ -1017,30 +1377,48 @@ function wireEvents(){
   qs('#cancel-forgot').onclick=function(){qs('#ov-forgot').classList.remove('open');};
   qs('#send-reset').onclick=doReset;qs('#ob-btn').onclick=doFinishOnboard;
   qs('#dp-close').onclick=function(){qs('#dotpop').classList.remove('show');};
-  var mb=qs('#music-btn');if(mb)mb.onclick=toggleMusic;
+  qs('#music-btn').onclick=toggleMusic;
+}
+
+/* ── INTRO ANIMATION ── */
+function playIntro(){
+  var intro=qs('#intro'),app=qs('#s-app');
+  // After 2.4s hide intro, show app
+  setTimeout(function(){
+    intro.style.transition='opacity .6s ease';
+    intro.style.opacity='0';
+    app.style.opacity='1';
+    setTimeout(function(){intro.classList.add('hidden');},650);
+  },2400);
 }
 
 /* ── INIT ── */
+// Detect browser language for default
+(function(){
+  var bl=navigator.language||'en';
+  var lang=bl.substring(0,2).toLowerCase();
+  if(T[lang])userLang=lang;
+})();
+
 wireEvents();
 renderTopbar();renderMyPrayer();renderProfile();
 renderChatTabs();renderChatContent();
+applyTranslations();
 renderFeed();loadChat();startCount();initGlobe();updateDots();
+playIntro();
 
-// Auto-start music
-(function(){
+// Auto-start music after intro
+setTimeout(function(){
   if(!initAudio())return;
-  function tryStart(){
-    audioCtx.resume().then(function(){startMusic();}).catch(function(){});
-  }
   if(audioCtx.state==='running'){startMusic();}
   else{
-    tryStart();
-    // Fallback: first interaction
-    var handler=function(){startMusic();document.removeEventListener('touchstart',handler,true);document.removeEventListener('click',handler,true);};
-    document.addEventListener('touchstart',handler,{once:true,capture:true});
-    document.addEventListener('click',handler,{once:true,capture:true});
+    audioCtx.resume().then(function(){startMusic();}).catch(function(){
+      var fn=function(){startMusic();document.removeEventListener('touchstart',fn,true);document.removeEventListener('click',fn,true);};
+      document.addEventListener('touchstart',fn,{once:true,capture:true});
+      document.addEventListener('click',fn,{once:true,capture:true});
+    });
   }
-})();
+},2600);
 
 // Session
 sb.auth.getSession().then(function(res){
@@ -1048,7 +1426,7 @@ sb.auth.getSession().then(function(res){
   if(session){
     cu=session.user;
     sb.from('profiles').select('*').eq('id',cu.id).single().then(function(p){
-      if(p.data){prof=p.data;afterLogin();}
+      if(p.data){prof=p.data;if(prof.lang)setLang(prof.lang);afterLogin();}
       else loadPrayers();
     });
   }else loadPrayers();
@@ -1059,7 +1437,7 @@ sb.auth.onAuthStateChange(function(event,session){
   if(event==='SIGNED_IN'&&session&&!cu){
     cu=session.user;
     sb.from('profiles').select('*').eq('id',cu.id).single().then(function(p){
-      if(p.data){prof=p.data;closeAuth();afterLogin();}
+      if(p.data){prof=p.data;if(prof.lang)setLang(prof.lang);closeAuth();afterLogin();}
       else showOnboard(session.user);
     });
   }
