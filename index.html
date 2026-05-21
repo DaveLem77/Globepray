@@ -228,7 +228,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .intro-logo-row{display:flex;align-items:center;gap:14px;animation:introTextIn .7s ease .5s forwards;opacity:0;transform:translateY(10px)}
 @keyframes introTextIn{to{opacity:1;transform:translateY(0)}}
 .intro-logo-img{width:64px;height:64px;object-fit:contain;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.4)}
-.intro-title{font-family:'Outfit',sans-serif;font-size:38px;font-weight:600;color:var(--txt);letter-spacing:1.5px}
+.intro-title{font-family:'Outfit',sans-serif;font-size:36px;font-weight:400;color:var(--txt);letter-spacing:4px;text-transform:uppercase}
 .intro-sub{font-size:12px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-top:12px;animation:introTextIn .7s ease .75s forwards;opacity:0;transform:translateY(8px)}
 .intro-dots-row{display:flex;gap:6px;margin-top:20px;animation:introTextIn .6s ease 1s forwards;opacity:0}
 .intro-dot-p{width:5px;height:5px;border-radius:50%;background:var(--txt3);animation:dotBounce 1.4s ease infinite}
@@ -240,7 +240,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .topbar{position:sticky;top:0;z-index:100;height:54px;display:flex;align-items:center;padding:0 14px;background:rgba(8,10,12,.97);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd)}
 .tb-left{display:flex;align-items:center;gap:8px}
 .tb-logo-img{width:34px;height:34px;object-fit:contain;border-radius:8px}
-.tb-logo{font-family:'Outfit',sans-serif;font-size:22px;font-weight:700;color:var(--txt);letter-spacing:.8px}
+.tb-logo{font-family:'Outfit',sans-serif;font-size:21px;font-weight:500;color:var(--txt);letter-spacing:2px}
 .tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .lpill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.07);border:.5px solid rgba(34,197,94,.15);border-radius:20px;padding:4px 9px}
 .ldot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pk 2.5s infinite}
@@ -252,6 +252,9 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .tb-share-btn{width:30px;height:30px;border-radius:50%;background:none;border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
 .tb-share-btn:hover{background:var(--s2)}
 .tb-share-btn svg{width:14px;height:14px;stroke:var(--txt3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.support-btn{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:20px;border:.5px solid rgba(239,68,68,.25);background:rgba(239,68,68,.07);color:#F87171;text-decoration:none;font-size:12px;font-weight:600;font-family:'Inter',sans-serif;transition:all .2s;white-space:nowrap}
+.support-btn:hover{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.4)}
+.support-btn svg{flex-shrink:0}
 
 /* ── SECTIONS ── */
 .section{display:none;padding-bottom:80px}
@@ -550,7 +553,10 @@ select.field{-webkit-appearance:none;appearance:none}
       <div class="tb-logo">GlobePray</div>
     </div>
     <div class="tb-right">
-      <div class="lpill"><div class="ldot"></div><div class="lnum" id="liveN">0</div></div>
+      <a href="https://buy.stripe.com/dRm00i7mze3teglgiv4wM0b" target="_blank" rel="noopener" class="support-btn" title="Support GlobePray">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>Support</span>
+      </a>
       <button class="tb-share-btn" id="topbar-share" title="Share GlobePray">
         <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       </button>
@@ -592,7 +598,7 @@ select.field{-webkit-appearance:none;appearance:none}
         <div class="globe-hint" id="globe-hint">Tap a light to read their prayer</div>
       </div>
       <div class="globe-stats">
-        <div class="gs"><div class="gsn" id="sConn">0</div><div class="gsl" id="gsl-conn">Connected</div></div>
+        <div class="gs"><div class="gsn" id="sConn" style="color:var(--grn)">0</div><div class="gsl" id="gsl-conn">Connected</div></div>
         <div class="gs"><div class="gsn">156</div><div class="gsl">Nations</div></div>
         <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl" id="gsl-pray">Prayers</div></div>
       </div>
@@ -1054,71 +1060,60 @@ var CC=[
 var LANG_LIST=[{c:'en',n:'English'},{c:'fr',n:'Français'},{c:'es',n:'Español'},{c:'pt',n:'Português'}];
 
 /* ── MUSIC ── */
-var audioCtx=null,musicGain=null,musicPlaying=false,musicTimer=null;
-var _musicAudio=null,_useFileAudio=null; // null=unknown, true=file, false=webaudio
+var _ac=null,_gain=null,musicPlaying=false,_padTimer=null,_el=null,_fileOk=null;
 
-function initAudio(){
-  if(audioCtx)return true;
-  try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();musicGain=audioCtx.createGain();musicGain.gain.setValueAtTime(0,audioCtx.currentTime);musicGain.connect(audioCtx.destination);return true;}
-  catch(e){return false;}
+function _initAC(cb){
+  if(_ac&&_ac.state==='running'){cb();return;}
+  if(!_ac){
+    try{_ac=new(window.AudioContext||window.webkitAudioContext)();_gain=_ac.createGain();_gain.gain.value=0;_gain.connect(_ac.destination);}
+    catch(e){return;}
+  }
+  if(_ac.state==='suspended'){
+    _ac.resume().then(function(){cb();}).catch(function(){cb();});
+  }else{cb();}
 }
 
 function startMusic(){
   if(musicPlaying)return;
-  if(!initAudio())return;
-  if(audioCtx.state==='suspended')audioCtx.resume();
-
-  if(_useFileAudio===false){
-    // Already know file doesn't work — go straight to Web Audio
-    startWebAudio();return;
-  }
-  if(_useFileAudio===true&&_musicAudio){
-    // File audio confirmed working — resume it
-    _musicAudio.play().catch(function(){});
-    musicPlaying=true;updateMusicBtn(true);return;
-  }
-  // First attempt — try the MP3 file
-  var testAudio=new Audio();
-  testAudio.src='audio/music.mp3';
-  testAudio.loop=true;testAudio.volume=0.55;
-  testAudio.play().then(function(){
-    _useFileAudio=true;_musicAudio=testAudio;
-    musicPlaying=true;updateMusicBtn(true);
-  }).catch(function(){
-    // File not found or blocked — use Web Audio pads
-    testAudio.src='';_useFileAudio=false;_musicAudio=null;
-    startWebAudio();
+  _initAC(function(){
+    musicPlaying=true;
+    updateMusicBtn(true);
+    // Try MP3 file first
+    if(_fileOk===false){_startPads();return;}
+    if(!_el){_el=new Audio('audio/music.mp3');_el.loop=true;_el.volume=0.6;}
+    _el.play().then(function(){_fileOk=true;}).catch(function(){
+      _fileOk=false;_el=null;_startPads();
+    });
   });
 }
-function startWebAudio(){
-  if(audioCtx.state==='suspended')audioCtx.resume();
-  musicPlaying=true;
-  musicGain.gain.cancelScheduledValues(audioCtx.currentTime);
-  musicGain.gain.setValueAtTime(0,audioCtx.currentTime);
-  musicGain.gain.linearRampToValueAtTime(0.65,audioCtx.currentTime+4);
-  playPad();updateMusicBtn(true);
+function _startPads(){
+  if(!_ac||!_gain)return;
+  _gain.gain.cancelScheduledValues(_ac.currentTime);
+  _gain.gain.setValueAtTime(0,_ac.currentTime);
+  _gain.gain.linearRampToValueAtTime(0.65,_ac.currentTime+4);
+  _schedulePad();
 }
-function playPad(){
-  if(!audioCtx||!musicPlaying||musicAudio)return;
+function _schedulePad(){
+  if(!_ac||!musicPlaying||_el)return;
   var sets=[[130.8,196,261.6,392],[146.8,220,293.7,440],[164.8,247,329.6,493.9],[174.6,261.6,349.2,523.3],[146.8,220,349.2,440]];
-  var chord=sets[Math.floor(Math.random()*sets.length)],now=audioCtx.currentTime,dur=9+Math.random()*4;
+  var chord=sets[Math.floor(Math.random()*sets.length)],now=_ac.currentTime,dur=9+Math.random()*4;
   chord.forEach(function(freq,i){
-    var osc=audioCtx.createOscillator(),g=audioCtx.createGain();
-    osc.connect(g);g.connect(musicGain);osc.type='sine';
+    var osc=_ac.createOscillator(),g=_ac.createGain();
+    osc.connect(g);g.connect(_gain);osc.type='sine';
     osc.frequency.setValueAtTime(freq,now);osc.detune.setValueAtTime((Math.random()-0.5)*8,now);
     var vol=[0.18,0.14,0.1,0.07][i]||0.05;
     g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(vol,now+3);
     g.gain.setValueAtTime(vol,now+dur-2);g.gain.linearRampToValueAtTime(0,now+dur+1);
     osc.start(now);osc.stop(now+dur+2);
-    if(i===0){var o2=audioCtx.createOscillator(),g2=audioCtx.createGain();o2.connect(g2);g2.connect(musicGain);o2.type='sine';o2.frequency.setValueAtTime(freq/2,now);g2.gain.setValueAtTime(0,now);g2.gain.linearRampToValueAtTime(0.05,now+3);g2.gain.setValueAtTime(0.05,now+dur-2);g2.gain.linearRampToValueAtTime(0,now+dur+1);o2.start(now);o2.stop(now+dur+2);}
+    if(i===0){var o2=_ac.createOscillator(),g2=_ac.createGain();o2.connect(g2);g2.connect(_gain);o2.type='sine';o2.frequency.setValueAtTime(freq/2,now);g2.gain.setValueAtTime(0,now);g2.gain.linearRampToValueAtTime(0.05,now+3);g2.gain.setValueAtTime(0.05,now+dur-2);g2.gain.linearRampToValueAtTime(0,now+dur+1);o2.start(now);o2.stop(now+dur+2);}
   });
-  musicTimer=setTimeout(playPad,(dur-2)*1000+Math.random()*3000);
+  _padTimer=setTimeout(_schedulePad,(dur-2)*1000+Math.random()*3000);
 }
 function stopMusic(){
   musicPlaying=false;
-  if(_musicAudio){_musicAudio.pause();}
-  if(musicTimer){clearTimeout(musicTimer);musicTimer=null;}
-  if(musicGain&&audioCtx){musicGain.gain.cancelScheduledValues(audioCtx.currentTime);musicGain.gain.setValueAtTime(musicGain.gain.value,audioCtx.currentTime);musicGain.gain.linearRampToValueAtTime(0,audioCtx.currentTime+2);}
+  if(_el)_el.pause();
+  if(_padTimer){clearTimeout(_padTimer);_padTimer=null;}
+  if(_gain&&_ac){_gain.gain.cancelScheduledValues(_ac.currentTime);_gain.gain.setValueAtTime(_gain.gain.value,_ac.currentTime);_gain.gain.linearRampToValueAtTime(0,_ac.currentTime+1.5);}
   updateMusicBtn(false);
 }
 function toggleMusic(){if(musicPlaying)stopMusic();else startMusic();}
@@ -1367,7 +1362,9 @@ var SVGpray='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 var SVGcmt='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
 
 function loadPrayers(){
-  sb.from('prayers').select('*').order('created_at',{ascending:false}).limit(20).then(function(res){
+  // Only fetch prayers from last 24h
+  var since=new Date(Date.now()-86400000).toISOString();
+  sb.from('prayers').select('*').gte('created_at',since).order('created_at',{ascending:false}).limit(20).then(function(res){
     prayers=res.data||[];renderFeed();updateDots();qs('#sPray').textContent=prayers.length+SEED.length;
   });
   pCh=sb.channel('gp-pray')
@@ -1455,7 +1452,7 @@ function renderChatTabs(){
     var convList=Object.values(privConvos);
     var totalUnread=convList.reduce(function(n,c){return n+c.msgs.filter(function(m){return m.sender_id!==cu.id&&!m.read;}).length;},0);
     var isInPriv=chatMode!=='global';
-    var pb=document.createElement('button');pb.className='chat-tab'+(isInPriv?' active':'');
+    var pb=document.createElement('button');pb.className='chat-tab'+(chatMode!=='global'?' active':'');
     pb.innerHTML=SVGcmt+'<span>Private</span>'+(totalUnread>0?'<span class="chat-badge">'+totalUnread+'</span>':'');
     pb.onclick=function(){
       if(chatMode!=='global'){chatMode='global';renderChatTabs();renderChatContent();}
@@ -1657,7 +1654,7 @@ function checkExpiredPrayers(){
 
 function startCount(){
   var base=3241+Math.floor(Math.random()*200);
-  function u(){base+=Math.floor(Math.random()*7)-3;base=Math.max(3100,base);var s=base.toLocaleString();qs('#liveN').textContent=s;qs('#sConn').textContent=s;}
+  function u(){base+=Math.floor(Math.random()*7)-3;base=Math.max(3100,base);var s=base.toLocaleString();var ln=qs('#liveN');if(ln)ln.textContent=s;var sc=qs('#sConn');if(sc)sc.textContent=s;}
   u();setInterval(u,5000);qs('#sPray').textContent=SEED.length;
   // Check expired prayers every 5 minutes
   setInterval(checkExpiredPrayers,300000);
@@ -1873,8 +1870,14 @@ renderChatTabs();renderChatContent();
 renderFeed();loadChat();startCount();initGlobe();updateDots();
 playIntro();
 
-// Music auto-start after intro ends
-setTimeout(function(){startMusic();},3100);
+// Music auto-start: wait for user interaction (browser policy)
+// The button click will start it. Also try after a short delay.
+setTimeout(function(){
+  if(!musicPlaying){
+    // Try silently — will work if browser allows autoplay
+    startMusic();
+  }
+},3200);
 
 // Session
 sb.auth.getSession().then(function(res){
