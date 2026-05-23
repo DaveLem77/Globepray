@@ -584,7 +584,7 @@ select.field{-webkit-appearance:none;appearance:none}
     <!-- LEFT: Globe panel (desktop) -->
     <div class="globe-panel" id="globe-panel">
       <div class="globe-wrap" style="width:100%">
-        <canvas id="globe" width="320" height="320"></canvas>
+        <canvas id="globe" width="320" height="320" style="touch-action:none;-webkit-user-select:none;user-select:none"></canvas>
         <div class="music-btn-wrap">
           <div class="music-btn-inner muted" id="music-btn">
             <svg class="music-icon" viewBox="0 0 24 24">
@@ -1713,7 +1713,7 @@ function playIntro(){
     if(!introRunning)return;
     var elapsed=(Date.now()-t0)/1000;
     lon0=-10+elapsed*18; // spin fast
-    G.clearRect(0,0,SZ,SZ);
+    G.clearRect(0,0,SZ,SZ);G.shadowBlur=0;G.shadowColor="transparent";
     // Ocean background
     G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle='#0D0F12';G.fill();
     G.save();G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.clip();
@@ -1733,9 +1733,9 @@ function playIntro(){
     }
     G.restore();
     // Atmosphere
-    // Sheen
-    var atm=G.createRadialGradient(CX-28,CY-32,0,CX,CY,R);
-    atm.addColorStop(0,'rgba(255,255,255,0.06)');atm.addColorStop(.5,'rgba(255,255,255,0.01)');atm.addColorStop(1,'rgba(0,0,0,0.2)');
+    // Sheen top-left light
+    var atm=G.createRadialGradient(CX-R*.2,CY-R*.25,0,CX,CY,R);
+    atm.addColorStop(0,'rgba(255,255,255,0.05)');atm.addColorStop(.5,'rgba(255,255,255,0.01)');atm.addColorStop(1,'rgba(0,0,0,0.0)');
     G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle=atm;G.fill();
 
     // Pulsing dots
@@ -1766,7 +1766,7 @@ function initGlobe(){
   var lon0=-10,lat0=20,vLon=.25,vLat=0,dragging=false,px=0,py=0,dragDist=0;
   var zoom=1,minZ=0.3,maxZ=80,pinchD0=0;
 
-  function getR(){return Math.max(20,Math.min(R*zoom,CX-2));}
+  function getR(){return Math.max(20,Math.min(R*zoom,CX-4));}
   function proj(lon,lat){
     var r=getR(),D=Math.PI/180,dL=(lon-lon0)*D,lR=lat*D,l0R=lat0*D;
     var cL=Math.cos(lR),sL=Math.sin(lR),cL0=Math.cos(l0R),sL0=Math.sin(l0R),cdL=Math.cos(dL),sdL=Math.sin(dL);
@@ -1777,7 +1777,15 @@ function initGlobe(){
   cv.addEventListener('mousedown',function(e){dragging=true;dragDist=0;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
   window.addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-px,dy=e.clientY-py;dragDist+=Math.abs(dx)+Math.abs(dy);lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.clientX;py=e.clientY;});
   window.addEventListener('mouseup',function(){dragging=false;});
-  cv.addEventListener('wheel',function(e){e.preventDefault();var f=1.18;if(e.deltaY<0){zoom=Math.min(maxZ,zoom*f);}else{zoom=Math.max(minZ,zoom/f);}},{passive:false});
+  cv.addEventListener('wheel',function(e){
+    e.preventDefault();e.stopPropagation();
+    // Normalize delta — trackpad gives small values, mouse gives large
+    var delta=e.deltaY;
+    if(e.deltaMode===1)delta*=30; // line mode
+    if(e.deltaMode===2)delta*=300; // page mode
+    var f=Math.pow(1.0015,Math.abs(delta));
+    if(delta<0){zoom=Math.min(maxZ,zoom*f);}else{zoom=Math.max(minZ,zoom/f);}
+  },{passive:false,capture:true});
   cv.addEventListener('click',function(e){
     if(dragDist>8)return;
     var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
@@ -1851,17 +1859,14 @@ function initGlobe(){
       G.closePath();G.fillStyle='#1C2027';G.fill();G.strokeStyle='#2D333E';G.lineWidth=.7;G.stroke();
     });
     G.restore();
-    // Outer glow ring outside clip
-    var grd=G.createRadialGradient(CX,CY,r*.93,CX,CY,r*1.2);
-    grd.addColorStop(0,'rgba(255,255,255,0.08)');grd.addColorStop(1,'rgba(255,255,255,0)');
-    G.beginPath();G.arc(CX,CY,r*1.2,0,Math.PI*2);G.fillStyle=grd;G.fill();
 
     // Light sheen from top-left
-    var atm=G.createRadialGradient(CX-r*.28,CY-r*.32,0,CX,CY,r);
-    atm.addColorStop(0,'rgba(255,255,255,0.055)');atm.addColorStop(.45,'rgba(255,255,255,0.012)');atm.addColorStop(1,'rgba(0,0,0,0.18)');
+    // Subtle sheen — no dark overlay
+    var atm=G.createRadialGradient(CX-r*.25,CY-r*.28,0,CX,CY,r);
+    atm.addColorStop(0,'rgba(255,255,255,0.05)');atm.addColorStop(.5,'rgba(255,255,255,0.01)');atm.addColorStop(1,'rgba(255,255,255,0.0)');
     G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.fillStyle=atm;G.fill();
-    // Fine edge
-    G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,0.10)';G.lineWidth=.8;G.stroke();
+    // Fine edge ring
+    G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,0.12)';G.lineWidth=.8;G.stroke();
     var tt=Date.now()/1000;
     dots.forEach(function(d,i){
       var p=proj(d.lon,d.lat);if(!p.vis)return;
