@@ -237,24 +237,24 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 @keyframes dotBounce{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1.2)}}
 
 /* ── TOPBAR ── */
-.topbar{position:sticky;top:0;z-index:100;height:54px;display:flex;align-items:center;padding:0 14px;background:rgba(8,10,12,.97);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd)}
-.tb-left{display:flex;align-items:center;gap:8px}
-.tb-logo-img{width:34px;height:34px;object-fit:contain;border-radius:8px}
-.tb-logo{font-family:'Outfit',sans-serif;font-size:20px;font-weight:300;color:var(--txt);letter-spacing:3.5px;text-transform:uppercase}
-.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-.lpill{display:flex;align-items:center;gap:5px;background:rgba(34,197,94,.07);border:.5px solid rgba(34,197,94,.15);border-radius:20px;padding:4px 9px}
-.ldot{width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pk 2.5s infinite}
-@keyframes pk{0%,100%{opacity:1}50%{opacity:.3}}
-.lnum{font-size:11px;font-weight:700;color:var(--grn)}
-.tb-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3B82F6,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;cursor:pointer;border:none;flex-shrink:0}
-.tb-signin-btn{font-size:12px;font-weight:600;color:var(--txt);background:var(--s2);border:.5px solid var(--brd2);border-radius:20px;padding:6px 13px;font-family:'Inter',sans-serif;cursor:pointer}
+.topbar{position:sticky;top:0;z-index:100;height:56px;display:flex;align-items:center;padding:0 18px;background:rgba(8,10,12,.92);backdrop-filter:blur(24px) saturate(180%);border-bottom:.5px solid rgba(255,255,255,.05)}
+.tb-left{display:flex;align-items:center;gap:10px}
+.tb-logo-img{width:30px;height:30px;object-fit:contain;border-radius:8px;opacity:.95}
+.tb-logo{font-family:'Outfit',sans-serif;font-size:18px;font-weight:300;color:rgba(255,255,255,.92);letter-spacing:4px;text-transform:uppercase}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;cursor:pointer;border:none;flex-shrink:0;letter-spacing:0}
+.tb-signin-btn{font-size:12px;font-weight:500;color:rgba(255,255,255,.7);background:rgba(255,255,255,.07);border:.5px solid rgba(255,255,255,.1);border-radius:20px;padding:6px 14px;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.tb-signin-btn:hover{background:rgba(255,255,255,.12);color:var(--txt)}
 /* Share button in topbar */
-.tb-share-btn{width:30px;height:30px;border-radius:50%;background:none;border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
-.tb-share-btn:hover{background:var(--s2)}
-.tb-share-btn svg{width:14px;height:14px;stroke:var(--txt3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.support-btn{display:flex;align-items:center;gap:4px;padding:5px 10px;border-radius:20px;border:none;background:none;color:var(--txt3);text-decoration:none;font-size:11px;font-weight:500;font-family:'Inter',sans-serif;transition:color .2s;white-space:nowrap;opacity:.7}
-.support-btn:hover{color:#F87171;opacity:1}
-.support-btn svg{flex-shrink:0;transition:fill .2s}
+.tb-icon-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.tb-icon-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.15)}
+.tb-icon-btn svg{width:14px;height:14px;stroke:rgba(255,255,255,.55);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tb-share-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.tb-share-btn:hover{background:rgba(255,255,255,.12)}
+.tb-share-btn svg{width:14px;height:14px;stroke:rgba(255,255,255,.55);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.support-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .2s;flex-shrink:0}
+.support-btn:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.25)}
+.support-btn svg{flex-shrink:0;fill:rgba(255,255,255,.45);transition:fill .2s}
 .support-btn:hover svg{fill:#F87171}
 
 /* ── SECTIONS ── */
@@ -555,8 +555,7 @@ select.field{-webkit-appearance:none;appearance:none}
     </div>
     <div class="tb-right">
       <a href="https://buy.stripe.com/dRm00i7mze3teglgiv4wM0b" target="_blank" rel="noopener" class="support-btn" title="Support GlobePray">
-        <svg viewBox="0 0 24 24" fill="var(--txt3)" width="13" height="13"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        <span>Support</span>
+        <svg viewBox="0 0 24 24" width="14" height="14"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
       </a>
       <button class="tb-share-btn" id="topbar-share" title="Share GlobePray">
         <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
@@ -599,7 +598,7 @@ select.field{-webkit-appearance:none;appearance:none}
         <div class="globe-hint" id="globe-hint">Tap a light to read their prayer</div>
       </div>
       <div class="globe-stats">
-        <div class="gs"><div class="gsn" id="sConn" style="color:var(--grn)">0</div><div class="gsl" id="gsl-conn">Connected</div></div>
+        <div class="gs"><div class="gsn" id="sConn">0</div><div class="gsl" id="gsl-conn">Connected</div></div>
         <div class="gs"><div class="gsn">156</div><div class="gsl">Nations</div></div>
         <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl" id="gsl-pray">Prayers</div></div>
       </div>
@@ -815,6 +814,7 @@ select.field{-webkit-appearance:none;appearance:none}
 </div>
 
 <div class="toast" id="toast"></div>
+
 
 
 <script>
@@ -1096,19 +1096,55 @@ function _startPads(){
 }
 function _schedulePad(){
   if(!_ac||!musicPlaying||_el)return;
-  var sets=[[130.8,196,261.6,392],[146.8,220,293.7,440],[164.8,247,329.6,493.9],[174.6,261.6,349.2,523.3],[146.8,220,349.2,440]];
-  var chord=sets[Math.floor(Math.random()*sets.length)],now=_ac.currentTime,dur=9+Math.random()*4;
+  // Rich spiritual pad chords — pentatonic Am/C/G/Em progressions
+  var progressions=[
+    // Am7 → C/G → Em7 → G — ethereal spiritual
+    [[110,165,220,330,440],[130.8,196,261.6,392],[164.8,220,329.6,493.9],[196,261.6,392,523.3]],
+    // Dm7 → Am7 → Em7 → C
+    [[146.8,220,293.7,440],[110,165,220,330],[164.8,220,329.6],[130.8,196,261.6]],
+  ];
+  var prog=progressions[Math.floor(Math.random()*progressions.length)];
+  var chordIdx=Math.floor(Math.random()*prog.length);
+  var chord=prog[chordIdx];
+  var now=_ac.currentTime,dur=11+Math.random()*5;
+
+  // Create a reverb-like delay for depth
+  var delay=_ac.createDelay(2.5);delay.delayTime.value=0.35;
+  var delayGain=_ac.createGain();delayGain.gain.value=0.22;
+  delay.connect(delayGain);delayGain.connect(_gain);
+
   chord.forEach(function(freq,i){
+    // Main tone — pure sine for warmth
     var osc=_ac.createOscillator(),g=_ac.createGain();
-    osc.connect(g);g.connect(_gain);osc.type='sine';
-    osc.frequency.setValueAtTime(freq,now);osc.detune.setValueAtTime((Math.random()-0.5)*8,now);
-    var vol=[0.18,0.14,0.1,0.07][i]||0.05;
-    g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(vol,now+3);
-    g.gain.setValueAtTime(vol,now+dur-2);g.gain.linearRampToValueAtTime(0,now+dur+1);
+    osc.connect(g);g.connect(_gain);g.connect(delay);
+    osc.type='sine';
+    osc.frequency.setValueAtTime(freq,now);
+    // Very slight pitch wobble for life
+    osc.detune.setValueAtTime((Math.random()-0.5)*4,now);
+    var vol=[0.22,0.16,0.12,0.09,0.07][i]||0.05;
+    g.gain.setValueAtTime(0,now);
+    g.gain.linearRampToValueAtTime(vol,now+2.5);
+    g.gain.setValueAtTime(vol,now+dur-3);
+    g.gain.linearRampToValueAtTime(0,now+dur+1.5);
     osc.start(now);osc.stop(now+dur+2);
-    if(i===0){var o2=_ac.createOscillator(),g2=_ac.createGain();o2.connect(g2);g2.connect(_gain);o2.type='sine';o2.frequency.setValueAtTime(freq/2,now);g2.gain.setValueAtTime(0,now);g2.gain.linearRampToValueAtTime(0.05,now+3);g2.gain.setValueAtTime(0.05,now+dur-2);g2.gain.linearRampToValueAtTime(0,now+dur+1);o2.start(now);o2.stop(now+dur+2);}
+    // Sub-bass on root
+    if(i===0){
+      var sub=_ac.createOscillator(),sg=_ac.createGain();
+      sub.connect(sg);sg.connect(_gain);sub.type='sine';
+      sub.frequency.setValueAtTime(freq/2,now);
+      sg.gain.setValueAtTime(0,now);sg.gain.linearRampToValueAtTime(0.08,now+3);
+      sg.gain.setValueAtTime(0.08,now+dur-3);sg.gain.linearRampToValueAtTime(0,now+dur+1.5);
+      sub.start(now);sub.stop(now+dur+2);
+      // Shimmer — high octave very quiet
+      var shi=_ac.createOscillator(),shg=_ac.createGain();
+      shi.connect(shg);shg.connect(_gain);shi.type='sine';
+      shi.frequency.setValueAtTime(freq*4,now);shi.detune.setValueAtTime(5,now);
+      shg.gain.setValueAtTime(0,now);shg.gain.linearRampToValueAtTime(0.025,now+4);
+      shg.gain.setValueAtTime(0.025,now+dur-4);shg.gain.linearRampToValueAtTime(0,now+dur+2);
+      shi.start(now+1);shi.stop(now+dur+3);
+    }
   });
-  _padTimer=setTimeout(_schedulePad,(dur-2)*1000+Math.random()*3000);
+  _padTimer=setTimeout(_schedulePad,(dur-3)*1000+Math.random()*4000);
 }
 function stopMusic(){
   musicPlaying=false;
@@ -1684,7 +1720,7 @@ function playIntro(){
     lon0=-10+elapsed*18; // spin fast
     G.clearRect(0,0,SZ,SZ);
     // Ocean background
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle='#0E1420';G.fill();
+    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle='#0D0F12';G.fill();
     G.save();G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.clip();
     // Grid
     G.strokeStyle='rgba(255,255,255,.04)';G.lineWidth=.4;
@@ -1697,17 +1733,18 @@ function playIntro(){
         for(var i=0;i<poly.length;i+=Math.max(1,Math.floor(poly.length/6))){if(proj(poly[i][0],poly[i][1]).vis){any=true;break;}}if(!any)return;
         G.beginPath();var s=false,w=false;
         for(var i=0;i<poly.length;i++){var p=proj(poly[i][0],poly[i][1]);if(p.vis){if(!s||!w)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);s=true;w=true;}else w=false;}
-        G.closePath();G.fillStyle='#1E2D40';G.fill();G.strokeStyle='#2A3D56';G.lineWidth=.6;G.stroke();
+        G.closePath();G.fillStyle='#1C2027';G.fill();G.strokeStyle='#2D333E';G.lineWidth=.6;G.stroke();
       });
     }
     G.restore();
     // Atmosphere
-    var atm=G.createRadialGradient(CX-20,CY-25,R*.4,CX,CY,R);
-    atm.addColorStop(0,'rgba(80,130,255,0.04)');atm.addColorStop(1,'rgba(40,80,180,0.12)');
+    // Sheen
+    var atm=G.createRadialGradient(CX-28,CY-32,0,CX,CY,R);
+    atm.addColorStop(0,'rgba(255,255,255,0.06)');atm.addColorStop(.5,'rgba(255,255,255,0.01)');atm.addColorStop(1,'rgba(0,0,0,0.2)');
     G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle=atm;G.fill();
-    // Border glow
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);
-    G.strokeStyle='rgba(100,160,255,0.25)';G.lineWidth=1.5;G.stroke();
+    G.save();G.shadowColor='rgba(255,255,255,0.12)';G.shadowBlur=28;
+    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,0.08)';G.lineWidth=1;G.stroke();
+    G.restore();
     // Pulsing dots
     var tt=Date.now()/1000;
     SEED.forEach(function(d,i){
@@ -1734,7 +1771,7 @@ function initGlobe(){
   var cv=qs('#globe');if(!cv)return;
   var G=cv.getContext('2d'),SZ=320,CX=160,CY=160,R=145;
   var lon0=-10,lat0=20,vLon=.25,vLat=0,dragging=false,px=0,py=0,dragDist=0;
-  var zoom=1,minZ=0.4,maxZ=6,pinchD0=0;
+  var zoom=1,minZ=0.4,maxZ=40,pinchD0=0;
 
   function getR(){return Math.max(20,Math.min(R*zoom,CX-2));}
   function proj(lon,lat){
@@ -1747,7 +1784,7 @@ function initGlobe(){
   cv.addEventListener('mousedown',function(e){dragging=true;dragDist=0;px=e.clientX;py=e.clientY;vLon=0;vLat=0;e.preventDefault();},{passive:false});
   window.addEventListener('mousemove',function(e){if(!dragging)return;var dx=e.clientX-px,dy=e.clientY-py;dragDist+=Math.abs(dx)+Math.abs(dy);lon0-=dx*.5/zoom;lat0+=dy*.4/zoom;lat0=Math.max(-80,Math.min(80,lat0));vLon=-dx*.5/zoom;vLat=dy*.4/zoom;px=e.clientX;py=e.clientY;});
   window.addEventListener('mouseup',function(){dragging=false;});
-  cv.addEventListener('wheel',function(e){e.preventDefault();zoom=Math.max(minZ,Math.min(maxZ,zoom*(e.deltaY<0?1.2:0.83)));},{passive:false});
+  cv.addEventListener('wheel',function(e){e.preventDefault();var f=e.ctrlKey?1.08:1.25;zoom=Math.max(minZ,Math.min(maxZ,zoom*(e.deltaY<0?f:1/f)));},{passive:false});
   cv.addEventListener('click',function(e){
     if(dragDist>8)return;
     var rect=cv.getBoundingClientRect(),scx=SZ/rect.width,scy=SZ/rect.height;
@@ -1808,7 +1845,7 @@ function initGlobe(){
     if(!dragging){lon0-=vLon;vLon*=.92;lat0+=vLat;vLat*=.92;lat0=Math.max(-80,Math.min(80,lat0));if(Math.abs(vLon)<.03&&Math.abs(vLat)<.03)vLon=.22;}
     var r=getR();
     G.clearRect(0,0,SZ,SZ);
-    G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.fillStyle='#0E1420';G.fill();
+    G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.fillStyle='#0D0F12';G.fill();
     G.save();G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.clip();
     G.strokeStyle='rgba(255,255,255,.04)';G.lineWidth=.4;
     [-60,-30,0,30,60].forEach(function(lat){G.beginPath();var f=true,pv=false;for(var lo=-180;lo<=181;lo+=4){var p=proj(lo,lat);if(p.vis){if(f||!pv)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);f=false;pv=true;}else pv=false;}G.stroke();});
@@ -1818,17 +1855,24 @@ function initGlobe(){
       for(var i=0;i<poly.length;i+=Math.max(1,Math.floor(poly.length/8))){if(proj(poly[i][0],poly[i][1]).vis){any=true;break;}}if(!any)return;
       G.beginPath();var s=false,w=false;
       for(var i=0;i<poly.length;i++){var p=proj(poly[i][0],poly[i][1]);if(p.vis){if(!s||!w)G.moveTo(p.sx,p.sy);else G.lineTo(p.sx,p.sy);s=true;w=true;}else w=false;}
-      G.closePath();G.fillStyle='#1E2D40';G.fill();G.strokeStyle='#2A3D56';G.lineWidth=.7;G.stroke();
+      G.closePath();G.fillStyle='#1C2027';G.fill();G.strokeStyle='#2D333E';G.lineWidth=.7;G.stroke();
     });
     G.restore();
-    var atm=G.createRadialGradient(CX-30,CY-35,r*.5,CX,CY,r);
-    atm.addColorStop(0,'rgba(80,130,255,0.04)');atm.addColorStop(1,'rgba(40,80,180,0.1)');
+    // Outer shadow glow
+    G.save();
+    G.shadowColor='rgba(255,255,255,0.08)';G.shadowBlur=r*0.22;
+    G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,0.0)';G.lineWidth=1;G.stroke();
+    G.restore();
+    // Light sheen from top-left
+    var atm=G.createRadialGradient(CX-r*.28,CY-r*.32,0,CX,CY,r);
+    atm.addColorStop(0,'rgba(255,255,255,0.055)');atm.addColorStop(.45,'rgba(255,255,255,0.012)');atm.addColorStop(1,'rgba(0,0,0,0.18)');
     G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.fillStyle=atm;G.fill();
-    G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.strokeStyle='rgba(100,160,255,0.2)';G.lineWidth=1;G.stroke();
+    // Fine edge
+    G.beginPath();G.arc(CX,CY,r,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,0.10)';G.lineWidth=.8;G.stroke();
     var tt=Date.now()/1000;
     dots.forEach(function(d,i){
       var p=proj(d.lon,d.lat);if(!p.vis)return;
-      var fl=.5+.5*Math.sin(tt*1.4+i*.9),dotR=Math.max(2.5,3*Math.min(zoom,2));
+      var fl=.5+.5*Math.sin(tt*1.4+i*.9),dotR=Math.max(1.2,2.8/Math.max(1,Math.sqrt(zoom)*0.55));
       G.beginPath();G.arc(p.sx,p.sy,dotR*5,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+fl*.05+')';G.fill();
       G.beginPath();G.arc(p.sx,p.sy,dotR*2,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+fl*.14+')';G.fill();
       G.beginPath();G.arc(p.sx,p.sy,dotR,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+(0.65+fl*.35)+')';G.fill();
