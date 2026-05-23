@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GlobePray Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080A0C;--s1:#0D0F12;--s2:#141618;--s3:#1C1F23;--brd:rgba(255,255,255,0.07);--brd2:rgba(255,255,255,0.13);--txt:#ECEEF2;--txt2:#8B93A7;--txt3:#4A5568;--grn:#22C55E;--pur:#8B5CF6;--red:#EF4444;--blu:#3B82F6}
+html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh}
+
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:100}
+.login-box{background:var(--s1);border:.5px solid var(--brd2);border-radius:20px;padding:36px 32px;width:360px;text-align:center}
+.login-logo{font-family:'Outfit',sans-serif;font-size:26px;font-weight:700;color:var(--txt);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+.login-sub{font-size:13px;color:var(--txt3);margin-bottom:28px}
+.login-field{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:10px;padding:11px 14px;font-size:14px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;margin-bottom:10px;transition:border-color .15s}
+.login-field:focus{border-color:var(--brd2)}
+.login-field::placeholder{color:var(--txt3)}
+.login-btn{width:100%;background:var(--txt);color:var(--bg);border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;margin-top:4px}
+.login-err{font-size:12px;color:var(--red);margin-top:8px;min-height:16px}
+
+/* ── DASHBOARD ── */
+#app{display:none;min-height:100vh}
+.topbar{height:56px;background:rgba(8,10,12,.95);backdrop-filter:blur(20px);border-bottom:.5px solid var(--brd);display:flex;align-items:center;padding:0 28px;position:sticky;top:0;z-index:50;gap:16px}
+.topbar-logo{font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:var(--txt);letter-spacing:3px;text-transform:uppercase}
+.topbar-badge{background:rgba(139,92,246,.15);border:.5px solid rgba(139,92,246,.3);color:var(--pur);font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;letter-spacing:.04em}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--grn);animation:pulse 2s infinite;margin-left:auto}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+.live-txt{font-size:12px;color:var(--grn);font-weight:600}
+.logout-btn{background:none;border:.5px solid var(--brd);color:var(--txt3);font-size:12px;font-family:'Inter',sans-serif;padding:6px 14px;border-radius:20px;cursor:pointer;transition:all .2s;margin-left:12px}
+.logout-btn:hover{border-color:var(--brd2);color:var(--txt)}
+
+/* ── LAYOUT ── */
+.main{padding:28px;max-width:1400px;margin:0 auto}
+
+/* ── STAT CARDS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--s1);border:.5px solid var(--brd);border-radius:16px;padding:20px 22px}
+.stat-val{font-family:'Outfit',sans-serif;font-size:32px;font-weight:700;color:var(--txt);letter-spacing:-1px;line-height:1}
+.stat-lbl{font-size:12px;color:var(--txt3);margin-top:6px;text-transform:uppercase;letter-spacing:.07em;font-weight:500}
+.stat-sub{font-size:12px;color:var(--grn);margin-top:4px;font-weight:500}
+
+/* ── SECTION ── */
+.section-title{font-size:14px;font-weight:600;color:var(--txt);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-title .badge{background:var(--s2);border:.5px solid var(--brd);color:var(--txt3);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+
+/* ── GRID 2 cols ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.card{background:var(--s1);border:.5px solid var(--brd);border-radius:16px;padding:20px}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow:auto;max-height:380px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{position:sticky;top:0;background:var(--s2);color:var(--txt3);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:10px 12px;text-align:left;border-bottom:.5px solid var(--brd)}
+td{padding:10px 12px;border-bottom:.5px solid var(--brd);color:var(--txt2);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.02)}
+.flag-cell{font-size:16px}
+.name-cell{color:var(--txt);font-weight:500}
+.email-cell{color:var(--txt3);font-size:12px}
+.date-cell{color:var(--txt3);font-size:12px}
+.online-badge{background:var(--grn-dim,rgba(34,197,94,.1));color:var(--grn);font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;border:.5px solid rgba(34,197,94,.2)}
+
+/* ── COUNTRY BARS ── */
+.country-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:.5px solid var(--brd)}
+.country-item:last-child{border-bottom:none}
+.country-flag{font-size:18px;width:24px;text-align:center;flex-shrink:0}
+.country-name{font-size:13px;color:var(--txt);font-weight:500;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.country-bar-wrap{width:90px;height:5px;background:var(--s3);border-radius:3px;overflow:hidden;flex-shrink:0}
+.country-bar{height:100%;background:var(--pur);border-radius:3px;transition:width .6s ease}
+.country-count{font-size:12px;color:var(--txt3);min-width:22px;text-align:right;flex-shrink:0}
+
+/* ── PRAYERS LIST ── */
+.prayer-row{padding:10px 0;border-bottom:.5px solid var(--brd);display:flex;align-items:flex-start;gap:10px}
+.prayer-row:last-child{border-bottom:none}
+.prayer-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.prayer-name{font-size:13px;font-weight:600;color:var(--txt)}
+.prayer-txt{font-size:12px;color:var(--txt3);margin-top:2px;line-height:1.5}
+.prayer-time{font-size:11px;color:var(--txt3);white-space:nowrap;margin-left:auto;padding-left:8px}
+
+/* ── REFRESH ── */
+.refresh-btn{background:none;border:.5px solid var(--brd);color:var(--txt3);font-size:12px;font-family:'Inter',sans-serif;padding:5px 12px;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+.refresh-btn:hover{border-color:var(--brd2);color:var(--txt)}
+.refresh-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.last-refresh{font-size:11px;color:var(--txt3)}
+
+/* ── EMPTY ── */
+.empty{padding:30px;text-align:center;color:var(--txt3);font-size:13px}
+
+/* ── SCROLL ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">GlobePray</div>
+    <div class="login-sub">Admin Dashboard · Private access</div>
+    <input class="login-field" type="email" id="adm-email" placeholder="Email" autocomplete="email">
+    <input class="login-field" type="password" id="adm-pass" placeholder="Password" autocomplete="current-password">
+    <button class="login-btn" onclick="doAdminLogin()">Access Dashboard</button>
+    <div class="login-err" id="adm-err"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">GlobePray</div>
+    <div class="topbar-badge">Admin</div>
+    <div class="live-dot"></div>
+    <div class="live-txt">Live</div>
+    <div class="last-refresh" id="last-refresh">Refreshing...</div>
+    <button class="refresh-btn" onclick="loadAll()">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Refresh
+    </button>
+    <button class="logout-btn" onclick="doLogout()">Sign out</button>
+  </div>
+
+  <div class="main">
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val" id="stat-users">—</div>
+        <div class="stat-lbl">Total Users</div>
+        <div class="stat-sub" id="stat-users-new"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-prayers">—</div>
+        <div class="stat-lbl">Active Prayers</div>
+        <div class="stat-sub" id="stat-prayers-sub"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-countries">—</div>
+        <div class="stat-lbl">Nations</div>
+        <div class="stat-sub">Represented</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="stat-chat">—</div>
+        <div class="stat-lbl">Chat Messages</div>
+        <div class="stat-sub" id="stat-chat-sub"></div>
+      </div>
+    </div>
+
+    <!-- TWO COLUMNS -->
+    <div class="two-col">
+      <!-- Users table -->
+      <div class="card">
+        <div class="section-title">
+          All Accounts <span class="badge" id="users-count-badge">0</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr><th>User</th><th>Country</th><th>Lang</th><th>Joined</th></tr>
+            </thead>
+            <tbody id="users-tbody">
+              <tr><td colspan="4" class="empty">Loading...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Countries breakdown -->
+      <div class="card">
+        <div class="section-title">
+          Users by Country <span class="badge" id="countries-badge">0</span>
+        </div>
+        <div id="countries-list" style="max-height:380px;overflow-y:auto">
+          <div class="empty">Loading...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active prayers -->
+    <div class="card" style="margin-bottom:24px">
+      <div class="section-title">
+        Active Prayer Requests (last 24h) <span class="badge" id="prayers-badge">0</span>
+      </div>
+      <div id="prayers-list">
+        <div class="empty">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Recent chat -->
+    <div class="card">
+      <div class="section-title">
+        Recent Global Chat <span class="badge" id="chat-badge">0</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>User</th><th>Message</th><th>Time</th></tr>
+          </thead>
+          <tbody id="chat-tbody">
+            <tr><td colspan="3" class="empty">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var SURL='https://ycggtqqyffjjniguidgy.supabase.co';
+var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZ2d0cXF5ZmZqam5pZ3VpZGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjM5MjYsImV4cCI6MjA5NDc5OTkyNn0.UW5gd9TL7Q7vy38I90HCp0P7iq6mlhLW9u1_74OLIkc';
+
+// ── ADMIN USER ID — the only account allowed ──────────────────────────────
+// Will be set after first login and saved to localStorage
+var ADMIN_EMAIL_KEY = 'gp_admin_uid';
+var sb = supabase.createClient(SURL, SKEY);
+var currentUser = null;
+
+function avStyle(name){
+  var cols=[['#E91E8C','#9B27AF'],['#F97316','#EAB308'],['#10B981','#3B82F6'],['#8B5CF6','#EC4899'],['#14B8A6','#6366F1']];
+  var ci=Math.abs((name||'').charCodeAt(0))%cols.length;
+  return 'background:linear-gradient(135deg,'+cols[ci][0]+','+cols[ci][1]+')';
+}
+function ago(ts){
+  var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);
+  if(dy>0)return dy+'d ago';if(h>0)return h+'h ago';if(m>1)return m+'m ago';return 'just now';
+}
+function fmtDate(ts){
+  var d=new Date(ts);
+  return d.toLocaleDateString('en-CA',{month:'short',day:'numeric',year:'numeric'});
+}
+
+async function doAdminLogin(){
+  var email=document.getElementById('adm-email').value.trim();
+  var pass=document.getElementById('adm-pass').value;
+  var err=document.getElementById('adm-err');
+  err.textContent='';
+  if(!email||!pass){err.textContent='Fill all fields.';return;}
+  
+  var btn=document.querySelector('.login-btn');
+  btn.textContent='Signing in...';btn.disabled=true;
+
+  var res=await sb.auth.signInWithPassword({email,password:pass});
+  btn.textContent='Access Dashboard';btn.disabled=false;
+
+  if(res.error){err.textContent='Access denied.';return;}
+  
+  // Save admin UID on first login so we can verify subsequent sessions
+  var uid=res.data.user.id;
+  var savedUid=localStorage.getItem(ADMIN_EMAIL_KEY);
+  if(!savedUid){
+    // First time: save this UID as the admin
+    localStorage.setItem(ADMIN_EMAIL_KEY,uid);
+  } else if(savedUid!==uid){
+    // Different user — not admin
+    await sb.auth.signOut();
+    err.textContent='Access denied. Not the admin account.';
+    return;
+  }
+  
+  currentUser=res.data.user;
+  showDashboard();
+}
+
+function showDashboard(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  loadAll();
+  // Auto-refresh every 30 seconds
+  setInterval(loadAll, 30000);
+}
+
+function doLogout(){
+  sb.auth.signOut();
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+
+async function loadAll(){
+  var now=new Date().toLocaleTimeString('en-CA',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.getElementById('last-refresh').textContent='Updated '+now;
+  
+  await Promise.all([loadUsers(), loadPrayers(), loadChat()]);
+}
+
+async function loadUsers(){
+  var res=await sb.from('profiles').select('*').order('created_at',{ascending:false});
+  if(res.error||!res.data)return;
+  var users=res.data;
+  
+  // Stats
+  document.getElementById('stat-users').textContent=users.length.toLocaleString();
+  var today=new Date();today.setHours(0,0,0,0);
+  var newToday=users.filter(u=>new Date(u.created_at)>=today).length;
+  document.getElementById('stat-users-new').textContent=(newToday>0?'+'+newToday+' today':'No new today');
+  
+  // Countries breakdown
+  var countryMap={};
+  users.forEach(function(u){
+    var key=(u.flag||'🌍')+' '+(u.country||'Unknown');
+    countryMap[key]=(countryMap[key]||0)+1;
+  });
+  var countries=Object.entries(countryMap).sort((a,b)=>b[1]-a[1]);
+  document.getElementById('stat-countries').textContent=countries.length;
+  document.getElementById('countries-badge').textContent=countries.length;
+  document.getElementById('users-count-badge').textContent=users.length;
+  
+  var maxCount=countries.length?countries[0][1]:1;
+  var cl=document.getElementById('countries-list');
+  cl.innerHTML='';
+  countries.forEach(function([key,count]){
+    var parts=key.split(' ');
+    var flag=parts[0];
+    var name=parts.slice(1).join(' ');
+    var pct=Math.round(count/maxCount*100);
+    var d=document.createElement('div');d.className='country-item';
+    d.innerHTML='<div class="country-flag">'+flag+'</div><div class="country-name">'+name+'</div><div class="country-bar-wrap"><div class="country-bar" style="width:'+pct+'%"></div></div><div class="country-count">'+count+'</div>';
+    cl.appendChild(d);
+  });
+  
+  // Users table
+  var tbody=document.getElementById('users-tbody');
+  tbody.innerHTML='';
+  users.forEach(function(u){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td><div class="name-cell">'+(u.flag||'')+ ' '+(u.name||'Unknown')+'</div><div class="email-cell">'+(u.email||'')+'</div></td>'
+      +'<td class="flag-cell">'+(u.country||'—')+'</td>'
+      +'<td>'+(u.lang||'en').toUpperCase()+'</td>'
+      +'<td class="date-cell">'+fmtDate(u.created_at)+'</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+async function loadPrayers(){
+  var since=new Date(Date.now()-86400000).toISOString();
+  var res=await sb.from('prayers').select('*').gte('created_at',since).order('created_at',{ascending:false});
+  if(res.error||!res.data)return;
+  var prayers=res.data;
+  
+  document.getElementById('stat-prayers').textContent=prayers.length.toLocaleString();
+  var totalPrays=prayers.reduce((s,p)=>s+(p.pray_count||0),0);
+  document.getElementById('stat-prayers-sub').textContent=totalPrays.toLocaleString()+' total prays';
+  document.getElementById('prayers-badge').textContent=prayers.length;
+  
+  var list=document.getElementById('prayers-list');
+  list.innerHTML='';
+  if(!prayers.length){list.innerHTML='<div class="empty">No active prayers</div>';return;}
+  prayers.forEach(function(p){
+    var row=document.createElement('div');row.className='prayer-row';
+    row.innerHTML='<div class="prayer-av" style="'+avStyle(p.name)+'">'+(p.name||'?')[0].toUpperCase()+'</div>'
+      +'<div style="flex:1;min-width:0"><div class="prayer-name">'+(p.flag||'')+' '+(p.name||'Anonymous')+' · '+(p.country||'')+'</div>'
+      +'<div class="prayer-txt">'+p.text+'</div>'
+      +'<div style="font-size:11px;color:var(--txt3);margin-top:3px">'+(p.pray_count||0)+' praying with them</div></div>'
+      +'<div class="prayer-time">'+ago(p.created_at)+'</div>';
+    list.appendChild(row);
+  });
+}
+
+async function loadChat(){
+  var res=await sb.from('chat').select('*').order('created_at',{ascending:false}).limit(50);
+  if(res.error||!res.data)return;
+  var msgs=res.data;
+  
+  document.getElementById('stat-chat').textContent=msgs.length+'+';
+  document.getElementById('stat-chat-sub').textContent='Last 50 messages';
+  document.getElementById('chat-badge').textContent=msgs.length;
+  
+  var tbody=document.getElementById('chat-tbody');
+  tbody.innerHTML='';
+  msgs.forEach(function(m){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td><div class="name-cell">'+(m.flag||'')+' '+(m.name||'?')+'</div></td>'
+      +'<td style="max-width:400px;word-break:break-word">'+m.text+'</td>'
+      +'<td class="date-cell" style="white-space:nowrap">'+ago(m.created_at)+'</td>';
+    tbody.appendChild(tr);
+  });
+}
+
+// Check existing session
+sb.auth.getSession().then(function(res){
+  var session=res.data&&res.data.session;
+  if(session){
+    var savedUid=localStorage.getItem(ADMIN_EMAIL_KEY);
+    if(!savedUid||savedUid===session.user.id){
+      if(!savedUid)localStorage.setItem(ADMIN_EMAIL_KEY,session.user.id);
+      currentUser=session.user;
+      showDashboard();
+    }
+  }
+});
+</script>
+</body>
+</html>
