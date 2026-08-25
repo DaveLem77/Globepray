@@ -554,20 +554,44 @@ select.field{-webkit-appearance:none;appearance:none}
 .sct-wow{display:inline-flex;align-items:center;gap:6px}
 .sct-wow-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);animation:arcPulse 1.6s ease infinite}
 /* ── GATE : dedicated clean login page ── */
-#gate{position:fixed;inset:0;z-index:900;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;overflow-x:hidden;padding:28px 20px 40px;opacity:0;transition:opacity .5s ease}
-.gate-globe-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:22px;flex-shrink:0;width:min(92vw,360px);height:min(92vw,360px)}
-#gate-canvas{border-radius:50%;display:block;width:100%;height:100%;box-shadow:0 0 0 1px rgba(255,255,255,.28),0 0 34px rgba(255,255,255,.20),0 0 90px rgba(232,185,106,.14),0 30px 80px rgba(0,0,0,.65)}
-@media (min-width:480px) and (max-width:767px){.gate-globe-wrap{width:min(94vw,420px);height:min(94vw,420px)}}
-@media (min-width:768px){.gate-globe-wrap{width:380px;height:380px}}
-.gate-globe-fade{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:linear-gradient(to bottom,rgba(8,10,12,0) 46%,rgba(8,10,12,.5) 72%,rgba(8,10,12,.92) 100%)}
-.gate-brand{position:absolute;left:0;right:0;bottom:9%;display:flex;flex-direction:column;align-items:center;pointer-events:none;text-shadow:0 2px 16px rgba(0,0,0,.7)}
-.gate-brand .intro-logo-row{opacity:1;transform:none;animation:none}
-.gate-brand .intro-sub{opacity:1;transform:none;animation:none;text-shadow:0 2px 12px rgba(0,0,0,.8)}
-.gate-toast{position:absolute;left:0;top:0;pointer-events:none;background:rgba(9,11,14,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:.5px solid var(--gold-brd);border-radius:20px;padding:6px 13px;font-size:11px;font-weight:500;color:var(--txt2);white-space:nowrap;box-shadow:0 10px 26px rgba(0,0,0,.55);opacity:0;transform:translate(-50%,calc(-100% - 10px)) translateY(8px) scale(.92);transition:opacity .45s cubic-bezier(.2,1,.3,1),transform .45s cubic-bezier(.2,1,.3,1);z-index:6}
-.gate-toast.show{opacity:1;transform:translate(-50%,calc(-100% - 10px)) translateY(0) scale(1)}
+#gate{position:fixed;inset:0;z-index:900;background:radial-gradient(ellipse 90% 60% at 50% 30%,#0E1621 0%,#080A0C 52%,#050608 100%);display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;overflow-x:hidden;padding:36px 20px 40px;opacity:0;transition:opacity .5s ease}
+.gate-stars{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;
+  background-image:
+    radial-gradient(1.6px 1.6px at 15% 22%,#fff,transparent 100%),
+    radial-gradient(1.2px 1.2px at 34% 68%,#fff,transparent 100%),
+    radial-gradient(1.8px 1.8px at 62% 14%,#fff,transparent 100%),
+    radial-gradient(1.1px 1.1px at 78% 46%,#fff,transparent 100%),
+    radial-gradient(1.4px 1.4px at 87% 78%,#fff,transparent 100%),
+    radial-gradient(1.2px 1.2px at 8% 84%,#fff,transparent 100%),
+    radial-gradient(1.6px 1.6px at 47% 91%,#fff,transparent 100%),
+    radial-gradient(1.1px 1.1px at 55% 38%,#fff,transparent 100%),
+    radial-gradient(1.3px 1.3px at 25% 8%,#fff,transparent 100%),
+    radial-gradient(1.5px 1.5px at 93% 26%,#fff,transparent 100%);
+  background-repeat:repeat;background-size:100% 100%;
+  animation:gateTwinkle 5s ease-in-out infinite alternate}
+@keyframes gateTwinkle{0%{opacity:.35}100%{opacity:.7}}
+.gate-globe-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:20px;flex-shrink:0;width:min(70vw,232px);height:min(70vw,232px);overflow:visible;z-index:1;animation:gateFloat 7s ease-in-out infinite}
+@keyframes gateFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.gate-glow-ring{position:absolute;inset:-22%;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(232,185,106,.20) 0%,rgba(232,185,106,.07) 42%,transparent 72%);animation:gateGlowPulse 4.5s ease-in-out infinite;z-index:0}
+@keyframes gateGlowPulse{0%,100%{opacity:.7;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+#gate-canvas{position:relative;z-index:1;border-radius:50%;display:block;width:100%;height:100%;box-shadow:0 0 0 1px rgba(255,255,255,.3),0 0 34px rgba(255,255,255,.22),0 0 90px rgba(232,185,106,.16),0 30px 80px rgba(0,0,0,.65)}
+@media (min-width:480px) and (max-width:767px){.gate-globe-wrap{width:min(58vw,260px);height:min(58vw,260px)}}
+@media (min-width:768px){.gate-globe-wrap{width:270px;height:270px}}
+.gate-toast{position:absolute;left:0;top:0;pointer-events:none;display:flex;align-items:center;gap:7px;background:linear-gradient(160deg,rgba(20,23,27,.94),rgba(11,13,16,.94));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--gold-brd);border-radius:22px;padding:7px 14px 7px 10px;font-size:11.5px;font-weight:500;color:var(--txt2);white-space:nowrap;box-shadow:0 12px 30px rgba(0,0,0,.55),0 0 0 1px rgba(232,185,106,.06),0 0 22px rgba(232,185,106,.10);opacity:0;transform:translate(-50%,calc(-100% - 12px)) translateY(10px) scale(.88);transition:opacity .4s cubic-bezier(.2,1,.3,1),transform .4s cubic-bezier(.2,1,.3,1);z-index:6}
+.gate-toast.show{opacity:1;transform:translate(-50%,calc(-100% - 12px)) translateY(0) scale(1)}
 .gate-toast b{color:var(--gold);font-weight:600}
-.gate-toast .gt-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--grn);margin-right:6px;box-shadow:0 0 6px var(--grn)}
-#gate .gate-form{width:100%;max-width:320px;margin-top:0;display:flex;flex-direction:column;position:relative;z-index:2}
+.gate-toast .gt-ic{display:flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--grn-dim);flex-shrink:0;font-size:11px;box-shadow:0 0 0 1px rgba(34,197,94,.25)}
+#gate .gate-form{width:100%;max-width:320px;margin-top:22px;display:flex;flex-direction:column;position:relative;z-index:2}
+#gate .intro-logo-row,#gate .intro-sub{opacity:1;transform:none;animation:none;position:relative;z-index:1}
+.gate-title-grad{background:linear-gradient(135deg,#fff 0%,#fff 40%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(232,185,106,.25))}
+.gate-live{position:relative;z-index:1;display:flex;align-items:center;gap:7px;margin-top:14px;font-size:11.5px;color:var(--txt2);letter-spacing:.02em}
+.gate-live-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 8px var(--grn);animation:arcPulse 1.6s ease infinite}
+.gate-live b,.gate-live span#gate-live-n{color:var(--txt);font-weight:600}
+#gate .primary-btn{background:linear-gradient(135deg,#F3DCA8,#E8B96A 55%,#D9A24E);color:#1A1305;font-weight:700;box-shadow:0 10px 28px rgba(232,185,106,.28),0 2px 0 rgba(255,255,255,.25) inset;border:none;position:relative;overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
+#gate .primary-btn:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(232,185,106,.36),0 2px 0 rgba(255,255,255,.3) inset}
+#gate .primary-btn:active{transform:translateY(0)}
+#gate .hero-social-btn{transition:border-color .2s ease,background .2s ease}
+#gate .hero-social-btn:hover{border-color:rgba(232,185,106,.35)}
 #gate .hero-social-btn{margin-bottom:14px}
 #gate .hero-divrow{margin:2px 0 14px}
 #gate .field{margin-bottom:10px}
@@ -598,17 +622,17 @@ select.field{-webkit-appearance:none;appearance:none}
 </div>
 <!-- GATE : dedicated clean login page (guests only) -->
 <div id="gate">
+  <div class="gate-stars" aria-hidden="true"></div>
   <div class="gate-globe-wrap" id="gate-globe-wrap">
+    <div class="gate-glow-ring" aria-hidden="true"></div>
     <canvas id="gate-canvas" width="300" height="300"></canvas>
-    <div class="gate-globe-fade"></div>
-    <div class="gate-brand">
-      <div class="intro-logo-row">
-        <img class="intro-logo-img" src="media/logo.png" alt="" onerror="this.style.display='none'">
-        <div class="intro-title" style="font-size:26px">GlobePray</div>
-      </div>
-      <div class="intro-sub" style="margin-top:6px">Pray Together · Worldwide</div>
-    </div>
   </div>
+  <div class="intro-logo-row">
+    <img class="intro-logo-img" src="media/logo.png" alt="" onerror="this.style.display='none'">
+    <div class="intro-title gate-title-grad" style="font-size:26px">GlobePray</div>
+  </div>
+  <div class="intro-sub" style="margin-top:8px">Pray Together · Worldwide</div>
+  <div class="gate-live" id="gate-live"><span class="gate-live-dot"></span><span id="gate-live-n">3,247</span>&nbsp;praying right now</div>
   <div class="gate-form">
     <button type="button" class="hero-social-btn" id="gate-google-btn">
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
@@ -1383,14 +1407,26 @@ function dismissGate(){
   var gate=qs('#gate');if(!gate)return;
   gateGlobeRunning=false;
   if(gateToastTimer){clearTimeout(gateToastTimer);gateToastTimer=null;}
+  stopGateLive();
   gate.style.opacity='0';
   setTimeout(function(){gate.style.display='none';},520);
 }
+var gateLiveTimer=null,gateLiveN=3247+Math.floor(Math.random()*180);
+function startGateLive(){
+  var el=qs('#gate-live-n');if(!el)return;
+  el.textContent=gateLiveN.toLocaleString();
+  gateLiveTimer=setInterval(function(){
+    gateLiveN+=Math.floor(Math.random()*9)-3;gateLiveN=Math.max(3050,gateLiveN);
+    var e=qs('#gate-live-n');if(e)e.textContent=gateLiveN.toLocaleString();
+  },2600);
+}
+function stopGateLive(){if(gateLiveTimer){clearInterval(gateLiveTimer);gateLiveTimer=null;}}
 function showGate(){
   var gate=qs('#gate');if(!gate)return;
   gate.style.display='flex';
   requestAnimationFrame(function(){gate.style.opacity='1';});
   startGateGlobe();
+  startGateLive();
   scheduleGateToast(1400);
 }
 var GATE_TOAST_TPL={
@@ -1401,6 +1437,7 @@ function scheduleGateToast(delay){
   if(gateToastTimer)clearTimeout(gateToastTimer);
   gateToastTimer=setTimeout(function(){spawnGateToast();if(gateGlobeRunning)scheduleGateToast(2600+Math.random()*2200);},delay);
 }
+var GATE_TOAST_ICONS=['🙏','✨','🕊️','💛'];
 function spawnGateToast(){
   if(!gateGlobeRunning)return;
   var wrap=qs('#gate-globe-wrap');if(!wrap)return;
@@ -1409,18 +1446,29 @@ function spawnGateToast(){
   var scale=rect.width/300,cx=rect.left-wrapRect.left+rect.width/2,cy=rect.top-wrapRect.top+rect.height/2,r=149*scale;
   var pool=CC;var pick=pool[Math.floor(Math.random()*pool.length)];
   var p=proj3(pick.lo,pick.la,gateLon0,gateLat0);
-  if(p.Z<0.15)return; // pick again next tick, keep it simple by skipping
+  if(p.Z<0.15)return; // skip this tick, try again on the next
   var sx=cx+r*p.X,sy=cy-r*p.Y;
   var tpl=(GATE_TOAST_TPL[userLang]||GATE_TOAST_TPL.en);
   var msg=tpl[Math.floor(Math.random()*tpl.length)].replace('{c}','<b>'+pick.n+'</b> '+pick.f);
-  var el=document.createElement('div');el.className='gate-toast';
-  el.innerHTML='<span class="gt-dot"></span>'+msg;
+  var icon=GATE_TOAST_ICONS[Math.floor(Math.random()*GATE_TOAST_ICONS.length)];
+  var el=document.createElement('div');el.className='gate-toast';el.style.visibility='hidden';
+  el.innerHTML='<span class="gt-ic">'+icon+'</span><span>'+msg+'</span>';
   el.style.left=sx+'px';el.style.top=sy+'px';
   wrap.appendChild(el);
+  // clamp so the pill always stays fully within the viewport, even near the globe's rim
+  var pillW=el.offsetWidth,pillH=el.offsetHeight,margin=10;
+  var pageX=wrapRect.left+sx,pageY=wrapRect.top+sy;
+  var minX=margin+pillW/2,maxX=window.innerWidth-margin-pillW/2;
+  var minY=margin+pillH+14;
+  var clampedPageX=Math.max(minX,Math.min(maxX,pageX));
+  var clampedPageY=Math.max(minY,pageY);
+  el.style.left=(clampedPageX-wrapRect.left)+'px';
+  el.style.top=(clampedPageY-wrapRect.top)+'px';
+  el.style.visibility='visible';
   requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('show');});});
   setTimeout(function(){
     el.classList.remove('show');
-    setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},500);
+    setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},450);
   },2500);
 }
 function wireGate(){
