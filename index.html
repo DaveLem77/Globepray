@@ -554,9 +554,20 @@ select.field{-webkit-appearance:none;appearance:none}
 .sct-wow{display:inline-flex;align-items:center;gap:6px}
 .sct-wow-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);animation:arcPulse 1.6s ease infinite}
 /* ── GATE : dedicated clean login page ── */
-#gate{position:fixed;inset:0;z-index:900;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;padding:48px 20px 40px;opacity:0;transition:opacity .5s ease}
-#gate-canvas{border-radius:50%;display:block;margin-bottom:22px;flex-shrink:0}
-#gate .gate-form{width:100%;max-width:320px;margin-top:30px;display:flex;flex-direction:column}
+#gate{position:fixed;inset:0;z-index:900;background:var(--bg);display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;overflow-x:hidden;padding:28px 20px 40px;opacity:0;transition:opacity .5s ease}
+.gate-globe-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:22px;flex-shrink:0;width:min(92vw,360px);height:min(92vw,360px)}
+#gate-canvas{border-radius:50%;display:block;width:100%;height:100%;box-shadow:0 0 0 1px rgba(255,255,255,.28),0 0 34px rgba(255,255,255,.20),0 0 90px rgba(232,185,106,.14),0 30px 80px rgba(0,0,0,.65)}
+@media (min-width:480px) and (max-width:767px){.gate-globe-wrap{width:min(94vw,420px);height:min(94vw,420px)}}
+@media (min-width:768px){.gate-globe-wrap{width:380px;height:380px}}
+.gate-globe-fade{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:linear-gradient(to bottom,rgba(8,10,12,0) 46%,rgba(8,10,12,.5) 72%,rgba(8,10,12,.92) 100%)}
+.gate-brand{position:absolute;left:0;right:0;bottom:9%;display:flex;flex-direction:column;align-items:center;pointer-events:none;text-shadow:0 2px 16px rgba(0,0,0,.7)}
+.gate-brand .intro-logo-row{opacity:1;transform:none;animation:none}
+.gate-brand .intro-sub{opacity:1;transform:none;animation:none;text-shadow:0 2px 12px rgba(0,0,0,.8)}
+.gate-toast{position:absolute;left:0;top:0;pointer-events:none;background:rgba(9,11,14,.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:.5px solid var(--gold-brd);border-radius:20px;padding:6px 13px;font-size:11px;font-weight:500;color:var(--txt2);white-space:nowrap;box-shadow:0 10px 26px rgba(0,0,0,.55);opacity:0;transform:translate(-50%,calc(-100% - 10px)) translateY(8px) scale(.92);transition:opacity .45s cubic-bezier(.2,1,.3,1),transform .45s cubic-bezier(.2,1,.3,1);z-index:6}
+.gate-toast.show{opacity:1;transform:translate(-50%,calc(-100% - 10px)) translateY(0) scale(1)}
+.gate-toast b{color:var(--gold);font-weight:600}
+.gate-toast .gt-dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--grn);margin-right:6px;box-shadow:0 0 6px var(--grn)}
+#gate .gate-form{width:100%;max-width:320px;margin-top:0;display:flex;flex-direction:column;position:relative;z-index:2}
 #gate .hero-social-btn{margin-bottom:14px}
 #gate .hero-divrow{margin:2px 0 14px}
 #gate .field{margin-bottom:10px}
@@ -587,12 +598,17 @@ select.field{-webkit-appearance:none;appearance:none}
 </div>
 <!-- GATE : dedicated clean login page (guests only) -->
 <div id="gate">
-  <canvas id="gate-canvas" width="240" height="240"></canvas>
-  <div class="intro-logo-row">
-    <img class="intro-logo-img" src="media/logo.png" alt="" onerror="this.style.display='none'">
-    <div class="intro-title" style="font-size:26px">GlobePray</div>
+  <div class="gate-globe-wrap" id="gate-globe-wrap">
+    <canvas id="gate-canvas" width="300" height="300"></canvas>
+    <div class="gate-globe-fade"></div>
+    <div class="gate-brand">
+      <div class="intro-logo-row">
+        <img class="intro-logo-img" src="media/logo.png" alt="" onerror="this.style.display='none'">
+        <div class="intro-title" style="font-size:26px">GlobePray</div>
+      </div>
+      <div class="intro-sub" style="margin-top:6px">Pray Together · Worldwide</div>
+    </div>
   </div>
-  <div class="intro-sub" style="margin-top:8px">Pray Together · Worldwide</div>
   <div class="gate-form">
     <button type="button" class="hero-social-btn" id="gate-google-btn">
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
@@ -1348,7 +1364,7 @@ async function doFinishOnboard(){
 }
 
 /* ══════════ DEDICATED LOGIN PAGE (gate) — clean, minimal, progressive ══════════ */
-var gateMode='signup',gateStep=1,gateGlobeRunning=false;
+var gateMode='signup',gateStep=1,gateGlobeRunning=false,gateLon0=-10,gateLat0=18,gateToastTimer=null;
 function updateGateUI(){
   var btn=qs('#gate-continue-btn'),sw=qs('#gate-switch-mode'),step2=qs('#gate-step2'),nameF=qs('#gate-name');
   if(!btn)return;
@@ -1366,6 +1382,7 @@ function showApp(){var app=qs('#s-app');if(app)app.style.opacity='1';}
 function dismissGate(){
   var gate=qs('#gate');if(!gate)return;
   gateGlobeRunning=false;
+  if(gateToastTimer){clearTimeout(gateToastTimer);gateToastTimer=null;}
   gate.style.opacity='0';
   setTimeout(function(){gate.style.display='none';},520);
 }
@@ -1374,6 +1391,37 @@ function showGate(){
   gate.style.display='flex';
   requestAnimationFrame(function(){gate.style.opacity='1';});
   startGateGlobe();
+  scheduleGateToast(1400);
+}
+var GATE_TOAST_TPL={
+  en:['A new prayer was just shared in {c}','{c} is praying right now','Someone in {c} just joined the wall','A new light just appeared in {c}'],
+  fr:["Une prière vient d'être partagée en {c}",'{c} prie en ce moment','Quelqu\'un en {c} vient de rejoindre le mur','Une nouvelle lumière vient d\'apparaître en {c}']
+};
+function scheduleGateToast(delay){
+  if(gateToastTimer)clearTimeout(gateToastTimer);
+  gateToastTimer=setTimeout(function(){spawnGateToast();if(gateGlobeRunning)scheduleGateToast(2600+Math.random()*2200);},delay);
+}
+function spawnGateToast(){
+  if(!gateGlobeRunning)return;
+  var wrap=qs('#gate-globe-wrap');if(!wrap)return;
+  var cv=qs('#gate-canvas');if(!cv)return;
+  var rect=cv.getBoundingClientRect(),wrapRect=wrap.getBoundingClientRect();
+  var scale=rect.width/300,cx=rect.left-wrapRect.left+rect.width/2,cy=rect.top-wrapRect.top+rect.height/2,r=149*scale;
+  var pool=CC;var pick=pool[Math.floor(Math.random()*pool.length)];
+  var p=proj3(pick.lo,pick.la,gateLon0,gateLat0);
+  if(p.Z<0.15)return; // pick again next tick, keep it simple by skipping
+  var sx=cx+r*p.X,sy=cy-r*p.Y;
+  var tpl=(GATE_TOAST_TPL[userLang]||GATE_TOAST_TPL.en);
+  var msg=tpl[Math.floor(Math.random()*tpl.length)].replace('{c}','<b>'+pick.n+'</b> '+pick.f);
+  var el=document.createElement('div');el.className='gate-toast';
+  el.innerHTML='<span class="gt-dot"></span>'+msg;
+  el.style.left=sx+'px';el.style.top=sy+'px';
+  wrap.appendChild(el);
+  requestAnimationFrame(function(){requestAnimationFrame(function(){el.classList.add('show');});});
+  setTimeout(function(){
+    el.classList.remove('show');
+    setTimeout(function(){if(el.parentNode)el.parentNode.removeChild(el);},500);
+  },2500);
 }
 function wireGate(){
   var g=qs('#gate-google-btn');if(g)g.onclick=doGoogle;
@@ -1402,11 +1450,12 @@ function wireGate(){
 function startGateGlobe(){
   if(gateGlobeRunning)return;gateGlobeRunning=true;
   var cv=qs('#gate-canvas');if(!cv)return;
-  var G=cv.getContext('2d'),SZ=240,CX=120,CY=120,R=108;
+  var G=cv.getContext('2d'),SZ=300,CX=150,CY=150,R=149;
   var lon0=-10,lat0=18,t0=Date.now();
   function frame(){
     if(!gateGlobeRunning)return;
     lon0=-10+((Date.now()-t0)/1000)*11;
+    gateLon0=lon0;gateLat0=lat0;
     G.clearRect(0,0,SZ,SZ);
     var ocean=G.createRadialGradient(CX-R*.3,CY-R*.35,R*.08,CX,CY,R);
     ocean.addColorStop(0,'#173447');ocean.addColorStop(.55,'#0C1E29');ocean.addColorStop(1,'#060D12');
