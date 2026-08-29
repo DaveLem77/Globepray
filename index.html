@@ -3,9 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<!-- ═══════════════════════════════════════════════
-     PRIMARY SEO
-═══════════════════════════════════════════════ -->
 <title>GlobePray — Pray Together with Christians Worldwide | Real-Time Prayer Wall</title>
 <meta name="description" content="GlobePray connects Christians from 156 nations on a live interactive globe. Share your prayer request and thousands of believers will pray with you — free, no ads.">
 <meta name="keywords" content="prayer app, Christian prayer, pray together, online prayer wall, prayer community, global prayer, Christians worldwide, real-time prayer, prayer requests, intercessory prayer">
@@ -13,9 +10,6 @@
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="theme-color" content="#080A0C">
 <link rel="canonical" href="https://globepray.com/">
-<!-- ═══════════════════════════════════════════════
-     OPEN GRAPH (Facebook, WhatsApp, Messenger…)
-═══════════════════════════════════════════════ -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GlobePray">
 <meta property="og:title" content="GlobePray — Pray Together with Christians Worldwide">
@@ -26,9 +20,6 @@
 <meta property="og:image:alt" content="GlobePray — Real-time prayer community across the globe">
 <meta property="og:url" content="https://globepray.com/">
 <meta property="og:locale" content="en_US">
-<!-- ═══════════════════════════════════════════════
-     TWITTER / X CARDS
-═══════════════════════════════════════════════ -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@globepray">
 <meta name="twitter:creator" content="@globepray">
@@ -36,9 +27,6 @@
 <meta name="twitter:description" content="156 nations. Thousands of Christians. One prayer wall — live on a real 3D globe. Free, no ads.">
 <meta name="twitter:image" content="https://globepray.com/media/share.png">
 <meta name="twitter:image:alt" content="GlobePray real-time prayer globe">
-<!-- ═══════════════════════════════════════════════
-     ICONS & PWA
-═══════════════════════════════════════════════ -->
 <link rel="icon" type="image/png" href="media/fav.png">
 <link rel="apple-touch-icon" href="media/fav.png">
 <link rel="apple-touch-icon" sizes="180x180" href="media/fav.png">
@@ -47,9 +35,6 @@
 <meta name="apple-mobile-web-app-title" content="GlobePray">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="application-name" content="GlobePray">
-<!-- ═══════════════════════════════════════════════
-     STRUCTURED DATA — JSON-LD
-═══════════════════════════════════════════════ -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -195,9 +180,6 @@
   ]
 }
 </script>
-<!-- ═══════════════════════════════════════════════
-     FONTS & SCRIPTS
-═══════════════════════════════════════════════ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -210,45 +192,43 @@
   --txt:#ECEEF2;--txt2:#8B93A7;--txt3:#353D4F;
   --grn:#22C55E;--grn-dim:rgba(34,197,94,0.1);
   --pur:#8B5CF6;--pur-dim:rgba(139,92,246,0.12);
-  --gold:#E8B96A;--gold-dim:rgba(232,185,106,0.12);--gold-brd:rgba(232,185,106,0.28);
+  --accent:#8FA9C4;--accent-dim:rgba(143,169,196,0.10);--accent-brd:rgba(143,169,196,0.22);
   --blue:#5B9BD5;--blue-dim:rgba(91,155,213,0.12);
   --ff-display:'Outfit',sans-serif;--ff-body:'Inter',sans-serif;
 }
-html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;overscroll-behavior:none}
-/* ── INTRO ── */
-#intro{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;overflow:hidden}
-#intro.fade-out{animation:introFade .7s ease forwards}
-@keyframes introFade{to{opacity:0;pointer-events:none}}
-#intro-canvas{border-radius:50%;display:block;margin-bottom:28px;animation:introGlobeIn .8s cubic-bezier(.2,1,.3,1) forwards;opacity:0;transform:scale(.85)}
-@keyframes introGlobeIn{to{opacity:1;transform:scale(1)}}
-.intro-logo-row{display:flex;align-items:center;gap:14px;animation:introTextIn .7s ease .5s forwards;opacity:0;transform:translateY(10px)}
-@keyframes introTextIn{to{opacity:1;transform:translateY(0)}}
-.intro-logo-img{width:64px;height:64px;object-fit:contain;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,.4)}
-.intro-title{font-family:'Outfit',sans-serif;font-size:32px;font-weight:300;color:var(--txt);letter-spacing:8px;text-transform:uppercase}
-.intro-sub{font-size:12px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-top:12px;animation:introTextIn .7s ease .75s forwards;opacity:0;transform:translateY(8px)}
-.intro-dots-row{display:flex;gap:6px;margin-top:20px;animation:introTextIn .6s ease 1s forwards;opacity:0}
-.intro-dot-p{width:5px;height:5px;border-radius:50%;background:var(--txt3);animation:dotBounce 1.4s ease infinite}
-.intro-dot-p:nth-child(2){animation-delay:.2s}
-.intro-dot-p:nth-child(3){animation-delay:.4s}
-@keyframes dotBounce{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1.2)}}
+html,body{background:radial-gradient(ellipse 90% 60% at 50% 18%,#0E1621 0%,#080A0C 55%,#050608 100%);color:var(--txt);font-family:'Inter',sans-serif;min-height:100vh;overscroll-behavior:none}
+body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:
+    radial-gradient(1.6px 1.6px at 15% 22%,#fff,transparent 100%),
+    radial-gradient(1.2px 1.2px at 34% 68%,#fff,transparent 100%),
+    radial-gradient(1.8px 1.8px at 62% 14%,#fff,transparent 100%),
+    radial-gradient(1.1px 1.1px at 78% 46%,#fff,transparent 100%),
+    radial-gradient(1.4px 1.4px at 87% 78%,#fff,transparent 100%),
+    radial-gradient(1.2px 1.2px at 8% 84%,#fff,transparent 100%),
+    radial-gradient(1.6px 1.6px at 47% 91%,#fff,transparent 100%),
+    radial-gradient(1.1px 1.1px at 55% 38%,#fff,transparent 100%),
+    radial-gradient(1.3px 1.3px at 25% 8%,#fff,transparent 100%),
+    radial-gradient(1.5px 1.5px at 93% 26%,#fff,transparent 100%);
+  background-repeat:repeat;background-size:100% 100%;
+  animation:gateTwinkle 5s ease-in-out infinite alternate}
 /* ── TOPBAR ── */
 .topbar{position:sticky;top:0;z-index:100;height:56px;display:flex;align-items:center;padding:0 18px;background:rgba(8,10,12,.92);backdrop-filter:blur(24px) saturate(180%);border-bottom:.5px solid rgba(255,255,255,.05)}
 .tb-left{display:flex;align-items:center;gap:10px}
 .tb-logo-img{width:30px;height:30px;object-fit:contain;border-radius:8px;opacity:.95}
 .tb-logo{font-family:'Outfit',sans-serif;font-size:18px;font-weight:300;color:rgba(255,255,255,.92);letter-spacing:4px;text-transform:uppercase}
-.tb-right{margin-left:auto;display:flex;align-items:center;gap:6px}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
 .tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#4F46E5,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;cursor:pointer;border:none;flex-shrink:0;letter-spacing:0}
-.tb-signin-btn{font-size:12px;font-weight:500;color:rgba(255,255,255,.7);background:rgba(255,255,255,.07);border:.5px solid rgba(255,255,255,.1);border-radius:20px;padding:6px 14px;font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;letter-spacing:.3px}
-.tb-signin-btn:hover{background:rgba(255,255,255,.12);color:var(--txt)}
+.tb-signin-btn{font-size:13px;font-weight:700;color:var(--bg);background:var(--txt);border:none;border-radius:20px;padding:8px 16px;font-family:'Inter',sans-serif;cursor:pointer;transition:opacity .2s;letter-spacing:.2px}
+.tb-signin-btn:hover{opacity:.85}
 /* Share button in topbar */
-.tb-icon-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
-.tb-icon-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.15)}
+.tb-icon-btn{width:32px;height:32px;border-radius:50%;background:var(--s2);border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0}
+.tb-icon-btn:hover{background:var(--s3);border-color:var(--brd2)}
 .tb-icon-btn svg{width:14px;height:14px;stroke:rgba(255,255,255,.55);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.tb-share-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
-.tb-share-btn:hover{background:rgba(255,255,255,.12)}
+.tb-share-btn{width:32px;height:32px;border-radius:50%;background:var(--s2);border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.tb-share-btn:hover{background:var(--s3);border-color:var(--brd2)}
 .tb-share-btn svg{width:14px;height:14px;stroke:rgba(255,255,255,.55);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.support-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.06);border:.5px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .2s;flex-shrink:0}
-.support-btn:hover{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.25)}
+.support-btn{width:32px;height:32px;border-radius:50%;background:var(--s2);border:.5px solid var(--brd);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:all .2s;flex-shrink:0}
+.support-btn:hover{background:rgba(239,68,68,.10);border-color:rgba(239,68,68,.2)}
 .support-btn svg{flex-shrink:0;fill:rgba(255,255,255,.45);transition:fill .2s}
 .support-btn:hover svg{fill:#F87171}
 /* ── SECTIONS ── */
@@ -258,34 +238,26 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .globe-wrap{display:flex;flex-direction:column;align-items:center;padding:18px 0 0;position:relative}
 #globe{display:block;border-radius:50%;touch-action:none;cursor:grab;user-select:none}
 #globe:active{cursor:grabbing}
-/* Music button bottom-right of globe */
-.music-btn-wrap{position:absolute;bottom:30px;right:calc(50% - 168px);z-index:10}
-.music-btn-inner{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
-.music-btn-inner:hover{background:rgba(255,255,255,.1)}
-.music-icon{width:14px;height:14px;stroke:rgba(255,255,255,.55);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;position:relative}
-.mute-line{stroke:rgba(255,255,255,.55);display:none}
-.music-btn-inner.muted .mute-line{display:block}
 .globe-hint{font-size:11px;color:var(--txt3);margin-top:10px;text-align:center;letter-spacing:.02em}
+.verse-bar{margin:14px 16px 0;padding:14px 18px;text-align:center}
+.verse-q{font-size:13px;color:var(--txt2);line-height:1.7;font-style:normal;font-weight:400;position:relative}
+.verse-r{font-size:10.5px;color:var(--txt3);margin-top:6px;letter-spacing:.03em}
 .globe-stats{display:flex;gap:1px;margin:14px 16px 0;background:var(--brd);border-radius:14px;overflow:hidden}
 .gs{flex:1;background:var(--s1);padding:12px 8px;text-align:center}
 .gsn{font-size:20px;font-weight:700;color:var(--txt);letter-spacing:-.8px;font-family:'Outfit',sans-serif}
 .gsl{font-size:10px;color:var(--txt3);margin-top:2px;text-transform:uppercase;letter-spacing:.07em;font-weight:500}
-.verse-bar{margin:12px 16px 0;padding:12px 14px;background:var(--s1);border-radius:12px;border:.5px solid var(--brd)}
-.verse-q{font-size:12px;color:var(--txt2);line-height:1.7;font-style:italic}
-.verse-r{font-size:10px;color:var(--txt3);margin-top:4px}
 .sch{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin:22px 0 12px}
 .sct{font-size:16px;font-weight:600;color:var(--txt);letter-spacing:-.2px}
-/* ── MY PRAYER ── */
+/* ── PRAYER COMPOSER (texting-style bar) ── */
+.pray-composer{display:flex;gap:8px;align-items:center;margin:14px 16px 0;background:var(--s1);border:.5px solid var(--brd);border-radius:26px;padding:5px 6px 5px 18px;transition:border-color .15s}
+.pray-composer:focus-within{border-color:var(--brd2)}
+.pray-composer-input{flex:1;background:none;border:none;outline:none;font-size:14px;color:var(--txt);font-family:'Inter',sans-serif;padding:9px 0;min-width:0}
+.pray-composer-input::placeholder{color:var(--txt3)}
+.pray-composer-send{width:36px;height:36px;border-radius:50%;background:var(--txt);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;color:var(--bg);transition:opacity .15s}
+.pray-composer-send:hover{opacity:.85}
+.pray-composer-send svg{width:15px;height:15px;stroke:var(--bg)}
+/* ── MY PRAYER (active status only) ── */
 .mypray-wrap{padding:0 16px}
-.mp-teaser{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:18px;display:flex;align-items:center;gap:14px}
-.mp-teaser-txt{flex:1}
-.mp-teaser-title{font-size:14px;font-weight:600;color:var(--txt);margin-bottom:3px}
-.mp-teaser-sub{font-size:12px;color:var(--txt3);line-height:1.5}
-.mp-teaser-btn{background:var(--txt);color:var(--bg);border:none;border-radius:20px;padding:9px 16px;font-size:13px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer;white-space:nowrap;flex-shrink:0}
-.mp-empty{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:22px 18px;text-align:center}
-.mp-icon{font-size:26px;margin-bottom:8px}
-.mp-txt{font-size:13px;color:var(--txt3);line-height:1.6;margin-bottom:14px}
-.mp-btn{background:var(--txt);color:var(--bg);border:none;border-radius:22px;padding:10px 22px;font-size:14px;font-weight:600;font-family:'Inter',sans-serif;cursor:pointer}
 .mp-live{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:16px}
 .mp-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .mp-badge{background:var(--grn-dim);color:var(--grn);font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;text-transform:uppercase;letter-spacing:.04em;border:.5px solid rgba(34,197,94,.2)}
@@ -294,23 +266,24 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .mp-pc{font-size:12px;color:var(--txt3);margin-top:8px}
 .mp-pc strong{color:var(--grn)}
 /* ── FEED ── */
-.feed{padding:0 16px;display:flex;flex-direction:column;gap:8px}
-.fi{background:var(--s1);border-radius:14px;border:.5px solid var(--brd);padding:14px;transition:border-color .15s}
-.fi-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.fi-av-txt{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.feed{padding:0 16px;display:flex;flex-direction:column;gap:10px}
+.fi{background:var(--s1);border-radius:16px;border:.5px solid var(--brd);padding:16px;transition:border-color .18s,transform .18s}
+.fi:hover{border-color:var(--brd2)}
+.fi-head{display:flex;align-items:center;gap:11px;margin-bottom:10px}
+.fi-av-txt{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,.25)}
 .fi-info{flex:1;min-width:0}
-.fi-name{font-size:13px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fi-name{font-size:13.5px;font-weight:600;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fi-flag{font-size:12px}
-.fi-sub{font-size:11px;color:var(--txt3);margin-top:1px}
+.fi-sub{font-size:11.5px;color:var(--txt3);margin-top:2px}
 .fi-time{font-size:11px;color:var(--txt3);flex-shrink:0}
-.fi-body{font-size:14px;color:var(--txt2);line-height:1.65;font-weight:300}
-.fi-orig{font-size:11px;color:var(--txt3);margin-top:4px;font-style:italic}
-.fi-foot{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-.fi-pbtn{background:none;border:.5px solid var(--brd);border-radius:18px;padding:6px 12px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
+.fi-body{font-size:14.5px;color:var(--txt2);line-height:1.68;font-weight:300}
+.fi-orig{font-size:11px;color:var(--txt3);margin-top:4px;font-style:normal}
+.fi-foot{display:flex;align-items:center;gap:8px;margin-top:13px;padding-top:12px;border-top:.5px solid var(--brd);flex-wrap:wrap}
+.fi-pbtn{background:none;border:.5px solid var(--brd);border-radius:18px;padding:7px 13px;font-size:12px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:5px}
 .fi-pbtn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .fi-pbtn:hover,.fi-pbtn.done{color:var(--grn);border-color:rgba(34,197,94,.3);background:var(--grn-dim)}
 .fi-cnt{font-size:12px;color:var(--txt3)}
-.fi-comment-btn{background:var(--pur-dim);border:.5px solid rgba(139,92,246,.3);border-radius:18px;padding:6px 12px;font-size:12px;font-weight:600;color:var(--pur);font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
+.fi-comment-btn{background:var(--pur-dim);border:.5px solid rgba(139,92,246,.3);border-radius:18px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--pur);font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all .2s}
 .fi-comment-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .fi-comment-btn:hover{background:rgba(139,92,246,.2);border-color:rgba(139,92,246,.5)}
 .empty-state{text-align:center;color:var(--txt3);padding:30px;font-size:14px}
@@ -344,7 +317,7 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .chat-send svg{width:14px;height:14px;stroke:var(--bg);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .priv-context{background:var(--s2);border-left:3px solid var(--pur);border-radius:0 10px 10px 0;padding:10px 14px;margin:0 14px 10px;font-size:12px}
 .priv-context-lbl{font-size:10px;color:var(--pur);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
-.priv-context-txt{color:var(--txt2);line-height:1.5;font-style:italic}
+.priv-context-txt{color:var(--txt2);line-height:1.5;font-style:normal}
 /* ── PROFILE ── */
 .prof-wrap{padding:20px 16px}
 .pav-wrap{display:flex;justify-content:center;margin-bottom:12px}
@@ -398,10 +371,6 @@ html,body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;m
 .modal-textarea{width:100%;background:var(--s2);border:.5px solid var(--brd);border-radius:12px;padding:14px;font-size:15px;color:var(--txt);font-family:'Inter',sans-serif;outline:none;resize:none;height:130px;line-height:1.6;transition:border-color .15s}
 .modal-textarea:focus{border-color:var(--brd2)}
 .modal-textarea::placeholder{color:var(--txt3)}
-.loc-opts{margin:12px 0;display:flex;flex-direction:column;gap:8px}
-.loc-label{font-size:11px;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-bottom:2px}
-.loc-opt{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--txt2);cursor:pointer;padding:4px 0}
-.loc-opt input{accent-color:var(--grn);width:16px;height:16px;cursor:pointer}
 .modal-btns{display:flex;gap:10px;margin-top:12px}
 .m-cancel{flex:1;background:var(--s2);border:none;border-radius:22px;padding:13px;font-size:14px;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer}
 .m-submit{flex:2;background:var(--txt);border:none;border-radius:22px;padding:13px;font-size:14px;font-weight:700;color:var(--bg);font-family:'Inter',sans-serif;cursor:pointer}
@@ -465,42 +434,31 @@ select.field{-webkit-appearance:none;appearance:none}
   .topbar{position:fixed;top:0;left:0;right:0;z-index:200;height:58px;padding:0 32px}
   .tb-logo{font-size:24px}
   .tb-logo-img{width:38px;height:38px}
-  /* Main desktop split layout */
   .desktop-body{display:flex;flex:1;padding-top:58px;min-height:calc(100vh - 58px);max-width:1400px;margin:0 auto;width:100%}
-  /* Left panel - Globe fixed */
   .globe-panel{width:420px;min-width:380px;flex-shrink:0;position:sticky;top:58px;height:calc(100vh - 58px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px 20px;border-right:.5px solid var(--brd);background:var(--s1);overflow-y:auto}
   #globe{width:340px!important;height:340px!important}
-  .music-btn-wrap{right:calc(50% - 184px)!important;bottom:28px!important}
   .globe-hint{margin-top:12px}
+  .verse-bar{margin:14px 0 0;width:100%}
   .globe-stats{margin:16px 0 0;width:100%}
-  .verse-bar{margin:12px 0 0;width:100%}
-  /* Right panel - scrollable content */
+  .pray-composer{margin:14px 0 0;width:100%}
   .content-panel{flex:1;overflow-y:auto;padding:24px 28px}
-  /* Sections in desktop mode */
   .section{display:none;padding-bottom:0}
   .section.active{display:block}
-  /* Globe section splits into panels */
   #sec-globe{display:none}
   #sec-globe.active{display:flex;flex:1;min-height:0}
-  /* Chat desktop */
   #sec-chat{width:100%}
   #sec-chat.active{display:flex;height:calc(100vh - 58px)}
   .chat-wrap{height:100%;flex:1}
-  /* Profile desktop */
   #sec-profile.active{display:block;padding:32px;max-width:600px;margin:0 auto}
-  /* Hide mobile bottom nav */
   .bnav{display:none}
-  /* Desktop top nav */
   .desktop-nav{display:flex;gap:4px;margin-left:20px}
   .desktop-nav-btn{display:flex;align-items:center;gap:7px;padding:8px 16px;border-radius:22px;border:none;background:none;font-size:13px;font-weight:500;color:var(--txt3);font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s}
   .desktop-nav-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
   .desktop-nav-btn:hover{background:var(--s2);color:var(--txt)}
   .desktop-nav-btn.active{background:var(--s2);color:var(--txt)}
-  /* Feed in desktop */
   .feed{padding:0}
   .mypray-wrap{padding:0}
   .sch{padding:0;margin:20px 0 10px}
-  /* Right panel scroll sections */
   .right-globe-content{padding:0}
 }
 @media (min-width: 768px) and (max-width: 1100px) {
@@ -509,50 +467,24 @@ select.field{-webkit-appearance:none;appearance:none}
 }
 .delete-prayer-btn{width:100%;background:none;border:none;color:rgba(239,68,68,.5);font-size:12px;font-family:'Inter',sans-serif;cursor:pointer;padding:10px;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:6px;transition:color .2s}
 .delete-prayer-btn:hover{color:#F87171}
-/* ── WOW: live arc counter under globe ── */
-.arc-live{font-size:10.5px;color:var(--gold);margin-top:6px;text-align:center;letter-spacing:.03em;min-height:14px;opacity:.9;font-weight:500;transition:opacity .3s}
+/* ── live arc counter under globe ── */
+.arc-live{font-size:10.5px;color:var(--txt2);margin-top:6px;text-align:center;letter-spacing:.03em;min-height:14px;opacity:.9;font-weight:500;transition:opacity .3s}
 .arc-live.empty{opacity:0}
-.arc-live .dotpulse{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold);margin-right:5px;animation:arcPulse 1.4s ease infinite}
+.arc-live .dotpulse{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--grn);margin-right:5px;animation:arcPulse 1.4s ease infinite}
 @keyframes arcPulse{0%,100%{opacity:.35;transform:scale(.8)}50%{opacity:1;transform:scale(1.25)}}
-/* ── Nations leaderboard ── */
-.nations-bar{margin:12px 16px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+/* ── Nations row (quiet, no leaderboard) ── */
+.nations-bar{margin:14px 16px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;align-items:center}
 .nations-bar::-webkit-scrollbar{display:none}
-.nation-pill{flex-shrink:0;display:flex;align-items:center;gap:5px;background:var(--s1);border:.5px solid var(--brd);border-radius:20px;padding:6px 11px;font-size:11.5px;color:var(--txt2);white-space:nowrap}
-.nation-pill b{color:var(--txt);font-weight:600}
-.nation-pill .rk{color:var(--gold);font-weight:700;font-size:10px}
-@media (min-width:768px){.nations-bar{margin:12px 0 0;padding:0 0 2px}}
-/* ── Hero auth card (homepage, guests only) ── */
-.hero-card{background:linear-gradient(165deg,var(--s1) 0%,#101317 100%);border:.5px solid var(--brd2);border-radius:20px;padding:22px 20px;margin-bottom:22px;position:relative;overflow:hidden}
-.hero-card::before{content:'';position:absolute;top:-60%;right:-30%;width:280px;height:280px;background:radial-gradient(circle,var(--gold-dim) 0%,transparent 70%);pointer-events:none}
-.hero-kicker{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px}
-.hero-kicker svg{width:12px;height:12px;stroke:var(--gold);fill:none;stroke-width:2}
-.hero-title{font-family:var(--ff-display);font-size:23px;font-weight:700;color:var(--txt);letter-spacing:-.3px;line-height:1.25;margin-bottom:6px;position:relative}
-.hero-sub{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:18px;position:relative;max-width:420px}
-.hero-form{position:relative;max-width:360px}
-.hero-social-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border-radius:11px;border:.5px solid var(--brd2);background:var(--s2);font-size:14px;font-weight:500;color:var(--txt);font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s,transform .1s;margin-bottom:10px}
-.hero-social-btn:hover{background:var(--s3)}
-.hero-social-btn:active{transform:scale(.98)}
-.hero-divrow{display:flex;align-items:center;gap:10px;margin:12px 0}
-.hero-inline-fields{display:none;gap:8px;flex-direction:column}
-.hero-inline-fields.open{display:flex}
-.hero-toggle-email{background:none;border:none;color:var(--txt3);font-size:12.5px;font-family:'Inter',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:2px;padding:2px 0}
-.hero-row-actions{display:flex;align-items:center;gap:14px;margin-top:12px;flex-wrap:wrap}
-.hero-signin-link{font-size:12.5px;color:var(--txt3);background:none;border:none;font-family:'Inter',sans-serif;cursor:pointer}
-.hero-signin-link:hover{color:var(--txt2)}
-.hero-trust{display:flex;gap:14px;margin-top:16px;position:relative;flex-wrap:wrap}
-.hero-trust-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--txt3)}
-.hero-trust-item svg{width:12px;height:12px;stroke:var(--grn);fill:none;stroke-width:2.5}
+.nation-label{flex-shrink:0;font-size:10.5px;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;font-weight:600;padding-right:2px}
+.nation-pill{flex-shrink:0;display:flex;align-items:center;gap:5px;background:none;border:.5px solid var(--brd);border-radius:20px;padding:5px 10px;font-size:11.5px;color:var(--txt3);white-space:nowrap}
+@media (min-width:768px){.nations-bar{margin:14px 0 0;padding:0 0 2px}}
 /* ── Streak / badges ── */
 .streak-row{display:flex;align-items:center;gap:8px;margin-top:10px}
-.streak-pill{display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,var(--gold-dim),rgba(232,185,106,.04));border:.5px solid var(--gold-brd);border-radius:14px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--gold)}
-.streak-pill svg{width:13px;height:13px}
+.streak-pill{display:flex;align-items:center;gap:5px;background:var(--s2);border:.5px solid var(--brd);border-radius:14px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--txt2)}
 .badge-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 .badge-chip{display:flex;align-items:center;gap:4px;background:var(--s2);border:.5px solid var(--brd);border-radius:10px;padding:4px 9px 4px 7px;font-size:10.5px;color:var(--txt2);font-weight:500}
 .badge-chip.locked{opacity:.35}
 .badge-chip .bi{font-size:12px}
-/* ── section intro flourish ── */
-.sct-wow{display:inline-flex;align-items:center;gap:6px}
-.sct-wow-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);animation:arcPulse 1.6s ease infinite}
 /* ── GATE : dedicated clean login page ── */
 #gate{position:fixed;inset:0;z-index:900;background:radial-gradient(ellipse 90% 60% at 50% 30%,#0E1621 0%,#080A0C 52%,#050608 100%);display:none;flex-direction:column;align-items:center;justify-content:flex-start;overflow-y:auto;overflow-x:hidden;padding:36px 20px 40px;opacity:0;transition:opacity .5s ease}
 .gate-stars{position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.55;
@@ -572,29 +504,33 @@ select.field{-webkit-appearance:none;appearance:none}
 @keyframes gateTwinkle{0%{opacity:.35}100%{opacity:.7}}
 .gate-globe-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:20px;flex-shrink:0;width:min(70vw,232px);height:min(70vw,232px);overflow:visible;z-index:1;animation:gateFloat 7s ease-in-out infinite}
 @keyframes gateFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.gate-glow-ring{position:absolute;inset:-22%;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(232,185,106,.20) 0%,rgba(232,185,106,.07) 42%,transparent 72%);animation:gateGlowPulse 4.5s ease-in-out infinite;z-index:0}
+.gate-glow-ring{position:absolute;inset:-22%;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.10) 0%,rgba(255,255,255,.04) 42%,transparent 72%);animation:gateGlowPulse 4.5s ease-in-out infinite;z-index:0}
 @keyframes gateGlowPulse{0%,100%{opacity:.7;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
-#gate-canvas{position:relative;z-index:1;border-radius:50%;display:block;width:100%;height:100%;box-shadow:0 0 0 1px rgba(255,255,255,.3),0 0 34px rgba(255,255,255,.22),0 0 90px rgba(232,185,106,.16),0 30px 80px rgba(0,0,0,.65)}
+#gate-canvas{position:relative;z-index:1;border-radius:50%;display:block;width:100%;height:100%;box-shadow:0 0 0 1px rgba(255,255,255,.3),0 0 34px rgba(255,255,255,.22),0 0 70px rgba(120,150,180,.14),0 30px 80px rgba(0,0,0,.65)}
 @media (min-width:480px) and (max-width:767px){.gate-globe-wrap{width:min(58vw,260px);height:min(58vw,260px)}}
 @media (min-width:768px){.gate-globe-wrap{width:270px;height:270px}}
-.gate-toast{position:absolute;left:0;top:0;pointer-events:none;display:flex;align-items:center;gap:7px;background:linear-gradient(160deg,rgba(20,23,27,.94),rgba(11,13,16,.94));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--gold-brd);border-radius:22px;padding:7px 14px 7px 10px;font-size:11.5px;font-weight:500;color:var(--txt2);white-space:nowrap;box-shadow:0 12px 30px rgba(0,0,0,.55),0 0 0 1px rgba(232,185,106,.06),0 0 22px rgba(232,185,106,.10);opacity:0;transform:translate(-50%,calc(-100% - 12px)) translateY(10px) scale(.88);transition:opacity .4s cubic-bezier(.2,1,.3,1),transform .4s cubic-bezier(.2,1,.3,1);z-index:6}
+.gate-toast{position:absolute;left:0;top:0;pointer-events:none;display:flex;align-items:center;gap:7px;background:linear-gradient(160deg,rgba(20,23,27,.94),rgba(11,13,16,.94));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--brd2);border-radius:22px;padding:7px 14px 7px 10px;font-size:11.5px;font-weight:500;color:var(--txt2);white-space:nowrap;box-shadow:0 12px 30px rgba(0,0,0,.55);opacity:0;transform:translate(-50%,calc(-100% - 12px)) translateY(10px) scale(.88);transition:opacity .4s cubic-bezier(.2,1,.3,1),transform .4s cubic-bezier(.2,1,.3,1);z-index:6}
 .gate-toast.show{opacity:1;transform:translate(-50%,calc(-100% - 12px)) translateY(0) scale(1)}
-.gate-toast b{color:var(--gold);font-weight:600}
+.gate-toast b{color:var(--txt);font-weight:600}
 .gate-toast .gt-ic{display:flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:50%;background:var(--grn-dim);flex-shrink:0;font-size:11px;box-shadow:0 0 0 1px rgba(34,197,94,.25)}
 #gate .gate-form{width:100%;max-width:320px;margin-top:22px;display:flex;flex-direction:column;position:relative;z-index:2}
 #gate .intro-logo-row,#gate .intro-sub{opacity:1;transform:none;animation:none;position:relative;z-index:1}
-.gate-title-grad{background:linear-gradient(135deg,#fff 0%,#fff 40%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(232,185,106,.25))}
-.gate-live{position:relative;z-index:1;display:flex;align-items:center;gap:7px;margin-top:14px;font-size:11.5px;color:var(--txt2);letter-spacing:.02em}
-.gate-live-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 8px var(--grn);animation:arcPulse 1.6s ease infinite}
-.gate-live b,.gate-live span#gate-live-n{color:var(--txt);font-weight:600}
-#gate .primary-btn{background:linear-gradient(135deg,#F3DCA8,#E8B96A 55%,#D9A24E);color:#1A1305;font-weight:700;box-shadow:0 10px 28px rgba(232,185,106,.28),0 2px 0 rgba(255,255,255,.25) inset;border:none;position:relative;overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
-#gate .primary-btn:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(232,185,106,.36),0 2px 0 rgba(255,255,255,.3) inset}
-#gate .primary-btn:active{transform:translateY(0)}
+.intro-logo-row{display:flex;align-items:center;gap:14px}
+.intro-logo-img{width:40px;height:40px;object-fit:contain;border-radius:11px;box-shadow:0 4px 24px rgba(0,0,0,.4)}
+.intro-title{font-family:'Outfit',sans-serif;font-size:26px;font-weight:300;color:var(--txt);letter-spacing:5px;text-transform:uppercase}
+.intro-sub{font-size:12px;color:var(--txt3);letter-spacing:.12em;text-transform:uppercase;margin-top:12px}
+.gate-title-grad{color:var(--txt)}
+#gate .primary-btn{background:var(--txt);color:var(--bg);font-weight:700;border:none}
+#gate .primary-btn:hover{opacity:.88}
 #gate .hero-social-btn{transition:border-color .2s ease,background .2s ease}
-#gate .hero-social-btn:hover{border-color:rgba(232,185,106,.35)}
+#gate .hero-social-btn:hover{border-color:var(--brd2)}
 #gate .hero-social-btn{margin-bottom:14px}
 #gate .hero-divrow{margin:2px 0 14px}
 #gate .field{margin-bottom:10px}
+.hero-social-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:12px;border-radius:11px;border:.5px solid var(--brd2);background:var(--s2);font-size:14px;font-weight:500;color:var(--txt);font-family:'Inter',sans-serif;cursor:pointer;transition:background .15s,transform .1s;margin-bottom:10px}
+.hero-social-btn:hover{background:var(--s3)}
+.hero-social-btn:active{transform:scale(.98)}
+.hero-divrow{display:flex;align-items:center;gap:10px;margin:12px 0}
 .gate-step2{display:none;flex-direction:column}
 .gate-step2 .field{margin-bottom:10px}
 .gate-switch{text-align:center;margin-top:14px}
@@ -606,20 +542,6 @@ select.field{-webkit-appearance:none;appearance:none}
 </style>
 </head>
 <body>
-<!-- INTRO -->
-<div id="intro">
-  <canvas id="intro-canvas" width="260" height="260"></canvas>
-  <div class="intro-logo-row">
-    <img class="intro-logo-img" src="media/logo.png" alt="" onerror="this.style.display='none'">
-    <div class="intro-title">GlobePray</div>
-  </div>
-  <div class="intro-sub">Pray Together · Worldwide</div>
-  <div class="intro-dots-row">
-    <div class="intro-dot-p"></div>
-    <div class="intro-dot-p"></div>
-    <div class="intro-dot-p"></div>
-  </div>
-</div>
 <!-- GATE : dedicated clean login page (guests only) -->
 <div id="gate">
   <div class="gate-stars" aria-hidden="true"></div>
@@ -632,7 +554,6 @@ select.field{-webkit-appearance:none;appearance:none}
     <div class="intro-title gate-title-grad" style="font-size:26px">GlobePray</div>
   </div>
   <div class="intro-sub" style="margin-top:8px">Pray Together · Worldwide</div>
-  <div class="gate-live" id="gate-live"><span class="gate-live-dot"></span><span id="gate-live-n">3,247</span>&nbsp;praying right now</div>
   <div class="gate-form">
     <button type="button" class="hero-social-btn" id="gate-google-btn">
       <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
@@ -690,34 +611,28 @@ select.field{-webkit-appearance:none;appearance:none}
     <div class="globe-panel" id="globe-panel">
       <div class="globe-wrap" style="width:100%">
         <canvas id="globe" width="320" height="320" style="touch-action:none;-webkit-user-select:none;user-select:none"></canvas>
-        <div class="music-btn-wrap">
-          <div class="music-btn-inner muted" id="music-btn">
-            <svg class="music-icon" viewBox="0 0 24 24">
-              <path d="M9 18V5l12-2v13"/>
-              <circle cx="6" cy="18" r="3"/>
-              <circle cx="18" cy="16" r="3"/>
-              <line class="mute-line" x1="2" y1="22" x2="22" y2="2"/>
-            </svg>
-          </div>
-        </div>
         <div class="globe-hint" id="globe-hint">Tap a light to read their prayer</div>
         <div class="arc-live" id="arcLive"></div>
       </div>
-      <div class="globe-stats">
-        <div class="gs"><div class="gsn" id="sConn">0</div><div class="gsl" id="gsl-conn">Connected</div></div>
-        <div class="gs"><div class="gsn">156</div><div class="gsl">Nations</div></div>
-        <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl" id="gsl-pray">Prayers</div></div>
-      </div>
-      <div class="nations-bar" id="nationsBar"></div>
       <div class="verse-bar">
         <div class="verse-q" id="verse-q">"Where two or three gather in my name, I am there among them."</div>
         <div class="verse-r" id="verse-r">Matthew 18 · 20</div>
       </div>
+      <div class="globe-stats">
+        <div class="gs"><div class="gsn">156</div><div class="gsl">Nations</div></div>
+        <div class="gs"><div class="gsn" id="sPray">0</div><div class="gsl" id="gsl-pray">Prayers</div></div>
+      </div>
+      <div class="pray-composer">
+        <input class="pray-composer-input" id="prayComposerInput" placeholder="Lord, I pray for..." />
+        <button class="pray-composer-send" id="prayComposerSend" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <div class="nations-bar" id="nationsBar"></div>
     </div>
     <!-- RIGHT: Content panel (desktop) / full width (mobile) -->
     <div class="content-panel" id="content-panel">
       <div class="right-globe-content">
-        <div class="sch"><div class="sct" id="sct-mypray">My Prayer</div></div>
         <div class="mypray-wrap"><div id="myBox"></div></div>
         <div class="sch"><div class="sct" id="sct-community">Community</div></div>
         <div class="feed" id="feedEl"></div>
@@ -814,29 +729,6 @@ select.field{-webkit-appearance:none;appearance:none}
     </div>
   </div>
 </div>
-<!-- PRAYER MODAL -->
-<div class="overlay" id="ov-prayer" onclick="if(event.target===this)closePrayer()">
-  <div class="modal-sheet">
-    <div class="mhandle"></div>
-    <div class="mtitle" id="pray-title">My Prayer Request</div>
-    <div class="msub" id="pray-sub">Shared with Christians worldwide · active 24h.</div>
-    <textarea class="modal-textarea" id="prayIn" placeholder="Lord, I pray for..."></textarea>
-    <div class="loc-opts">
-      <div class="loc-label" id="loc-label">Appear on the globe as</div>
-      <label class="loc-opt"><input type="radio" name="prayLoc" value="precise" checked><span id="loc-precise"> Exact location (GPS)</span></label>
-      <label class="loc-opt"><input type="radio" name="prayLoc" value="country"><span id="loc-country"> Country only</span></label>
-      <label class="loc-opt"><input type="radio" name="prayLoc" value="none"><span id="loc-none"> Don't show on globe</span></label>
-    </div>
-    <div class="modal-btns">
-      <button class="m-cancel" id="cancel-pray">Cancel</button>
-      <button class="m-submit" id="submit-pray">Share with the world</button>
-    </div>
-    <button class="delete-prayer-btn" id="delete-pray" style="display:none">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
-      Delete my prayer
-    </button>
-  </div>
-</div>
 <!-- FORGOT MODAL -->
 <div class="overlay" id="ov-forgot" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal-sheet">
@@ -918,7 +810,6 @@ const WORLD=[[[178.1,-17.5],[178.4,-17.3],[178.7,-17.6],[178.6,-18.2],[177.9,-18
 var SURL='https://ycggtqqyffjjniguidgy.supabase.co';
 var SKEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljZ2d0cXF5ZmZqam5pZ3VpZGd5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMjM5MjYsImV4cCI6MjA5NDc5OTkyNn0.UW5gd9TL7Q7vy38I90HCp0P7iq6mlhLW9u1_74OLIkc';
 var sb=supabase.createClient(SURL,SKEY);
-
 /* ══════════ TRANSLATIONS ══════════ */
 var T={
   en:{globe:'Globe',chat:'Chat',profile:'Profile',community:'Community',myPrayer:'My Prayer',
@@ -1066,7 +957,6 @@ var T={
 var userLang='en';
 function t(k){return(T[userLang]&&T[userLang][k])||T.en[k]||k;}
 function setLang(l){if(T[l])userLang=l;applyTr();}
-
 /* ══════════ DAILY VERSES (rotate by day-of-year) ══════════ */
 var VERSES={
   en:[["\"Where two or three gather in my name, I am there among them.\"","Matthew 18 · 20"],
@@ -1089,23 +979,16 @@ function renderVerse(){
   var arr=VERSES[userLang]||VERSES.en;var v=arr[dayOfYear()%arr.length];
   var qEl=qs('#verse-q'),rEl=qs('#verse-r');if(qEl)qEl.textContent=v[0];if(rEl)rEl.textContent=v[1];
 }
-
 function applyTr(){
   function el(id){return document.getElementById(id);}
   function txt(id,k){var e=el(id);if(e)e.textContent=t(k);}
   txt('nb-globe-lbl','globe');txt('nb-chat-lbl','chat');txt('nb-profile-lbl','profile');
-  txt('gsl-conn','connected');txt('gsl-pray','prayers');
+  txt('dnb-globe-lbl','globe');txt('dnb-chat-lbl','chat');txt('dnb-profile-lbl','profile');
+  txt('gsl-pray','prayers');
   txt('globe-hint','tapLight');
   renderVerse();
-  txt('sct-mypray','myPrayer');txt('sct-community','community');
-  txt('pray-title','prayTitle');txt('pray-sub','praySub');txt('loc-label','locLabel');
-  var pi=el('prayIn');if(pi)pi.placeholder=t('lordPray');
-  var sp=el('submit-pray');if(sp)sp.textContent=t('shareWorld');
-  var cp=el('cancel-pray');if(cp)cp.textContent=t('cancel');
-  var ls=document.querySelectorAll('.loc-opt span');
-  if(ls[0])ls[0].textContent=' '+t('locPrecise');
-  if(ls[1])ls[1].textContent=' '+t('locCountry');
-  if(ls[2])ls[2].textContent=' '+t('locNone');
+  txt('sct-community','community');
+  var pc=el('prayComposerInput');if(pc)pc.placeholder=t('lordPray');
   txt('auth-title','joinTitle');txt('auth-sub','joinSub');
   txt('forgot-title','resetTitle');txt('forgot-sub','resetSub');
   var sr=el('send-reset');if(sr)sr.textContent=t('sendLink');
@@ -1124,7 +1007,6 @@ function applyTr(){
   var gpw=el('gate-pass');if(gpw)gpw.placeholder=t('heroPassPh');
   updateGateUI();
 }
-
 /* ══════════ SEED DATA ══════════ */
 var SEED=[
   {id:'s1',uid:'seed',name:'Samuel Costa',flag:'🇧🇷',country:'Brazil',lon:-47,lat:-15,text:'For the families affected by the floods in southern Brazil. Lord, be their refuge and strength.',pray_count:312,created_at:new Date(Date.now()-7200000).toISOString()},
@@ -1171,53 +1053,6 @@ var CC=[
   {c:'CI',n:"Cote d'Ivoire",f:'🇨🇮',lo:-6,la:8},{c:'UY',n:'Uruguay',f:'🇺🇾',lo:-56,la:-33},
 ];
 var LANG_LIST=[{c:'en',n:'English'},{c:'fr',n:'Français'},{c:'es',n:'Español'},{c:'pt',n:'Português'}];
-
-/* ══════════ MUSIC (ambient pads, unchanged behaviour) ══════════ */
-var _ac=null,_gain=null,musicPlaying=false,_padTimer=null;
-function _initAC(cb){
-  if(_ac&&_ac.state==='running'){cb();return;}
-  if(!_ac){try{_ac=new(window.AudioContext||window.webkitAudioContext)();_gain=_ac.createGain();_gain.gain.value=0;_gain.connect(_ac.destination);}catch(e){return;}}
-  if(_ac.state==='suspended'){_ac.resume().then(function(){cb();}).catch(function(){cb();});}else{cb();}
-}
-function startMusic(){if(musicPlaying)return;_initAC(function(){musicPlaying=true;updateMusicBtn(true);_startPads();});}
-function _startPads(){if(!_ac||!_gain)return;_gain.gain.cancelScheduledValues(_ac.currentTime);_gain.gain.setValueAtTime(0,_ac.currentTime);_gain.gain.linearRampToValueAtTime(0.65,_ac.currentTime+4);_schedulePad();}
-function _schedulePad(){
-  if(!_ac||!musicPlaying)return;
-  var progressions=[[[110,165,220,330,440],[130.8,196,261.6,392],[164.8,220,329.6,493.9],[196,261.6,392,523.3]],
-    [[146.8,220,293.7,440],[110,165,220,330],[164.8,220,329.6],[130.8,196,261.6]]];
-  var prog=progressions[Math.floor(Math.random()*progressions.length)];
-  var chord=prog[Math.floor(Math.random()*prog.length)];
-  var now=_ac.currentTime,dur=11+Math.random()*5;
-  var delay=_ac.createDelay(2.5);delay.delayTime.value=0.35;
-  var delayGain=_ac.createGain();delayGain.gain.value=0.22;
-  delay.connect(delayGain);delayGain.connect(_gain);
-  chord.forEach(function(freq,i){
-    var osc=_ac.createOscillator(),g=_ac.createGain();
-    osc.connect(g);g.connect(_gain);g.connect(delay);osc.type='sine';
-    osc.frequency.setValueAtTime(freq,now);osc.detune.setValueAtTime((Math.random()-0.5)*4,now);
-    var vol=[0.22,0.16,0.12,0.09,0.07][i]||0.05;
-    g.gain.setValueAtTime(0,now);g.gain.linearRampToValueAtTime(vol,now+2.5);
-    g.gain.setValueAtTime(vol,now+dur-3);g.gain.linearRampToValueAtTime(0,now+dur+1.5);
-    osc.start(now);osc.stop(now+dur+2);
-    if(i===0){
-      var sub=_ac.createOscillator(),sg=_ac.createGain();
-      sub.connect(sg);sg.connect(_gain);sub.type='sine';sub.frequency.setValueAtTime(freq/2,now);
-      sg.gain.setValueAtTime(0,now);sg.gain.linearRampToValueAtTime(0.08,now+3);
-      sg.gain.setValueAtTime(0.08,now+dur-3);sg.gain.linearRampToValueAtTime(0,now+dur+1.5);
-      sub.start(now);sub.stop(now+dur+2);
-      var shi=_ac.createOscillator(),shg=_ac.createGain();
-      shi.connect(shg);shg.connect(_gain);shi.type='sine';shi.frequency.setValueAtTime(freq*4,now);shi.detune.setValueAtTime(5,now);
-      shg.gain.setValueAtTime(0,now);shg.gain.linearRampToValueAtTime(0.025,now+4);
-      shg.gain.setValueAtTime(0.025,now+dur-4);shg.gain.linearRampToValueAtTime(0,now+dur+2);
-      shi.start(now+1);shi.stop(now+dur+3);
-    }
-  });
-  _padTimer=setTimeout(_schedulePad,(dur-3)*1000+Math.random()*4000);
-}
-function stopMusic(){musicPlaying=false;if(_padTimer){clearTimeout(_padTimer);_padTimer=null;}if(_gain&&_ac){_gain.gain.cancelScheduledValues(_ac.currentTime);_gain.gain.setValueAtTime(_gain.gain.value,_ac.currentTime);_gain.gain.linearRampToValueAtTime(0,_ac.currentTime+1.5);}updateMusicBtn(false);}
-function toggleMusic(){if(musicPlaying)stopMusic();else startMusic();}
-function updateMusicBtn(on){var b=document.getElementById('music-btn');if(b){if(on)b.classList.remove('muted');else b.classList.add('muted');}}
-
 /* ══════════ UTILS ══════════ */
 function toast(m){var el=qs('#toast');el.textContent=m;el.classList.add('show');setTimeout(function(){el.classList.remove('show');},2800);}
 function ago(ts){var d=Date.now()-new Date(ts).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);if(dy>0)return dy+'d';if(h>0)return h+'h';if(m>1)return m+'m';return 'just now';}
@@ -1225,8 +1060,7 @@ function qs(s){return document.querySelector(s);}
 function qsa(s){return document.querySelectorAll(s);}
 function getCC(code){return CC.find(function(c){return c.c===code;})||{c:'XX',n:'Unknown',f:'🌍',lo:0,la:0};}
 function fillSel(id){var el=qs('#'+id);if(!el||el.children.length>1)return;CC.forEach(function(c){var o=document.createElement('option');o.value=c.c;o.textContent=c.f+' '+c.n;el.appendChild(o);});}
-function avStyle(name){var cols=[['#E91E8C','#9B27AF'],['#F97316','#EAB308'],['#10B981','#3B82F6'],['#8B5CF6','#EC4899'],['#14B8A6','#6366F1']];var ci=Math.abs((name||'').charCodeAt(0))%cols.length;return 'background:linear-gradient(135deg,'+cols[ci][0]+','+cols[ci][1]+')';}
-
+function avStyle(name){var cols=[['#5B8FE0','#3B5FCB'],['#3FA6A0','#2C7A78'],['#6C7FD8','#4E5FB8'],['#4FA3D1','#2E6FA8'],['#5C9E8E','#3D7A6C']];var ci=Math.abs((name||'').charCodeAt(0))%cols.length;return 'background:linear-gradient(135deg,'+cols[ci][0]+','+cols[ci][1]+')';}
 /* ══════════ SELECT MODALS ══════════ */
 function openCountrySelect(onSelect,currentVal){
   var list=document.getElementById('sel-country-list');list.innerHTML='';
@@ -1248,7 +1082,6 @@ function openLangSelect(onSelect,currentVal){
   });
   document.getElementById('sel-lang').classList.add('open');
 }
-
 /* ══════════ SHARE ══════════ */
 var SHARE_URL='https://globepray.com/';
 function openShare(){
@@ -1267,12 +1100,10 @@ function copyShareLink(){
 function shareNative(){if(navigator.share){navigator.share({title:'GlobePray',text:'Join thousands of Christians praying together worldwide.',url:SHARE_URL}).catch(function(){});}else{copyShareLink();}}
 function shareWhatsApp(){var msg=encodeURIComponent('Join me on GlobePray — thousands of Christians praying together worldwide. '+SHARE_URL);window.open('https://wa.me/?text='+msg,'_blank');}
 function shareSMS(){var msg=encodeURIComponent('Join me on GlobePray: '+SHARE_URL);window.open('sms:?body='+msg);}
-
 /* ══════════ STATE ══════════ */
 var cu=null,prof=null,prayers=[],chatMsgs=[],dots=[],privConvos={};
 var pCh=null,cCh=null,prvCh=null,pendAction=null,pendPrayId=null,chatMode='global';
 var didAutoModal=false;
-
 /* ══════════ NAV ══════════ */
 function navTo(id){
   qsa('.section').forEach(function(s){s.classList.remove('active');});
@@ -1285,7 +1116,6 @@ function navTo(id){
   if(id==='chat'){renderChatTabs();renderChatContent();setTimeout(function(){var e=qs('#chatEl');if(e)e.scrollTop=e.scrollHeight;},150);}
 }
 window.navTo=navTo;
-
 function renderTopbar(){
   var w=qs('#tb-auth');if(!w)return;w.innerHTML='';
   var b=document.createElement('button');
@@ -1293,7 +1123,6 @@ function renderTopbar(){
   else{b.className='tb-signin-btn';b.textContent=t('signIn');b.onclick=function(){openAuth(null);};}
   w.appendChild(b);
 }
-
 /* ══════════ AUTH ══════════ */
 function openAuth(action){
   pendAction=action;fillSel('su-country');fillSel('ob-country');
@@ -1307,7 +1136,6 @@ function closeAuth(){qs('#ov-auth').classList.remove('open');}
 window.closeAuth=closeAuth;
 function switchTab(x){['signup','signin'].forEach(function(s){qs('#tab-'+s).classList.toggle('active',s===x);qs('#panel-'+s).classList.toggle('active',s===x);});}
 window.switchTab=switchTab;
-
 function readAuthFields(ids){
   return {
     name:(qs(ids.name)?qs(ids.name).value:'').trim(),
@@ -1352,7 +1180,6 @@ async function runSignIn(ids){
 function doSignUp(){runSignUp({name:'#su-name',email:'#su-email',pass:'#su-pass',lang:'#su-lang',country:'#su-country',err:'#su-err',btn:'#su-btn'});}
 function doSignIn(){runSignIn({email:'#si-email',pass:'#si-pass',err:'#si-err',btn:'#si-btn'});}
 function heroSignUp(){runSignUp({name:'#hero-name',email:'#hero-email',pass:'#hero-pass',lang:'#su-lang',country:'#su-country',err:'#hero-err',btn:'#hero-btn'});}
-
 async function doGoogle(){
   var currentUrl=window.location.href;
   var redirectTo=(currentUrl.indexOf('https://')===0&&currentUrl.indexOf('localhost')===-1)?currentUrl.split('#')[0].split('?')[0]:SURL;
@@ -1363,8 +1190,7 @@ function afterLogin(){
   if(prof&&prof.lang)setLang(prof.lang);
   renderTopbar();renderMyPrayer();renderProfile();renderChatTabs();renderChatContent();
   if(!pCh)loadPrayers();if(!cCh)loadChat();loadPrivate();
-  if(pendAction==='pray')setTimeout(openPrayer,300);
-  else if(pendAction==='priv'&&pendPrayId)setTimeout(function(){openPrivReply(pendPrayId);},300);
+  if(pendAction==='priv'&&pendPrayId)setTimeout(function(){openPrivReply(pendPrayId);},300);
   pendAction=null;toast(t('welcome'));
 }
 async function doLogout(){
@@ -1386,7 +1212,6 @@ async function doFinishOnboard(){
   var p={id:cu.id,name:gn,email:cu.email,lang:lang,country:ct.n,country_code:code,flag:ct.f,lon:ct.lo,lat:ct.la,photo_url:null,anonymous:false};
   await sb.from('profiles').upsert(p);prof=p;setLang(lang);closeAuth();dismissGate();showApp();afterLogin();
 }
-
 /* ══════════ DEDICATED LOGIN PAGE (gate) — clean, minimal, progressive ══════════ */
 var gateMode='signup',gateStep=1,gateGlobeRunning=false,gateLon0=-10,gateLat0=18,gateToastTimer=null;
 function updateGateUI(){
@@ -1407,26 +1232,14 @@ function dismissGate(){
   var gate=qs('#gate');if(!gate)return;
   gateGlobeRunning=false;
   if(gateToastTimer){clearTimeout(gateToastTimer);gateToastTimer=null;}
-  stopGateLive();
   gate.style.opacity='0';
   setTimeout(function(){gate.style.display='none';},520);
 }
-var gateLiveTimer=null,gateLiveN=3247+Math.floor(Math.random()*180);
-function startGateLive(){
-  var el=qs('#gate-live-n');if(!el)return;
-  el.textContent=gateLiveN.toLocaleString();
-  gateLiveTimer=setInterval(function(){
-    gateLiveN+=Math.floor(Math.random()*9)-3;gateLiveN=Math.max(3050,gateLiveN);
-    var e=qs('#gate-live-n');if(e)e.textContent=gateLiveN.toLocaleString();
-  },2600);
-}
-function stopGateLive(){if(gateLiveTimer){clearInterval(gateLiveTimer);gateLiveTimer=null;}}
 function showGate(){
   var gate=qs('#gate');if(!gate)return;
   gate.style.display='flex';
   requestAnimationFrame(function(){gate.style.opacity='1';});
   startGateGlobe();
-  startGateLive();
   scheduleGateToast(1400);
 }
 var GATE_TOAST_TPL={
@@ -1437,7 +1250,7 @@ function scheduleGateToast(delay){
   if(gateToastTimer)clearTimeout(gateToastTimer);
   gateToastTimer=setTimeout(function(){spawnGateToast();if(gateGlobeRunning)scheduleGateToast(2600+Math.random()*2200);},delay);
 }
-var GATE_TOAST_ICONS=['🙏','✨','🕊️','💛'];
+var GATE_TOAST_ICONS=['🙏','✨','🕊️'];
 function spawnGateToast(){
   if(!gateGlobeRunning)return;
   var wrap=qs('#gate-globe-wrap');if(!wrap)return;
@@ -1528,8 +1341,7 @@ function startGateGlobe(){
   }
   frame();
 }
-
-/* ══════════ NATIONS LEADERBOARD ══════════ */
+/* ══════════ NATIONS LEADERBOARD (discreet, realistic) ══════════ */
 function renderNationsBar(){
   var el=qs('#nationsBar');if(!el)return;
   var all=[].concat(_seedPool.length?_seedPool:SEED).concat(prayers);
@@ -1540,12 +1352,11 @@ function renderNationsBar(){
   });
   var arr=Object.keys(counts).map(function(k){var parts=k.split('|');return{flag:parts[0],country:parts[1],n:counts[k]};});
   arr.sort(function(a,b){return b.n-a.n;});
-  arr=arr.slice(0,8);
-  el.innerHTML='<div class="nation-pill"><span class="rk">🔥</span><span>'+t('nationsToday')+'</span></div>'+arr.map(function(a,i){
-    return '<div class="nation-pill"><span class="rk">'+(i+1)+'</span><span>'+a.flag+'</span><b>'+a.n+'</b></div>';
+  arr=arr.slice(0,10);
+  el.innerHTML='<span class="nation-label">'+t('nationsToday')+'</span>'+arr.map(function(a){
+    return '<span class="nation-pill" title="'+a.country+'">'+a.flag+'</span>';
   }).join('');
 }
-
 /* ══════════ STREAK & BADGES ══════════ */
 var BADGES=[{days:3,icon:'🔥'},{days:7,icon:'⚡'},{days:30,icon:'🌟'},{days:100,icon:'👑'}];
 function todayKey(){var d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();}
@@ -1569,7 +1380,6 @@ function renderBadgeRow(streak){
     return '<div class="badge-chip'+(earned?'':' locked')+'"><span class="bi">'+b.icon+'</span><span>'+b.days+'</span></div>';
   }).join('')+'</div>';
 }
-
 /* ══════════ ARC LIVE COUNTER ══════════ */
 function renderArcLive(){
   var el=qs('#arcLive');if(!el)return;
@@ -1578,58 +1388,52 @@ function renderArcLive(){
   el.classList.remove('empty');
   el.innerHTML='<span class="dotpulse"></span>'+n+' '+(n===1?t('arcLive1'):t('arcLiveN'));
 }
-
-/* ══════════ MY PRAYER ══════════ */
+/* ══════════ MY PRAYER (inline composer + status card) ══════════ */
 function renderMyPrayer(){
   var box=qs('#myBox');if(!box)return;
-  if(!cu){
-    box.innerHTML='';var d=document.createElement('div');d.className='mp-teaser';
-    var txt=document.createElement('div');txt.className='mp-teaser-txt';
-    txt.innerHTML='<div class="mp-teaser-title">🙏 '+t('shareReq')+'</div><div class="mp-teaser-sub">'+t('thousands')+'</div>';
-    var btn=document.createElement('button');btn.className='mp-teaser-btn';btn.textContent=t('pray');
-    btn.onclick=function(){openAuth('pray');};d.appendChild(txt);d.appendChild(btn);box.appendChild(d);return;
-  }
+  if(!cu){box.innerHTML='';return;}
   var streak=getStreak();
   var streakHtml=streak>0?('<div class="streak-row"><div class="streak-pill">🔥 '+streak+' '+(streak===1?t('streakDay'):t('streakDays'))+'</div></div>'):'';
   var myText=localStorage.getItem('gp_p_'+cu.id),myTime=parseInt(localStorage.getItem('gp_pt_'+cu.id)||'0'),elapsed=Date.now()-myTime;
   if(!myText||elapsed>86400000){
-    box.innerHTML='<div class="mp-empty"><div class="mp-icon">🙏</div><div class="mp-txt">'+t('thousands')+'</div>'+streakHtml+'</div>';
-    var btn=document.createElement('button');btn.className='mp-btn';btn.textContent=t('shareMy');
-    btn.onclick=openPrayer;box.querySelector('.mp-empty').appendChild(btn);
+    box.innerHTML=streakHtml;
   }else{
     var rem=86400000-elapsed,h=Math.floor(rem/3600000),m=Math.floor((rem%3600000)/60000),pc=parseInt(localStorage.getItem('gp_pc_'+cu.id)||'0');
     var delHtml='<div style="margin-top:12px"><button onclick="doDeletePrayer()" style="background:none;border:none;color:rgba(239,68,68,.5);font-size:12px;font-family:Inter,sans-serif;cursor:pointer;display:flex;align-items:center;gap:5px;padding:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>Delete my prayer</button></div>';
     box.innerHTML='<div class="mp-live"><div class="mp-top"><div class="mp-badge">'+t('prayingActive')+'</div><div class="mp-timer">'+t('newIn')+' '+h+'h '+m+'m</div></div><div class="mp-content">'+myText+'</div><div class="mp-pc"><strong>'+(pc+12)+'</strong> '+t('peopleWith')+'</div>'+streakHtml+delHtml+'</div>';
   }
 }
-function openPrayer(){qs('#ov-prayer').classList.add('open');}
-function closePrayer(){qs('#ov-prayer').classList.remove('open');}
 async function doDeletePrayer(){
   if(!cu)return;if(!confirm('Delete your prayer? This cannot be undone.'))return;
   await sb.from('prayers').delete().eq('user_id',cu.id);
   prayers=prayers.filter(function(p){return p.user_id!==cu.id;});
   localStorage.removeItem('gp_p_'+cu.id);localStorage.removeItem('gp_pt_'+cu.id);localStorage.removeItem('gp_pc_'+cu.id);
-  closePrayer();renderMyPrayer();renderFeed();updateDots();toast('Prayer deleted.');
+  renderMyPrayer();renderFeed();updateDots();toast('Prayer deleted.');
 }
-async function doSubmitPrayer(){
-  var txt=(qs('#prayIn').value||'').trim();if(!txt||!cu||!prof)return;
-  var locChoice=qs('input[name="prayLoc"]:checked'),locVal=locChoice?locChoice.value:'precise';
-  var btn=qs('#submit-pray');btn.disabled=true;btn.textContent=t('sharing');
-  var lon=null,lat=null,showOnGlobe=true;
-  if(locVal==='none'){showOnGlobe=false;}
-  else if(locVal==='precise'){
-    try{var pos=await new Promise(function(res,rej){navigator.geolocation.getCurrentPosition(res,rej,{timeout:8000});});lon=parseFloat(pos.coords.longitude.toFixed(3));lat=parseFloat(pos.coords.latitude.toFixed(3));}
-    catch(e){lon=prof.lon||null;lat=prof.lat||null;}
-  }else{lon=prof.lon||null;lat=prof.lat||null;}
-  var p={user_id:cu.id,name:prof.name,flag:prof.flag,country:prof.country,country_code:prof.country_code,lon:lon,lat:lat,photo_url:null,text:txt,pray_count:0,lang:prof.lang||'en',show_on_globe:showOnGlobe};
+function wirePrayComposer(){
+  var inp=qs('#prayComposerInput'),btn=qs('#prayComposerSend');
+  if(!inp||!btn)return;
+  function trigger(){
+    if(!cu){openAuth('pray');return;}
+    var txt=(inp.value||'').trim();if(!txt)return;
+    submitPrayerText(txt,inp,btn);
+  }
+  btn.onclick=trigger;
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();trigger();}});
+  inp.addEventListener('focus',function(){if(!cu)openAuth('pray');});
+}
+async function submitPrayerText(txt,inp,btn){
+  if(!cu||!prof)return;
+  if(btn)btn.disabled=true;
+  var lon=prof.lon||null,lat=prof.lat||null;
+  var p={user_id:cu.id,name:prof.name,flag:prof.flag,country:prof.country,country_code:prof.country_code,lon:lon,lat:lat,photo_url:null,text:txt,pray_count:0,lang:prof.lang||'en',show_on_globe:true};
   var res=await sb.from('prayers').insert(p);
-  if(res.error){toast('Error: '+res.error.message);btn.disabled=false;btn.textContent=t('shareWorld');return;}
+  if(res.error){toast('Error: '+res.error.message);if(btn)btn.disabled=false;return;}
   localStorage.setItem('gp_p_'+cu.id,txt);localStorage.setItem('gp_pt_'+cu.id,String(Date.now()));localStorage.setItem('gp_pc_'+cu.id,'0');
   bumpStreak();
-  qs('#prayIn').value='';closePrayer();renderMyPrayer();btn.disabled=false;btn.textContent=t('shareWorld');
+  if(inp)inp.value='';renderMyPrayer();if(btn)btn.disabled=false;
   toast(t('prayerShared'));
 }
-
 /* ══════════ FEED ══════════ */
 var SVGpray='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>';
 var SVGcmt='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
@@ -1688,7 +1492,6 @@ function updateDots(){
   var all=[].concat(_seedPool.length?_seedPool:SEED).concat(prayers.filter(function(p){return p.show_on_globe!==false&&p.lon&&p.lat;}));
   dots=all.filter(function(p){return p.lon&&p.lat;}).map(function(p,i){return{lon:p.lon,lat:p.lat,name:p.name,flag:p.flag,txt:p.text,id:p.id||('s'+i),uid:p.uid||p.user_id||'seed',pray_count:p.pray_count||0};});
 }
-
 /* ══════════ PRIVATE ══════════ */
 function loadPrivate(){
   if(!cu)return;
@@ -1715,7 +1518,6 @@ function openPrivReply(prayId,prayerName,prayerUserId,prayerText){
   if(!privConvos[convoId])privConvos[convoId]={msgs:[],other_name:prayerName,prayer_text:prayerText||'',id:convoId,recipient_id:prayerUserId};
   navTo('chat');
 }
-
 /* ══════════ CHAT ══════════ */
 function renderChatTabs(){
   var el=qs('#chat-tabs');if(!el)return;el.innerHTML='';
@@ -1822,7 +1624,6 @@ async function doSendPriv(){
   var res=await sb.from('private_messages').insert(msg);
   if(res.error){privConvos[chatMode].msgs.pop();renderChatContent();toast(t('errorSend'));}
 }
-
 /* ══════════ PROFILE ══════════ */
 function renderProfile(){
   var el=qs('#profile-content');if(!el)return;el.innerHTML='';
@@ -1873,7 +1674,6 @@ function renderProfile(){
   el.appendChild(pw);
 }
 async function doReset(){var email=(qs('#forgot-email').value||'').trim();if(!email){toast(t('errEmail'));return;}await sb.auth.resetPasswordForEmail(email,{redirectTo:SURL});qs('#ov-forgot').classList.remove('open');toast(t('resetSent'));}
-
 /* ══════════ EXTRA SEED POOL (auto-replace expired) ══════════ */
 var EXTRA_SEEDS=[
   {name:'Chen Wei',flag:'🇨🇳',country:'China',lon:104,lat:35,text:'For the underground church in China — courage, protection, and revival.'},
@@ -1897,12 +1697,9 @@ function checkExpiredPrayers(){
   if(changed){renderFeed();updateDots();renderNationsBar();var spEl=qs('#sPray');if(spEl)spEl.textContent=_seedPool.length+prayers.length;}
 }
 function startCount(){
-  var base=3241+Math.floor(Math.random()*200);
-  function u(){base+=Math.floor(Math.random()*7)-3;base=Math.max(3100,base);var s=base.toLocaleString();var ln=qs('#liveN');if(ln)ln.textContent=s;var sc=qs('#sConn');if(sc)sc.textContent=s;}
-  u();setInterval(u,5000);qs('#sPray').textContent=SEED.length;
+  qs('#sPray').textContent=SEED.length;
   setInterval(checkExpiredPrayers,300000);
 }
-
 /* ══════════ SPHERE PROJECTION ENGINE (real countries, horizon-clipped, no seam bugs) ══════════ */
 var D2R=Math.PI/180;
 function proj3(lon,lat,lon0,lat0){
@@ -1968,7 +1765,6 @@ function drawGraticule(G,lon0,lat0,r,cx,cy,color){
     G.stroke();
   });
 }
-
 /* ══════════ WOW FEATURE: LIVE PRAYER ARCS ══════════ */
 var arcs=[],ripples=[];
 function unit(lon,lat){var lr=lat*D2R,gr=lon*D2R;return{x:Math.cos(lr)*Math.cos(gr),y:Math.cos(lr)*Math.sin(gr),z:Math.sin(lr)};}
@@ -2016,12 +1812,12 @@ function drawArcsAndRipples(G,lon0,lat0,r,cx,cy,now){
       var localS=k/pts.length;
       var alpha=Math.max(0,Math.min(1,(localS)/0.4))*0.85;
       G.beginPath();G.moveTo(pts[k].sx,pts[k].sy);G.lineTo(pts[k+1].sx,pts[k+1].sy);
-      G.strokeStyle='rgba(232,197,120,'+alpha.toFixed(3)+')';G.lineWidth=1.6;G.stroke();
+      G.strokeStyle='rgba(160,200,255,'+alpha.toFixed(3)+')';G.lineWidth=1.6;G.stroke();
     }
     var head=pts[pts.length-1];
     if(head.vis){
       var glow=G.createRadialGradient(head.sx,head.sy,0,head.sx,head.sy,7);
-      glow.addColorStop(0,'rgba(255,238,200,0.95)');glow.addColorStop(1,'rgba(255,238,200,0)');
+      glow.addColorStop(0,'rgba(220,238,255,0.95)');glow.addColorStop(1,'rgba(220,238,255,0)');
       G.beginPath();G.arc(head.sx,head.sy,7,0,Math.PI*2);G.fillStyle=glow;G.fill();
       G.beginPath();G.arc(head.sx,head.sy,1.8,0,Math.PI*2);G.fillStyle='#fff';G.fill();
     }
@@ -2033,55 +1829,9 @@ function drawArcsAndRipples(G,lon0,lat0,r,cx,cy,now){
     if(p3.Z<0)continue;
     var sx=cx+r*p3.X,sy=cy-r*p3.Y;
     var rad=4+rs*20,alpha=(1-rs)*0.6;
-    G.beginPath();G.arc(sx,sy,rad,0,Math.PI*2);G.strokeStyle='rgba(232,197,120,'+alpha.toFixed(3)+')';G.lineWidth=1.4;G.stroke();
+    G.beginPath();G.arc(sx,sy,rad,0,Math.PI*2);G.strokeStyle='rgba(160,200,255,'+alpha.toFixed(3)+')';G.lineWidth=1.4;G.stroke();
   }
 }
-
-/* ══════════ INTRO GLOBE (decorative, small) ══════════ */
-function playIntro(){
-  var cv=document.getElementById('intro-canvas');if(!cv)return;
-  var G=cv.getContext('2d'),SZ=260,CX=130,CY=130,R=115;
-  var lon0=-10,lat0=18,t0=Date.now(),introRunning=true;
-  function drawIntro(){
-    if(!introRunning)return;
-    lon0=-10+((Date.now()-t0)/1000)*16;
-    G.clearRect(0,0,SZ,SZ);
-    var ocean=G.createRadialGradient(CX-R*.3,CY-R*.35,R*.1,CX,CY,R);
-    ocean.addColorStop(0,'#12222E');ocean.addColorStop(1,'#060C11');
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle=ocean;G.fill();
-    G.save();G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.clip();
-    drawGraticule(G,lon0,lat0,R,CX,CY,'rgba(255,255,255,.05)');
-    drawWorld(G,lon0,lat0,R,CX,CY,'#26422F','#3A5C42',.6);
-    G.restore();
-    var sheen=G.createRadialGradient(CX-R*.28,CY-R*.32,0,CX,CY,R);
-    sheen.addColorStop(0,'rgba(255,255,255,0.10)');sheen.addColorStop(.5,'rgba(255,255,255,0.02)');sheen.addColorStop(1,'rgba(255,255,255,0)');
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.fillStyle=sheen;G.fill();
-    G.beginPath();G.arc(CX,CY,R,0,Math.PI*2);G.strokeStyle='rgba(255,255,255,0.14)';G.lineWidth=.8;G.stroke();
-    var tt=Date.now()/1000;
-    SEED.forEach(function(d,i){
-      var p=proj3(d.lon,d.lat,lon0,lat0);if(p.Z<0)return;
-      var sx=CX+R*p.X,sy=CY-R*p.Y;
-      var fl=.4+.6*Math.sin(tt*1.6+i*.8);
-      G.beginPath();G.arc(sx,sy,5,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+fl*.08+')';G.fill();
-      G.beginPath();G.arc(sx,sy,2,0,Math.PI*2);G.fillStyle='rgba(255,255,255,'+(0.6+fl*.4)+')';G.fill();
-    });
-    requestAnimationFrame(drawIntro);
-  }
-  drawIntro();
-  var minWait=new Promise(function(res){setTimeout(res,1300);});
-  Promise.all([minWait,sessionCheckPromise]).then(function(results){
-    introRunning=false;
-    var hasSession=results[1];
-    var intro=document.getElementById('intro');
-    if(intro){intro.style.transition='opacity .6s ease';intro.style.opacity='0';}
-    setTimeout(function(){
-      if(intro)intro.style.display='none';
-      if(hasSession){showApp();afterLogin();}
-      else{showGate();}
-    },650);
-  });
-}
-
 /* ══════════ MAIN INTERACTIVE GLOBE ══════════ */
 function initGlobe(){
   var cv=qs('#globe');if(!cv)return;
@@ -2188,7 +1938,6 @@ function initGlobe(){
   }
   draw();
 }
-
 /* ══════════ WIRE EVENTS ══════════ */
 function wireEvents(){
   qs('#nb-globe').onclick=function(){navTo('globe');};
@@ -2199,20 +1948,18 @@ function wireEvents(){
   qs('#go-signin').onclick=function(){switchTab('signin');};qs('#go-signup').onclick=function(){switchTab('signup');};
   qs('#tab-signup').onclick=function(){switchTab('signup');};qs('#tab-signin').onclick=function(){switchTab('signin');};
   qs('#forgot-link').onclick=function(){qs('#ov-auth').classList.remove('open');setTimeout(function(){qs('#ov-forgot').classList.add('open');},200);};
-  qs('#cancel-pray').onclick=closePrayer;qs('#submit-pray').onclick=doSubmitPrayer;var delPBtn=qs('#delete-pray');if(delPBtn)delPBtn.onclick=doDeletePrayer;
   qs('#cancel-forgot').onclick=function(){qs('#ov-forgot').classList.remove('open');};
   qs('#send-reset').onclick=doReset;qs('#ob-btn').onclick=doFinishOnboard;
   qs('#dp-close').onclick=function(){qs('#dotpop').classList.remove('show');};
-  qs('#music-btn').onclick=toggleMusic;
   qs('#topbar-share').onclick=openShare;
   qs('#share-cancel').onclick=closeShare;qs('#share-copy').onclick=copyShareLink;
   qs('#share-native').onclick=shareNative;qs('#share-whatsapp').onclick=shareWhatsApp;qs('#share-sms').onclick=shareSMS;
   qs('#share-sheet').onclick=function(e){if(e.target===this)closeShare();};
   qs('#sel-country').onclick=function(e){if(e.target===this)this.classList.remove('open');};
   qs('#sel-lang').onclick=function(e){if(e.target===this)this.classList.remove('open');};
+  wirePrayComposer();
 }
 window.doDeletePrayer=doDeletePrayer;
-
 /* ══════════ INIT ══════════ */
 userLang='en';
 var sessionCheckPromise=sb.auth.getSession().then(function(res){
@@ -2224,14 +1971,15 @@ var sessionCheckPromise=sb.auth.getSession().then(function(res){
     cu=null;return false; // no profile yet (edge case) — fall back to gate
   });
 }).catch(function(){return false;});
-
 wireEvents();wireGate();applyTr();
 renderTopbar();renderMyPrayer();renderProfile();
 renderChatTabs();renderChatContent();
 renderFeed();loadChat();startCount();initGlobe();updateDots();renderNationsBar();
 if(!pCh)loadPrayers();
-playIntro();
-setTimeout(function(){if(!musicPlaying){startMusic();}},3200);
+sessionCheckPromise.then(function(hasSession){
+  if(hasSession){showApp();afterLogin();}
+  else{showGate();}
+});
 sb.auth.onAuthStateChange(function(event,session){
   if(event==='SIGNED_IN'&&session&&!cu){
     cu=session.user;
@@ -2242,7 +1990,6 @@ sb.auth.onAuthStateChange(function(event,session){
   }
 });
 })();
-
 </script>
 </body>
 </html>
